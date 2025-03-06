@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký Nhà báo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/signin_author.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Đăng ký Nhà báo</h2>
+
+        <form id="signupForm" enctype="multipart/form-data">
+            <!-- Hiển thị email của người dùng đã đăng nhập -->
+            <div class="mb-3">
+                <label class="form-label">Email của bạn:</label>
+                <input type="email" class="form-control" value="{{ user.Email }}" readonly>
+            </div>            
+
+            <!-- Ảnh mặt trước thẻ nhà báo -->
+            <div class="mb-3">
+                <label for="front_card" class="form-label">Ảnh mặt trước thẻ nhà báo:</label>
+                <input type="file" class="form-control" id="front_card" name="front_card" accept="image/*" required>
+            </div>
+
+            <!-- Ảnh mặt sau thẻ nhà báo -->
+            <div class="mb-3">
+                <label for="back_card" class="form-label">Ảnh mặt sau thẻ nhà báo:</label>
+                <input type="file" class="form-control" id="back_card" name="back_card" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Gửi Yêu Cầu</button>
+        </form>
+
+        <div id="message" class="mt-3 text-center"></div>
+    </div>
+
+    <script>
+        // Xử lý submit form bằng AJAX, gửi dữ liệu tạm thời đến endpoint /request_author
+        $("#signupForm").on("submit", async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            try {
+                const response = await fetch("/request_author", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                $("#message").text(result.message)
+                             .removeClass()
+                             .addClass("mt-3 text-center text-success");
+            } catch (error) {
+                console.error("Error:", error);
+                $("#message").text("Có lỗi xảy ra khi gửi yêu cầu")
+                             .removeClass()
+                             .addClass("mt-3 text-center text-danger");
+            }
+        });
+    </script>
+</body>
+</html>

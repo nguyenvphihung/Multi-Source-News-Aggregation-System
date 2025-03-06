@@ -1,0 +1,48 @@
+{% extends "baseUser.html" %}
+
+{% block title %}{{ article.title if article else "Bài viết không tồn tại" }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/news_detail.css">
+{% endblock %}
+
+{% block content %}
+<!-- Article Header -->
+<div class="article-container">
+    {% if article %}
+    <div class="article-header">
+        <div class="article-meta d-flex justify-content-between align-items-center text-muted small mb-2">
+            <span class="text-uppercase">{{ article.type }}</span>
+            <span>{{ article.date_posted.strftime('%d/%m/%Y %H:%M') }}</span>
+        </div>
+        <h1 class="article-title fw-bold mb-4">{{ article.title }}</h1>
+        <div class="article-author d-flex align-items-center mb-4">
+            <div class="author-avatar me-3"></div>
+            <span>{{ article.author }}</span>
+        </div>  
+        <div class="article-stats d-flex gap-3 text-muted">
+            <div class="d-flex align-items-center gap-1">
+                <i class="fas fa-heart"></i>
+                <span>{{ article.likes }}</span>
+            </div>
+            <div class="d-flex align-items-center gap-1">
+                <i class="fas fa-comment"></i>
+                <span>{{ article.comments_count }}</span>
+            </div>
+            <div class="d-flex align-items-center gap-1">
+                <i class="fas fa-share"></i>
+                <span>{{ article.shares }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-content">
+        <strong>{{ article.description }}</strong>  <!-- Tô đậm -->
+        {{ article.content|safe }}
+    </div>    
+    {% else %}
+    <p class="text-danger">Bài viết không tồn tại hoặc đã bị xóa.</p>
+    {% endif %}
+</div>
+{% endblock %}

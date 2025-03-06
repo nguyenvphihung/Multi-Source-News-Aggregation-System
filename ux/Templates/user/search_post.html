@@ -1,0 +1,71 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Tìm kiếm{% endblock %}
+
+{% block body_class %}search-page{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <form action="/search_post" method="get">
+        <input type="text" name="query" placeholder="Search topic what you want to know">
+        <button type="submit">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
+
+{% if results %}
+    <h3 class="search-heading3">News :</h3>
+    <div class="search-article-container">
+        {% for article in results %}
+        <div class="row-search">
+            <div class="col-md-4">
+                <a href="/news_detail/{{ article.article_id }}"> <!-- Bọc ảnh trong thẻ <a> -->
+                    {% if article.image_urls %}
+                        <img src="{{ article.image_urls }}" alt="{{ article.title }}" class="rounded">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex justify-content-center align-items-center">
+                            No Image
+                        </div>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-md-8">
+                <h4>
+                    <a href="/news_detail/{{ article.article_id }}">{{ article.title }}</a> <!-- Tiêu đề có link -->
+                </h4>
+                <p><small>{{ article.author }} | {{ article.date_posted.strftime('%d %B, %Y') }}</small></p>
+                <p><small>{{ article.description }}</small></p>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination">
+                {% if current_page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page={{ current_page - 1 }}">&laquo;</a>
+                    </li>
+                {% endif %}
+
+                {% for i in range(1, total_pages + 1) %}
+                    <li class="page-item {% if i == current_page %}active{% endif %}">
+                        <a class="page-link" href="?query={{ query }}&page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if current_page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page={{ current_page + 1 }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    
+{% else %}
+    <p>No articles found.</p>
+{% endif %}
+{% endblock %}

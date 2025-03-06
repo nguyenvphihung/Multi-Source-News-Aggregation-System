@@ -1,0 +1,191 @@
+  /* Container chính bao bọc toàn bộ nội dung */
+.article-container {
+  max-width: 100%;
+  margin: 1 ; /* Đảm bảo căn giữa */
+  text-align: left;
+}
+
+  /* Article Header */
+  .article-header {
+    background-color: rgb(250, 249, 249); /* Màu nền xám nhạt */
+    width: 100%;
+    box-shadow: 0 3px 6px rgb(255, 255, 255);
+    height: 400px;  
+    padding: 80px;
+  }
+
+  .article-meta {
+      font-size: 14px;
+      color: #ffffff; /* Màu chữ xám nhạt */
+  }
+
+  .article-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #000000; /* Màu chữ đen nhạt */
+      width: 712px;
+  }
+
+  .article-author {
+      font-size: 16px;
+      color: #000000;
+  }
+
+  .article-author .author-avatar {
+      width: 40px;
+      height: 40px;
+      background-color: #ddd;
+      border-radius: 50%;
+  }
+
+  .article-stats {
+      font-size: 14px;
+      color: #ffffff;
+  }
+
+  .article-stats i {
+      font-size: 18px;
+      color: #ffffff;
+      vertical-align: middle;
+  }
+
+/* Article Content - Căn trái */
+.article-content {
+  max-width: 1300px; /* Giữ độ rộng tối đa */
+  margin: 0; /* Xóa căn giữa */
+  padding-left: 80px;
+  padding-top: 50px;
+  line-height: 1.6;
+  color: #333;
+  text-align: left; /* Căn trái nội dung */
+}
+
+/* Căn trái hình ảnh */
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0; /* Loại bỏ căn giữa */
+}
+
+/* Căn trái tiêu đề và đoạn văn */
+.article-content p,
+.article-content h1, 
+.article-content h2, 
+.article-content h3 {
+  margin-left: 0; /* Loại bỏ căn giữa */
+  text-align: left;
+}
+
+.article-content figure {
+  margin: 20px 0;
+  text-align: left; /* Căn trái thay vì căn giữa */
+}
+
+.article-content figcaption {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+  text-align: left;
+}
+
+/* Comments Section - Căn trái */
+.comments-section {
+  max-width: 1000px;
+  margin-top: 40px;
+  margin-left: 80px;
+  text-align: left; /* Căn trái phần bình luận */
+}
+
+/* Căn trái tiêu đề bình luận */
+.comments-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Căn trái từng bình luận */
+.comment {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  text-align: left; /* Căn trái nội dung bình luận */
+}
+
+/* Căn trái đoạn văn trong bình luận */
+.comment p {
+  margin: 0;
+  text-align: left;
+}
+
+/* Comment Input - Căn trái */
+.comment-input {
+  margin-top: 20px;
+  text-align: left;
+}
+
+/* Căn trái ô nhập bình luận */
+.comment-input textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: left;
+}
+
+/* Căn trái nút gửi bình luận */
+.comment-input button {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: left;
+}
+
+/* Hover button */
+.comment-input button:hover {
+  background-color: #e64a19;
+}
+
+  
+  /* Related Posts */
+  .related-posts {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  
+  .related-post {
+    width: 23%;
+    background-color: #ffffff; /* Nền trắng cho bài viết liên quan */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .related-post h4 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .related-post p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .related-post:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Hiệu ứng đổ bóng khi hover */
+  }
+  
+  
+  

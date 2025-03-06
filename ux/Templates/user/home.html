@@ -1,0 +1,89 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Trang Chủ{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/home.css">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="featured-post">
+    <div class="row">
+        <!-- Featured Post Section -->
+        <div class="col-lg-8 col-md-6 col-sm-12">
+            {% if featured_post and featured_post.article_id %}
+            <div class="main-feature p-4 rounded text-white">
+                <p class="small mb-2">{{ featured_post.author }} | {{ featured_post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
+                <h1 class="heading-featured-post">
+                    <a href="/news_detail/{{ featured_post.article_id }}" >{{ featured_post.title }}</a>
+                </h1>
+                <p>{{ featured_post.description }}</p>
+                <a href="/news_detail/{{ featured_post.article_id }}">
+                    <img src="{{ featured_post.image_urls }}" alt="Bài Viết Nổi Bật" class="img-fluid mt-3 rounded">
+                </a>
+            </div>
+            {% else %}
+            <p class="text-white">Không có bài viết nổi bật.</p>
+            {% endif %}
+        </div>
+
+        <!-- Popular Posts Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="popular-posts mt-4">
+                <h5 class="fw-bold mb-3">Phổ Biến Tuần Này</h5>
+                <ul class="list-unstyled mt-3">
+                    {% for post in popular_posts %}
+                    {% if post and post.article_id %}
+                    <li class="popular-post-item d-flex align-items-center mb-3">
+                        <a href="/news_detail/{{ post.article_id }}" class="popular-post-image-link">
+                            <img src="{{ post.image_urls if post.image_urls else '/static/images/default-thumbnail.jpg' }}" 
+                                 alt="{{ post.title }}" 
+                                 class="popular-post-image">
+                        </a>
+                        <div class="popular-post-content ms-3">
+                            <p class="text-muted small mb-1">{{ post.author if post.author else 'Unknown' }} | {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                            <h6 class="fw-bold mb-0">
+                                <a href="/news_detail/{{ post.article_id }}" class="text-decoration-none text-dark">{{ post.title }}</a>
+                            </h6>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Latest Posts Section -->
+<div class="latest-posts mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Bài Viết Mới Nhất</h2>
+        <a href="/all_posts" class="btn view-all-btn">Xem Thêm</a>
+    </div>
+    <div class="row mt-4">
+        {% for post in latest_posts %}
+        {% if post and post.article_id %}
+        <div class="col-md-6 col-lg-3 col-sm-12">
+            <div class="post-card">
+                <!-- Image -->
+                <a href="/news_detail/{{ post.article_id }}">
+                    <img src="{{ post.image_urls }}" alt="{{ post.title }}">
+                </a>
+                <!-- Category -->
+                <div class="category">{{ post.type }}</div>
+                <!-- Title -->
+                <h6>
+                    <a href="/news_detail/{{ post.article_id }}">{{ post.title }}</a>
+                </h6>
+                <!-- Author and Date -->
+                <p>{{ post.author }} | {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

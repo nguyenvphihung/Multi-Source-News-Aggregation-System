@@ -1,0 +1,78 @@
+{% extends "baseAdmin.html" %}
+
+{% block title %}Cài đặt Hệ thống{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-cog me-2"></i>Cài đặt Hệ thống</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="#general" class="list-group-item list-group-item-action active" data-bs-toggle="list">
+                    <i class="fas fa-globe me-2"></i>Cài đặt chung
+                </a>
+                <a href="#email" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                    <i class="fas fa-envelope me-2"></i>Cấu hình Email
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <form action="/admin/6" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="tab-content">
+                    <!-- Cài đặt chung -->
+                    <div class="tab-pane fade show active" id="general">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Cài đặt chung</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Tên hệ thống</label>
+                                    <input type="text" class="form-control" name="system_name"
+                                           value="{{ settings.get('system_name', 'Hệ thống mặc định') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Timezone</label>
+                                    <select class="form-select" name="timezone">
+                                        <option value="UTC+7" {% if settings.get('timezone') == 'UTC+7' %}selected{% endif %}>
+                                            Asia/Ho_Chi_Minh (UTC+7)
+                                        </option>
+                                        <option value="UTC+8" {% if settings.get('timezone') == 'UTC+8' %}selected{% endif %}>
+                                            Asia/Singapore (UTC+8)
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cấu hình Email -->
+                    <div class="tab-pane fade" id="email">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Cấu hình Email</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">SMTP Server</label>
+                                    <input type="text" class="form-control" name="smtp_server"
+                                           value="{{ settings.get('smtp_server', 'smtp.gmail.com') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email gửi đi</label>
+                                    <input type="email" class="form-control" name="email_from"
+                                           value="{{ settings.get('email_from', 'no-reply@example.com') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">
+                    <i class="fas fa-save me-2"></i>Lưu thay đổi
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

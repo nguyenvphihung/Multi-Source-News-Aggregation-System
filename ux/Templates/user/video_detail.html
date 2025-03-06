@@ -1,0 +1,101 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Video Details{% endblock %}
+
+{% block head %} 
+    <link rel="stylesheet" href="/static/css/video_detail.css">
+{% endblock %}
+
+{% block body_class %}video-details{% endblock %}
+
+{% block content %}
+<div class="video-container">
+    <!-- Thông tin Video -->
+    <div class="video-title-header">
+        <p class="category-time">Innovation • 2 Hours ago</p>
+        <h1 class="video-title">Charge Two Devices at the Same Time With This Magnetic Wireless Charging Dock</h1>
+
+        <div class="author-info">
+            <div class="avatar"></div>
+            <span>Cameron Williamson</span>
+        </div>
+
+        <!-- Chỉ số bài viết -->
+        <div class="article-stats">
+            <div class="stat">
+                <i class="fas fa-heart"></i> <span>521K</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-comment"></i> <span>213</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-share"></i> <span>80</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player -->
+    <div class="video-player">
+        <video controls>
+            <source src="/static/videos/sample.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Nội dung bài viết -->
+    <div class="video-description">
+        <p>
+            Leverage agile frameworks to provide a robust synopsis for high level overviews...
+        </p>
+        <p>
+            User generated content in real-time will have multiple touchpoints for offshoring...
+        </p>
+    </div>
+
+    <!-- Bình luận -->
+    <div class="comment-section">
+        <h3>Comments</h3>
+        <textarea placeholder="Write your comment here"></textarea>
+        <button class="post-comment">Post Comment</button>
+
+        <div class="comment">
+            <p><strong>Floyd Miles</strong> • 2 Days Ago</p>
+            <p>Leverage agile frameworks to provide a robust synopsis...</p>
+        </div>
+        <div class="comment">
+            <p><strong>Theresa Webb</strong> • 2 Days Ago</p>
+            <p>Iterative approaches to corporate strategy foster collaborative thinking...</p>
+        </div>
+        <div class="comment">
+            <p><strong>Cody Fisher</strong> • 2 Days Ago</p>
+            <p>Organically grow the holistic world view of disruptive innovation...</p>
+        </div>
+    </div>
+
+    <!-- Video liên quan -->
+    <div class="similar-videos">
+        <h3>Similar Videos</h3>
+        <div class="video-grid">
+            <div class="video-item">
+                <div class="video-thumbnail"></div>
+                <p class="video-title">Charge Two Devices at the Same Time With This</p>
+            </div>
+            <div class="video-list">
+                <div class="small-video">
+                    <div class="video-thumbnail"></div>
+                    <p>Tiny moon rover could be a stepping stone to Mars</p>
+                </div>
+                <div class="small-video">
+                    <div class="video-thumbnail"></div>
+                    <p>Men may be 2.5 times more likely to die from COVID-19</p>
+                </div>
+                <div class="small-video">
+                    <div class="video-thumbnail"></div>
+                    <p>7 Ways You Can Reduce Climate Change</p>
+                </div>
+            </div>
+        </div>
+        <button class="view-all">View All</button>
+    </div>
+</div>
+{% endblock %}

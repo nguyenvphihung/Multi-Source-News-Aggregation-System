@@ -1,0 +1,76 @@
+/* Container chính */
+.category-page {
+    padding: 50px;
+}
+
+/* Tiêu đề danh mục */
+.category-title {
+    padding-bottom: 10px; /* Khoảng cách phía dưới */
+}
+
+/* Danh sách bài viết */
+.category-post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Khoảng cách giữa các bài báo */
+}
+
+/* Một bài báo */
+.category-post-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px; /* Khoảng cách giữa ảnh và nội dung */
+    border-bottom: 1px solid #ddd; /* Đường gạch ngang giữa các bài */
+    padding-bottom: 15px;
+}
+
+/* Ảnh bài báo */
+.category-post-image img {
+    width: 300px; /* Chiều rộng cố định của ảnh */
+    height: 160px; /* Chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh để giữ tỉ lệ */
+    border-radius: 5px; /* Bo góc nhẹ */
+}
+
+/* Nội dung bài báo */
+.category-post-content {
+    flex: 1; /* Đảm bảo nội dung chiếm không gian còn lại */
+}
+
+/* Thời gian đăng bài */
+.category-post-time {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* Tiêu đề bài báo */
+.category-post-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.category-post-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+.category-post-title a:hover {
+    color: #ff5722; /* Màu cam khi hover */
+}
+
+/* Mô tả bài báo */
+.category-post-description {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Khi không có bài viết */
+.category-no-posts {
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+    text-align: left;
+}

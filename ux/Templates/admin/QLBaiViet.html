@@ -1,0 +1,153 @@
+{% extends "baseAdmin.html" %}
+
+{% block title %}Quản lý bài viết{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Quản lý bài viết</h2>
+    </div>
+
+    <!-- Filters -->
+    <form action="/admin/1" method="GET" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <select class="form-select" name="category" id="categoryFilter">
+                    <option value="">Tất cả danh mục</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>
+                        {{ cat }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="status" id="statusFilter">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="draft" {% if selected_status == 'draft' %}selected{% endif %}>
+                        Bản nháp
+                    </option>
+                    <option value="published" {% if selected_status == 'published' %}selected{% endif %}>
+                        Đã xuất bản
+                    </option>
+                    <option value="pending" {% if selected_status == 'pending' %}selected{% endif %}>
+                        Chờ duyệt
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Tìm kiếm bài viết..." value="{{ search_query }}">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Articles Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Danh mục</th>
+                            <th>Tác giả</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.type }}</td>
+                            <td>{{ article.author }}</td>
+                            <td>{{ article.date_posted.strftime('%d/%m/%Y') }}</td>
+                            <td>
+                                {% if article.status == 'published' %}
+                                    <span class="badge bg-success">Đã xuất bản</span>
+                                {% elif article.status == 'draft' %}
+                                    <span class="badge bg-secondary">Bản nháp</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Chờ duyệt</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteArticle('{{ article.article_id }}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <a href="/news_detail/{{ article.article_id }}" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if pagination.has_next or pagination.has_prev %}
+            <nav class="d-flex justify-content-center mt-4">
+                <ul class="pagination">
+                    <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ pagination.prev_num }}&amp;category={{ selected_category }}&amp;status={{ selected_status }}&amp;query={{ search_query }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% for page_num in pagination.iter_pages() %}
+                        {% if page_num %}
+                        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_num }}&amp;category={{ selected_category }}&amp;status={{ selected_status }}&amp;query={{ search_query }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ pagination.next_num }}&amp;category={{ selected_category }}&amp;status={{ selected_status }}&amp;query={{ search_query }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteArticle(articleId) {
+        if (confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
+            fetch(`/admin/delete_article/${articleId}`, {
+                method: "DELETE"
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(error => {
+                alert("Lỗi khi xóa bài viết: " + (error.detail || "Không xác định"));
+            });
+        }
+    }
+</script>
+{% endblock %}

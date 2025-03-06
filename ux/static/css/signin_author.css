@@ -1,0 +1,60 @@
+
+
+/* Tổng thể nền và màu chữ */
+body {
+    background-color: #eee;
+    color: #666;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Kiểu chữ tiêu đề */
+h1, h2, h3, h4, h5, h6 {
+    color: #666;
+}
+
+/* Container và các thẻ card */
+.container, .card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Button chính (accent) */
+.btn-primary, .subscribe-btn {
+    background-color: #FF5722;
+    border-color: #FF5722;
+    color: #fff;
+}
+
+.btn-primary:hover, .subscribe-btn:hover {
+    background-color: #e04d1e;  /* phiên bản hơi tối hơn */
+    border-color: #e04d1e;
+}
+
+/* Form control */
+.form-control {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #666;
+}
+
+.form-control:focus {
+    border-color: #FF5722;
+    box-shadow: 0 0 0 0.2rem rgba(255, 87, 34, 0.25);
+}
+
+/* Thông báo */
+#message {
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #666;
+}
+
+/* Nếu cần thêm các style khác, dựa theo tông màu trên */
