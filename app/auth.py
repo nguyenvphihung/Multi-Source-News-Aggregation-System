@@ -13,9 +13,6 @@ from typing import Optional
 router = APIRouter()
 templates = Jinja2Templates(directory="ux/templates/user")
 
-# Khởi tạo Firebase Admin SDK (nếu dùng)
-cred = credentials.Certificate("config/newspapernaivebayes-firebase-adminsdk-g8cqh-b0fa50739e.json")
-firebase_app = initialize_app(cred)
 
 # Xác thực Firebase - Middleware
 async def verify_firebase_token(request: Request):
