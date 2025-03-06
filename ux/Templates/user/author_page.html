@@ -1,0 +1,75 @@
+{% extends "baseUser.html" %}
+
+{% block title %}Author Page{% endblock %}
+
+{% block body_class %}authors-page{% endblock %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/author_page.css">
+{% endblock %}
+
+{% block content %}
+<div class="author-container">
+    <!-- Thông tin tác giả -->
+    <div class="author-info">
+        <div class="avatar"></div>
+        <div class="author-details">
+            <h1>Guy Hawkins</h1>
+            <p class="author-bio">Daily international newspaper based in London</p>
+        </div>
+    </div>
+
+    <!-- Recent Posts -->
+    <div class="section">
+        <h2>Recent Post</h2>
+        <div class="post-slider">
+            {% for post in recent_posts %}
+            <div class="post-card">
+                <div class="post-thumbnail"></div>
+                <div class="post-info">
+                    <span class="post-category">{{ post.category }}</span>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.author }} • {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <span>&lt;</span>
+            <span class="active">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>&gt;</span>
+        </div>
+    </div>
+
+    <!-- Latest Posts -->
+    <div class="section">
+        <h2>Our Latest Post</h2>
+        <div class="post-grid">
+            {% for post in latest_posts %}
+            <div class="post-card">
+                <div class="post-thumbnail"></div>
+                <div class="post-info">
+                    <span class="post-category">{{ post.category }}</span>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.author }} • {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <span>&lt;</span>
+            <span class="active">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>&gt;</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

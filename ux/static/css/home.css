@@ -1,0 +1,307 @@
+/* Nền bao trùm cả Featured Post và Popular Posts */
+.featured-post {
+    background: rgb(250, 249, 249); /* Nền tối màu */
+    padding: 20px; /* Khoảng cách bên trong */
+    color: rgb(0, 0, 0); /* Màu chữ */
+    display: flex; /* Đảm bảo các cột sắp xếp cạnh nhau */
+}
+
+/* Featured Post Section */
+.featured-post .main-feature {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.featured-post .main-feature img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover; /* Cắt ảnh để giữ tỉ lệ */
+}
+
+.heading-featured-post a {
+    color: rgb(0, 0, 0) !important; /* Màu chữ mặc định của liên kết */
+    text-decoration: none; /* Loại bỏ gạch chân */
+}
+
+/* Popular Posts Section */
+.popular-posts {
+    backdrop-filter: blur(32px); /* Làm mờ nền phía sau */
+    background: #FFFFFF1A; /* Nền mờ nhẹ */
+    padding: 15px; /* Khoảng cách bên trong */
+}
+
+/* Danh sách bài viết */
+.popular-posts ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Tăng khoảng cách giữa các bài viết */
+    padding-bottom: 10px; /* Khoảng cách nội dung trong bài viết */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Đường kẻ nhẹ giữa các bài */
+}
+
+/* Ảnh bài viết */
+.popular-posts ul li img {
+    width: 80px;    
+    height: 80px;
+    object-fit: cover;
+}
+
+/* Tiêu đề phần Popular Posts */
+.popular-posts h5 {
+    color: rgb(0, 0, 0);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+}
+
+/* Nội dung bài viết */
+.popular-posts ul li .popular-post-content p {
+    color: rgba(255, 255, 255, 0.8); /* Màu xám nhạt cho thông tin phụ */
+    font-size: 0.9rem; /* Kích thước nhỏ hơn cho thông tin phụ */
+    margin-bottom: 5px; /* Khoảng cách dưới đoạn text */
+}
+
+/* Tiêu đề bài viết */
+.popular-posts ul li .popular-post-content h6 {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Màu chữ mặc định cho tiêu đề */
+.popular-post-content h6 a {
+    color: #000000 !important; /* Trắng */
+    text-decoration: none; /* Loại bỏ gạch chân */
+}
+
+/* Latest Posts Section */
+.latest-posts {
+    margin-top: 20px; /* Khoảng cách trên */
+    max-width: 1300px; /* Giới hạn chiều rộng */
+    margin-left: auto; /* Căn giữa */
+    margin-right: auto; /* Căn giữa */
+    padding: 0 15px; /* Khoảng cách hai bên */
+    
+}
+
+/* Căn chỉnh tiêu đề và nút View All */
+.latest-posts .d-flex {
+    display: flex;
+    justify-content: space-between; /* Căn đều hai bên */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Nút View All */
+.latest-posts .view-all-btn {
+    background-color: #FF5722; /* Màu nền cam */
+    color: white; /* Màu chữ trắng */
+    border: none;
+    padding: 8px 20px; /* Khoảng cách bên trong */
+    border-radius: 4px; /* Bo góc nhẹ */
+    font-size: 0.9rem; /* Kích thước chữ nhỏ hơn */
+    transition: background-color 0.3s ease; /* Hiệu ứng hover */
+}
+
+.latest-posts .view-all-btn:hover {
+    background-color: #f4511e; /* Màu cam đậm khi hover */
+}
+
+/* Post Card */
+.post-card {
+    border: 1px solid #ddd; /* Viền xám nhẹ */
+    overflow: hidden;
+    background: white;
+    text-align: left;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Căn trên để giữ tiêu đề gần ảnh */
+    margin-bottom: 20px; /* Khoảng cách dưới mỗi bài */
+    min-height: 360px; /* Giữ chiều cao tối thiểu để không làm mất tiêu đề */
+}
+
+/* Image */
+.post-card img {
+    width: 100%; /* Chiều rộng toàn phần */
+    aspect-ratio: 16/9; /* Giữ tỷ lệ 16:9 */
+    object-fit: cover; /* Cắt ảnh giữ tỷ lệ */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Category */
+.post-card .category {
+    font-size: 0.75rem; /* Kích thước nhỏ */
+    color: #888; /* Màu chữ xám nhạt */
+    margin: 10px;
+    text-transform: uppercase; /* Chữ in hoa */
+    flex-grow: 0;
+}
+
+/* Title */
+.post-card h6 {
+    font-size: 1rem; /* Kích thước tiêu đề */
+    margin: 10px; /* Khoảng cách xung quanh */
+    color: #000; /* Màu đen */
+    line-height: 1.4; /* Dòng cách nhau */
+    font-weight: 500; /* Độ dày vừa phải */
+    flex-grow: 1; /* Chiếm không gian còn lại nếu nội dung dài */
+    overflow: hidden; /* Ẩn nội dung nếu quá dài */
+    text-overflow: ellipsis; /* Thêm dấu "..." nếu quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn hiển thị 2 dòng */
+    -webkit-box-orient: vertical;
+    white-space: normal; /* Cho phép xuống dòng */
+}
+
+.post-card h6 a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ màu chữ từ thẻ cha */
+}
+
+.post-card h6 a:hover {
+    color: #FF5722; /* Màu cam khi hover */
+}
+
+/* Author and Date */
+.post-card p {
+    font-size: 0.8rem; /* Kích thước nhỏ */
+    color: #555; /* Màu chữ xám trung bình */
+    margin: 10px; /* Khoảng cách xung quanh */
+    flex-grow: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .latest-posts .post-card {
+        min-height: auto; /* Để chiều cao thay đổi linh hoạt trên mobile */
+        width: 100%; /* Chiếm toàn bộ chiều rộng của màn hình */
+        margin-left: auto; /* Căn giữa */
+        margin-right: auto;
+    }
+
+    .latest-posts .post-card h6 {
+        font-size: 14px;
+        white-space: normal; /* Cho phép xuống dòng trên màn hình nhỏ */
+        text-align: left;
+        -webkit-line-clamp: 3; /* Hiển thị tối đa 3 dòng trên mobile */
+    }
+
+    .latest-posts .post-card img {
+        height: auto; /* Tự động điều chỉnh chiều cao ảnh */
+        max-height: 250px; /* Đặt chiều cao tối đa */
+    }
+}
+
+.videos-section {
+    margin-top: 20px; /* Khoảng cách trên */
+    max-width: 1300px; /* Giới hạn chiều rộng */
+    margin-left: auto; /* Căn giữa */
+    margin-right: auto; /* Căn giữa */
+    padding: 0 15px; /* Khoảng cách hai bên */
+}
+
+/* Video Section Styles */
+.videos-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Nút View All */
+.view-all-btn {
+    background-color: #ff5722; /* Màu nền nút */
+    color: white; /* Màu chữ */
+    padding: 8px 16px; /* Khoảng cách bên trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    border-radius: 4px; /* Bo góc nút */
+    font-size: 0.9rem; /* Kích thước chữ */
+    font-weight: bold; /* In đậm chữ */
+    transition: background-color 0.2s ease-in-out; /* Hiệu ứng hover */
+}
+
+.view-all-btn:hover {
+    background-color: #f4511e; /* Màu nền khi hover */
+    color: white; /* Màu chữ khi hover */
+    text-decoration: none; /* Đảm bảo không có gạch chân */
+}
+
+.video-thumbnail {
+    height: 400px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Newsletter Section Styles */
+.newsletter-container {
+    background-color: #0088cc;
+    border-radius: 8px;
+}
+
+.newsletter-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.newsletter-desc {
+    opacity: 0.9;
+}
+
+.subscribe-now-btn {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+}
+
+.subscribe-now-btn:hover {
+    background-color: #f4511e;
+    color: white;
+}
+
+
+/* Responsive cho Featured Post */
+@media (max-width: 992px) {
+    .featured-post .row {
+        flex-direction: column;
+    }
+
+    .featured-post .col-lg-8,
+    .featured-post .col-lg-4 {
+        width: 100%;
+    }
+}
+
+/* Responsive cho Popular Posts */
+@media (max-width: 768px) {
+    .popular-posts ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .popular-posts ul li img {
+        width: 300px;
+        height: 300px;
+    }
+
+    .popular-post-content {
+        margin-top: 10px;
+    }
+}
+
+/* Responsive cho Video Section */
+@media (max-width: 768px) {
+    .videos-section .row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .videos-section .col-lg-6 {
+        width: 100%;
+    }
+
+    .video-thumbnail {
+        height: 250px;
+    }
+}

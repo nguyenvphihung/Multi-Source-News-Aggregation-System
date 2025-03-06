@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/news_detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/all_post.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/search_post.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/video_detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/author_page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/category.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Thanh Trên -->
+    <div class="top-bar">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a class="navbar-brand text-light" href="/home">
+                <img src="/static/logo.png" alt="Logo" height="30" class="logo">
+            </a>
+    
+            <!-- Danh mục -->
+            <ul class="nav-topbar d-flex align-items-center m-0">
+                <li class="nav-item"><a class="nav-link-topbar text-light" href="/home">Trang Chủ</a></li>
+                <li class="nav-item"><a class="nav-link-topbar text-light" href="/about">Giới Thiệu</a></li>
+                <li class="nav-item"><a class="nav-link-topbar text-light" href="/contact">Liên Hệ</a></li>
+            </ul>
+    
+            <!-- Mạng xã hội -->
+            <div class="d-flex align-items-center">
+                <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com/kien15112004" class="text-light me-3"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-light"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+<!-- Điều Hướng Chính -->
+<nav class="main-nav">
+    <div class="d-flex justify-content-between align-items-center">
+        <ul class="nav">
+            {% for cat in navbar_categories %}
+            <li class="nav-item">
+                <a class="nav-link" href="/category/{{ cat.slug }}">{{ cat.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex align-items-center">
+            <form class="d-flex search-form" action="/search_post" method="GET">
+                <input class="form-control me-2" type="search" name="query" placeholder="Tìm kiếm..." aria-label="Tìm kiếm">
+                <button class="search-button" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            {% if user %}
+            <div class="dropdown ms-3">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    {% if user.AvatarUrl %}
+                        <img class="rounded-circle" width="40" height="40" src="{{ user.AvatarUrl }}" alt="Avatar">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-2x"></i>
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item text-dark">Xin chào, {{ user.FirstName }} {{ user.LastName }}</li>
+                    <li><a class="dropdown-item" href="#">Cài đặt tài khoản</a></li>
+                    <li><a class="dropdown-item" href="/signin_author">Đăng ký tác giả</a></li>
+                    <li><a class="dropdown-item" href="/upload_news">Đăng tải bài báo</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            {% else %}
+            <button id="signup-btn" class="btn subscribe-btn" onclick="window.location.href='/signup'">
+                Đăng Ký
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+    <!-- Nội Dung Chính -->
+    <main class="container-tk">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <!-- Chân Trang -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="/static/logo.png" alt="Logo" height="30" class="logo mb-4">
+                    <p class="text-muted">
+                        NCKH DTU University là nơi cung cấp những thông tin mới nhất về nghiên cứu khoa học và công nghệ.
+                        Tham gia cộng đồng của chúng tôi để không bỏ lỡ bất kỳ bài viết nào về những phát hiện, phát minh và
+                        xu hướng mới nhất trong lĩnh vực này.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Danh Mục</h5>
+                    <ul>
+                        {% for cat in footer_categories %}
+                        <li>
+                            <a href="/category/{{ cat.slug }}">{{ cat.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Công Ty</h5>
+                    <ul>
+                        <li><a href="/about">Về Chúng Tôi</a></li>
+                        <li><a href="/career">Tuyển Dụng</a></li>
+                        <li><a href="/privacy-policy">Chính Sách Bảo Mật</a></li>
+                        <li><a href="/terms">Điều Khoản Dịch Vụ</a></li>
+                        <li><a href="/contact">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Mạng Xã Hội</h5>
+                    <ul>
+                        <li><a href="#">Youtube</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="divider">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0">Bản quyền NhomNCKH</p>
+                    <div class="language-selector">
+                        <span>VI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Import JavaScript -->
+    <script type="module" src="/static/js/auth.js"></script>
+    <script type="module" src="/static/js/register.js"></script>
+    <script type="module" src="/static/js/login.js"></script>
+    <script type="module" src="/static/js/menu.js"></script>
+</body>
+</html>

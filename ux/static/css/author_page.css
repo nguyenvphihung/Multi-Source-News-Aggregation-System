@@ -1,0 +1,121 @@
+.authors-page .top-bar, 
+.authors-page .main-nav
+{
+    background-color: #007bff;
+}
+
+/* ====== Tổng thể ====== */
+.author-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    text-align: left;
+}
+
+/* ====== Thông tin tác giả ====== */
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    border-radius: 50%;
+}
+
+.author-details h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.author-bio {
+    font-size: 16px;
+    color: #666;
+}
+
+/* ====== Phần Recent Post ====== */
+.section {
+    margin-bottom: 50px;
+}
+
+.section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* ====== Slider bài viết ====== */
+.post-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.post-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 280px;
+}
+
+.post-thumbnail {
+    width: 100%;
+    height: 160px;
+    background-color: #ccc;
+}
+
+.post-info {
+    padding: 10px;
+}
+
+.post-category {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+.post-info h3 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.post-info p {
+    font-size: 14px;
+    color: #777;
+}
+
+/* ====== Lưới bài viết Latest Posts ====== */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .post-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ====== Phân trang ====== */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination span {
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.pagination .active {
+    background-color: #007bff;
+    color: white;
+}

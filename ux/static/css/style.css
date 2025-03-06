@@ -1,0 +1,315 @@
+.container-tk {
+  width: 100%; /* Chiếm toàn bộ màn hình nếu cần */
+}
+
+.top-bar {
+  background-color: rgb(192, 2, 2);
+  padding: 8px 0;
+}
+
+.nav-topbar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-right: 20px; /* Thêm khoảng cách giữa các mục trong danh sách */
+}
+
+.nav-link-topbar {
+  color: white; /* Đảm bảo màu chữ sáng */
+  text-decoration: none; /* Loại bỏ gạch chân */
+  font-size: 16px; /* Điều chỉnh kích thước chữ */
+}
+
+.nav-link-topbar:hover {
+  color: #ccc; /* Thay đổi màu khi hover */
+}
+
+.main-nav {
+  background-color: #ffffff;
+  padding: 15px;
+  margin-bottom: 0; /* Loại bỏ khoảng cách thừa */
+}
+
+.main-nav .navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 0.9);  
+  padding: 0 15px;
+}
+
+.nav-link {
+  color: black !important;
+}
+
+.subscribe-btn {
+  background-color: #FF5722;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  margin-left: 15px;
+}
+
+.footer {
+  background-color: white;
+  padding: 40px 0 20px;
+  color: #333;
+}
+
+.footer h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 10px;
+}
+
+.footer ul li a {
+  color: #666;
+  text-decoration: none;
+}
+
+.divider {
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px; /* Khoảng cách giữa các icon */
+}
+
+.social-links a {
+  font-size: 24px; /* Kích thước icon */
+  color: #ffffff; /* Màu trắng */
+  text-decoration: none; /* Loại bỏ gạch chân */
+}
+
+.social-links a:hover {
+  color: #f70000; /* Đổi màu khi hover */
+}
+
+/* Căn chỉnh form tìm kiếm */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa input và nút search */
+}
+
+/* Ô nhập tìm kiếm */
+.search-form .form-control {
+  width: 200px; /* Điều chỉnh chiều rộng */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-button {
+  background: none; /* Xóa màu nền */
+  border: none; /* Xóa viền */
+  padding: 5px;
+  cursor: pointer;
+}
+
+.search-button i {
+  font-size: 20px; /* Điều chỉnh kích thước icon */
+  color: black; /* Đổi màu icon nếu cần */
+}
+
+.search-button:hover {
+  opacity: 0.8; /* Hiệu ứng mờ nhẹ khi hover */
+}
+
+.logo {
+  height: 55px;
+}
+
+#user-profile {
+  margin-left: 20px; /* Tạo khoảng cách bên trái */ 
+  position: relative; /* Đảm bảo menu sẽ xuất hiện ngay bên dưới */
+  display: flex;
+  align-items: center;
+}
+
+/* Định dạng cho avatar */
+.user-avatar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+/* Ẩn menu mặc định */
+#menu-content {
+  display: none;
+  position: absolute;
+  top: 50px; /* Dịch xuống dưới avatar */
+  left: 50%; /* Canh giữa theo avatar */
+  transform: translateX(-50%); /* Căn giữa hoàn toàn */
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 160px; /* Điều chỉnh kích thước menu */
+  padding: 10px 0; /* Giảm padding tổng thể */
+  z-index: 1000;
+  font-size: 13px; /* Giảm kích thước chữ */
+  text-align: center;
+}
+
+/* Khi mở menu */
+#menu-content.show {
+  display: block;
+}
+
+/* Kiểu dáng cho phần "Xin chào" */
+#menu-content .greeting {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Định dạng từng mục trong menu */
+#menu-content a {
+  display: block;
+  padding: 8px 0; /* Giảm padding trên dưới */
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
+}
+
+#menu-content a:hover {
+  background-color: #f9f9f9; /* Giữ hover nhẹ, không quá nổi bật */
+  border-radius: 5px;
+}
+
+/* Định dạng nút đăng xuất */
+#menu-content .logout-link {
+  color: red;
+  font-weight: bold;
+  padding: 8px 0;
+}
+
+#menu-content .logout-btn:hover {
+  background-color: #f9dede;
+  border-radius: 5px;
+}
+
+/* Mặc định ẩn menu 3 gạch trên desktop */
+.hamburger-menu {
+  display: none; /* Ẩn trên màn hình lớn */
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* Responsive - Giữ giao diện giống desktop trên mobile */
+@media (max-width: 768px) {
+  /* Ẩn top-bar trên mobile */
+  .top-bar {
+    display: none !important;
+  }
+
+  .search-form {
+    display: none !important;
+  }
+
+  /* Định dạng menu chính */
+  .main-nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+  }
+
+  /* Ẩn danh mục mặc định trên mobile */
+  .main-nav .nav {
+      display: none;
+  }
+
+  /* Hiển thị nút menu 3 gạch */
+  .hamburger-menu {
+    display: block;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+  }
+
+  /* Ẩn danh mục mặc định */
+  .nav-topbar {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 0;
+    z-index: 1000;
+    text-align: center;
+  }
+
+  /* Khi mở menu, hiển thị danh mục báo */
+  .nav-topbar.show {
+      display: block;
+  }
+
+  /* Định dạng mục menu */
+  .nav-topbar li {
+      padding: 10px 0;
+  }
+
+  .nav-topbar li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+  }
+
+  .nav-topbar li a:hover {
+      background: #444;
+  }
+
+  /* Căn logo ở giữa */
+  .navbar-brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+  }
+
+  /* Căn user-profile về bên phải */
+  .user-profile {
+      margin-left: auto;
+  }
+
+  #menu-content {
+      width: 200px; /* Giữ nguyên chiều rộng */
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  #menu-content a {
+      font-size: 14px; /* Dễ đọc hơn */
+      padding: 12px 0;
+  }
+}

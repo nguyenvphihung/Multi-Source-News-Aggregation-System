@@ -1,0 +1,38 @@
+{% extends "baseUser.html" %}
+
+{% block title %}{{ category | title }} - Danh Mục{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/category.css">
+{% endblock %}
+
+{% block content %}
+<div class="category-page">
+    <h2 class="category-title">Danh mục: {{ category_name }}</h2>
+
+    <!-- Kiểm tra nếu có bài viết -->
+    {% if category_posts %}
+    <div class="category-post-list">
+        {% for post in category_posts %}
+        <div class="category-post-item">
+            <div class="category-post-image">
+                <a href="/news_detail/{{ post.article_id }}">
+                    <img src="{{ post.image_urls }}" alt="{{ post.title }}">
+                </a>
+            </div>
+            <div class="category-post-content">
+                <p class="category-post-time">{{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                <h3 class="category-post-title">
+                    <a href="/news_detail/{{ post.article_id }}">{{ post.title }}</a>
+                </h3>
+                <p class="category-post-description">{{ post.description[:150] }}...</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <p class="category-no-posts">Không có bài viết nào trong danh mục này.</p>
+    {% endif %}
+</div>
+{% endblock %}

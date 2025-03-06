@@ -1,0 +1,104 @@
+/* Container chính */
+.vertical-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Khoảng cách giữa các bài báo */
+}
+
+.all-posts-container {
+    padding: 50px;
+}
+
+.page-title {
+    padding-bottom: 10px; /* Khoảng cách phía dưới */
+}
+
+
+/* Một bài báo */
+.post-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px; /* Khoảng cách giữa ảnh và nội dung */
+    border-bottom: 1px solid #ddd; /* Đường gạch ngang giữa các bài */
+    padding-bottom: 15px;
+}
+
+/* Ảnh bài báo */
+.post-image img {
+    width: 300px; /* Chiều rộng cố định của ảnh */
+    height: 160px; /* Chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh để giữ tỉ lệ */
+}
+
+/* Nội dung bài báo */
+.post-content {
+    flex: 1; /* Đảm bảo nội dung chiếm không gian còn lại */
+}
+
+/* Thời gian đăng bài */
+.post-time {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* Tiêu đề bài báo */
+.post-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.post-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+.post-title a:hover {
+    color: #ff5722; /* Màu cam khi hover */
+}
+
+/* Mô tả bài báo */
+.post-description {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Căn giữa và tạo khoảng cách */
+.pagination-all-posts {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 20px;
+    gap: 8px; /* Khoảng cách giữa các số trang */
+    padding-top: 20px;
+}
+
+/* Nút số trang */
+.page-link-all-post {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+    font-size: 16px;
+}
+
+/* Nút trang hiện tại */
+.page-link-all-post.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* Hover */
+.page-link-all-post:hover {
+    background-color: #0056b3;
+    color: white;
+}

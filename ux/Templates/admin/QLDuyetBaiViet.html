@@ -1,0 +1,95 @@
+{% extends "baseAdmin.html" %}
+
+{% block title %}Duyệt bài viết{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4">Duyệt bài viết</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Danh mục</th>
+                    <th>Tác giả</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in pending_articles %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.type }}</td>
+                    <td>{{ article.author }}</td>
+                    <td>{{ article.date_posted.strftime('%d/%m/%Y') }}</td>
+                    <td>
+                        <span class="badge bg-warning">Chờ duyệt</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-danger" onclick="rejectArticle('{{ article.article_id }}')">
+                                <i class="fas fa-times"></i> Từ chối
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" onclick="approveArticle('{{ article.article_id }}')">
+                                <i class="fas fa-check"></i> Phê duyệt
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">Không có bài viết chờ duyệt</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    async function approveArticle(articleId) {
+        if (confirm("Bạn có chắc muốn phê duyệt bài viết này?")) {
+            try {
+                const response = await fetch(`/admin/approve_article/${articleId}`, {
+                    method: "POST"
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Có lỗi xảy ra khi phê duyệt bài viết");
+                }
+            } catch (error) {
+                console.error("Lỗi phê duyệt bài viết:", error);
+                alert("Có lỗi xảy ra khi phê duyệt bài viết");
+            }
+        }
+    }
+    
+    async function rejectArticle(articleId) {
+        if (confirm("Bạn có chắc muốn từ chối bài viết này?")) {
+            try {
+                const response = await fetch(`/admin/reject_article/${articleId}`, {
+                    method: "POST"
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Có lỗi xảy ra khi từ chối bài viết");
+                }
+            } catch (error) {
+                console.error("Lỗi từ chối bài viết:", error);
+                alert("Có lỗi xảy ra khi từ chối bài viết");
+            }
+        }
+    }
+</script>
+{% endblock %}

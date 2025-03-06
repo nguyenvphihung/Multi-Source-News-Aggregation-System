@@ -1,0 +1,54 @@
+/* Màu nền tổng thể và màu chữ */
+body {
+    background-color: #eee;
+    color: #666;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tiêu đề */
+h2, h3, h4 {
+    color: #666;
+}
+
+/* Container và card */
+.container {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Style cho form-control */
+.form-control {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #666;
+}
+.form-control:focus {
+    border-color: #FF5722;
+    box-shadow: 0 0 0 0.2rem rgba(255, 87, 34, 0.25);
+}
+
+/* Button chính với tông màu #FF5722 */
+.btn-primary {
+    background-color: #FF5722;
+    border-color: #FF5722;
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: #e04d1e; /* phiếu phiên bản tối hơn của #FF5722 */
+    border-color: #e04d1e;
+}
+
+/* Thông báo */
+#message {
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #666;
+}

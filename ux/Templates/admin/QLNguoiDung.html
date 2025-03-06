@@ -1,0 +1,173 @@
+{% extends "baseAdmin.html" %}
+
+{% block title %}Quản lý người dùng{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Quản lý người dùng</h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" action="/admin/2">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <select class="form-select" id="roleFilter" name="role">
+                            <option value="">Tất cả vai trò</option>
+                            {% for role_item in roles %}
+                            <option value="{{ role_item }}" {% if request.query_params.get('role') == role_item %}selected{% endif %}>
+                                {{ role_item }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="statusFilter" name="status">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="active" {% if request.query_params.get('status') == 'Active' %}selected{% endif %}>
+                                Hoạt động
+                            </option>
+                            <option value="inactive" {% if request.query_params.get('status') == 'Inactive' %}selected{% endif %}>
+                                Ngừng hoạt động
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="query" placeholder="Tìm kiếm người dùng..." value="{{ request.query_params.get('query', '') }}">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Vai trò</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.ID }}</td>
+                            <td>{{ user.FirstName }}</td>
+                            <td>{{ user.Email }}</td>
+                            <td>{{ user.Role }}</td>
+                            <td id="status-{{ user.ID }}">
+                                {% if user.Status == 'Active' %}
+                                    <span class="badge bg-success">Hoạt động</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Ngừng hoạt động</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('{{ user.ID }}')">
+                                        <i class="fas fa-exchange-alt"></i> Thay đổi trạng thái
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteUser('{{ user.ID }}')">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                    {% if user.author_requested %}
+                                    <button class="btn btn-outline-primary btn-sm" onclick="approveAuthor('{{ user.ID }}')">
+                                        <i class="fas fa-check"></i> Duyệt tác giả
+                                    </button>
+                                    <button class="btn btn-outline-warning btn-sm" onclick="clearAuthorRequest('{{ user.ID }}')">
+                                        <i class="fas fa-times"></i> Xóa yêu cầu
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    async function toggleStatus(userId) {
+        if (confirm("Bạn có chắc chắn muốn thay đổi trạng thái của người dùng này?")) {
+            const response = await fetch(`/admin/toggle_user_status/${userId}`, {
+                method: "PUT"
+            });
+            if (response.ok) {
+                const result = await response.json();
+                const newStatus = result.new_status;
+                const statusCell = document.getElementById("status-" + userId);
+                if (newStatus === "Active") {
+                    statusCell.innerHTML = '<span class="badge bg-success">Hoạt động</span>';
+                } else {
+                    statusCell.innerHTML = '<span class="badge bg-danger">Ngừng hoạt động</span>';
+                }
+                alert("Cập nhật trạng thái thành công");
+            } else {
+                const result = await response.json();
+                alert(result.detail || "Có lỗi xảy ra khi cập nhật trạng thái");
+            }
+        }
+    }
+
+    async function deleteUser(userId) {
+        if (confirm("Bạn có chắc chắn muốn xóa người dùng này?")) {
+            const response = await fetch(`/admin/delete_user/${userId}`, {
+                method: "DELETE"
+            });
+            if (response.ok) {
+                alert("Xóa người dùng thành công");
+                location.reload();
+            } else {
+                const result = await response.json();
+                alert(result.detail || "Có lỗi xảy ra khi xóa người dùng");
+            }
+        }
+    }
+
+    async function approveAuthor(userId) {
+        if (confirm("Bạn có chắc chắn muốn duyệt yêu cầu trở thành tác giả của người dùng này?")) {
+            const response = await fetch(`/admin/approve_author_request/${userId}`, {
+                method: "PUT"
+            });
+            if (response.ok) {
+                alert("Đã duyệt và thay đổi role thành 'author'");
+                location.reload();
+            } else {
+                const result = await response.json();
+                alert(result.detail || "Có lỗi xảy ra khi duyệt yêu cầu");
+            }
+        }
+    }
+
+    async function clearAuthorRequest(userId) {
+        if (confirm("Bạn có chắc chắn muốn xóa yêu cầu đăng ký tác giả của người dùng này?")) {
+            const response = await fetch(`/admin/clear_author_request/${userId}`, {
+                method: "PUT"
+            });
+            if (response.ok) {
+                alert("Đã xóa yêu cầu đăng ký tác giả");
+                location.reload();
+            } else {
+                const result = await response.json();
+                alert(result.detail || "Có lỗi xảy ra khi xóa yêu cầu đăng ký");
+            }
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "baseUser.html" %}
+
+{% block title %}All Posts{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/all_post.css">
+{% endblock %}
+
+{% block content %}
+<div class="all-posts-container">
+    <h2 class="page-title">Tất Cả Bài Viết</h2>
+    <div class="vertical-posts">
+        {% for post in all_posts %}
+        <div class="post-item">
+            <div class="post-image">
+                <a href="/news_detail/{{ post.article_id }}">
+                    <img src="{{ post.image_urls }}" alt="{{ post.title }}">
+                </a>
+            </div>
+            <div class="post-content">
+                <p class="post-time">{{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                <h3 class="post-title">
+                    <a href="/news_detail/{{ post.article_id }}">{{ post.title }}</a>
+                </h3>
+                <p class="post-description">{{ post.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Phân trang -->
+    <div class="pagination-all-posts">
+        <!-- Nút "Trước" -->
+        {% if page > 1 %}
+            <a href="{{ request.url_for('all_posts') }}?page={{ page - 1 }}" class="page-link-all-post">&laquo;</a>
+        {% endif %}
+    
+        <!-- Hiển thị danh sách số trang -->
+        {% for num in range(1, total_pages + 1) %}
+            {% if num == page %}
+                <a href="{{ request.url_for('all_posts') }}?page={{ num }}" class="page-link-all-post active">{{ num }}</a>
+            {% else %}
+                <a href="{{ request.url_for('all_posts') }}?page={{ num }}" class="page-link-all-post">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+    
+        <!-- Nút "Tiếp" -->
+        {% if page < total_pages %}
+            <a href="{{ request.url_for('all_posts') }}?page={{ page + 1 }}" class="page-link-all-post">&raquo;</a>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

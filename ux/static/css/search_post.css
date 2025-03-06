@@ -1,0 +1,178 @@
+.search-page .top-bar {
+    background-color: #0096FF; /* Màu xanh */
+  }
+
+.search-page .main-nav {
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* Đường gạch ngang */
+    background-color: #0096FF;
+}
+
+/* Căn giữa vùng tìm kiếm */
+.search-container {
+    background-color: #0096FF; /* Màu xanh nền */
+    padding: 40px 0; /* Tạo khoảng cách trên và dưới */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* Đường gạch ngang */
+}
+/* Form tìm kiếm */
+.search-container form {
+    display: flex;
+    width: 1300px;  /* Tăng độ dài */
+    background: white;
+    overflow: hidden;
+    height: 50px;
+    border-radius: 30px;
+}
+
+/* Ô nhập liệu */
+.search-container input[type="text"] {
+    flex: 1;
+    border: none;
+    padding: 18px; /* Tăng padding để form to hơn */
+    font-size: 18px; /* Chữ lớn hơn */
+    outline: none;
+    color: #666;
+}
+
+/* Nút tìm kiếm */
+.search-container button {
+    background: #FF6600; /* Màu cam */
+    border: none;
+    padding: 18px 25px; /* Tăng kích thước nút */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+/* Icon kính lúp */
+.search-container button i {
+    color: white;
+    font-size: 20px; /* Tăng size icon */
+}
+
+/* Hover nút tìm kiếm */
+.search-container button:hover {
+    background: #cc5200;
+}
+
+/* Căn giữa toàn bộ container */
+.search-article-container {
+    max-width: 1232px; /* Điều chỉnh chiều rộng container */
+    margin: 0 auto; /* Căn giữa container */
+    padding: 20px;
+}
+
+.search-heading3 {
+    position: relative;
+    top: 40px; /* Thay vì top */
+    margin-left: 160px; /* Thay vì left */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    display: block;
+}
+
+/* Từng bài báo */
+.row-search {
+    display: flex;
+    align-items: center; /* Căn giữa ảnh và nội dung theo chiều dọc */
+    justify-content: flex-start; /* Ảnh căn trái, nội dung dịch sát */
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+    gap: 20px; /* Khoảng cách giữa ảnh và nội dung */
+}
+
+/* Cột ảnh */
+.col-md-4 {
+    flex: 0 0 520px; /* Định rõ chiều rộng ảnh */
+    max-width: 520px;
+    display: flex;
+    justify-content: flex-start; /* Ảnh căn lề trái */
+}
+
+.col-md-4 img,
+.bg-secondary {
+    width: 520px; /* Kích thước ảnh chuẩn */
+    height: 359px; /* Kích thước ảnh chuẩn */
+    object-fit: cover; /* Giữ ảnh không méo */
+    border-radius: 8px; /* Bo góc ảnh */
+    background: #ccc; /* Placeholder nếu không có ảnh */
+}
+
+/* Cột nội dung */
+.col-md-8 {
+    flex: 1; /* Nội dung chiếm phần còn lại */
+    max-width: 60%;
+    text-align: left; /* Căn lề trái nội dung */
+}
+
+/* Tiêu đề bài viết */
+h4 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+h4 a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+
+h4 a:hover {
+    color: #007bff;
+}
+
+/* Thông tin nhỏ */
+p {
+    margin: 5px 0;
+    color: #444;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+small {
+    color: #777;
+}
+
+
+/* Phân trang */
+/* Căn giữa pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px 0;
+    list-style: none;
+}
+
+/* Style cho các nút trang */
+.pagination .page-item {
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+
+.pagination .page-link:hover {
+    background-color: #0056b3;
+    color: white;
+}
