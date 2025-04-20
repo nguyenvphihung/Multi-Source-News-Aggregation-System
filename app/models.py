@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Text, DateTime, Integer, Boolean
 from datetime import datetime
 
 class Article(Base):
-    __tablename__ = "Articles"
+    __tablename__ = "articles"
     
     article_id = Column(String(20), primary_key=True)
     title = Column(String, nullable=False)
@@ -18,7 +18,7 @@ class Article(Base):
     video_urls = Column(Text, nullable=True)
 
 class User(Base):
-    __tablename__ = "Users"
+    __tablename__ = "users"
 
     ID = Column(Integer, primary_key=True, index=True)
     FirstName = Column(String(255), nullable=False)
