@@ -20,17 +20,17 @@ class ArticleBase(BaseModel):
 
 # Schema dùng cho các thao tác tạo, cập nhật người dùng (mật khẩu có trong request)
 class UserBase(BaseModel):
-    ID: int
-    FirstName: str
-    LastName: str
-    Email: str
-    Phone: Optional[str] = None
-    Newsletter: Optional[bool] = False
-    TermsAccepted: Optional[bool] = False
-    Role: Optional[str] = "User"
-    Status: Optional[str] = "Active"
-    RegistrationDate: Optional[datetime] = None
-    AvatarUrl: Optional[str] = None 
+    id: int
+    first_name: str
+    last_name: str
+    email: str
+    phone: Optional[str] = None
+    newsletter: Optional[bool] = False
+    terms_accepted: Optional[bool] = False
+    role: Optional[str] = "User"
+    status: Optional[str] = "Active"
+    registration_date: Optional[datetime] = None
+    avatar_url: Optional[str] = None 
     author_requested: Optional[bool] = False
 
     class Config:
@@ -43,11 +43,11 @@ class UserOut(UserBase):
 
 # Schema dùng khi đăng ký: Password được yêu cầu
 class UserCreate(UserBase):
-    Password: str
+    password: str
 
 # Schema dùng khi cập nhật người dùng, Password là tùy chọn.
 class UserUpdate(UserBase):
-    Password: Optional[str] = None
+    password: Optional[str] = None
 
 class SettingsBase(BaseModel):
     setting_key: str

@@ -49,9 +49,9 @@ def get_base_categories(db: Session):
 
 # Dependency: Xác thực người dùng qua cookie "user_email"
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> Optional[User]:
-    email = request.cookies.get("user_email")
-    if email:
-        user = db.query(User).filter(User.Email == email).first()
+    Email = request.cookies.get("user_email")
+    if Email:
+        user = db.query(User).filter(User.email == Email).first()
         return user
     return None
 
@@ -62,10 +62,10 @@ def check_author_or_admin(
 ):
     if not current_user:
         raise HTTPException(status_code=401, detail="Bạn chưa đăng nhập.")
-    db_user = db.query(User).filter(User.Email == current_user.Email).first()
+    db_user = db.query(User).filter(User.email == current_user.email).first()
     if not db_user:
         raise HTTPException(status_code=404, detail="Người dùng không tồn tại.")
-    if db_user.Role.lower() not in ["author", "admin"]:
+    if db_user.role.lower() not in ["author", "admin"]:
         raise HTTPException(status_code=403, detail="Bạn không phải Author hoặc Admin. Không thể truy cập.")
     return db_user
 
@@ -320,7 +320,7 @@ async def signin_author(
     if not current_user:
         raise HTTPException(status_code=401, detail="Bạn cần đăng nhập trước.")
     # Chỉ cho phép người dùng có role "User"
-    if current_user.Role.lower() != "user":
+    if current_user.role.lower() != "user":
         raise HTTPException(status_code=403, detail="Chỉ người dùng bình thường mới có thể đăng ký tác giả.")
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(

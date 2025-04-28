@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends, Form, HTTPException
+from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from firebase_admin import auth, credentials, initialize_app
 from functools import wraps
@@ -9,50 +9,17 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 import bcrypt  # Import bcrypt để mã hóa mật khẩu
 from typing import Optional
+import os
+import time
 
 router = APIRouter()
 templates = Jinja2Templates(directory="ux/templates/user")
 
 
-# Xác thực Firebase - Middleware
-async def verify_firebase_token(request: Request):
-    token = request.cookies.get("firebase_token")
-    if not token:
-        return None
-    try:
-        return auth.verify_id_token(token)
-    except auth.ExpiredIdTokenError:
-        logging.error("Token đã hết hạn")
-    except auth.InvalidIdTokenError:
-        logging.error("Token không hợp lệ")
-    except Exception as e:
-        logging.error(f"Lỗi Firebase: {e}")
-    return None
-
-def require_auth(func):
-    @wraps(func)
-    async def wrapper(*args, **kwargs):
-        request = kwargs.get("request")
-        if not request:
-            for arg in args:
-                if isinstance(arg, Request):
-                    request = arg
-                    break
-        if not request:
-            raise ValueError("Không tìm thấy request trong hàm require_auth")
-        
-        user = await verify_firebase_token(request)
-        if not user:
-            return RedirectResponse(url="/login")
-        
-        kwargs["current_user"] = user
-        return await func(*args, **kwargs)
-    return wrapper
-
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> Optional[User]:
     email = request.cookies.get("user_email")
     if email:
-        user = db.query(User).filter(User.Email == email).first()
+        user = db.query(User).filter(User.email == email).first()
         return user
     return None
 
@@ -63,31 +30,31 @@ async def login_page(request: Request):
 # API trang đăng nhập - cập nhật để kiểm tra mật khẩu đã được mã hóa
 @router.post("/login")
 def login_user(
-    email: str = Form(...),
-    password: str = Form(...),
+    Email: str = Form(...),
+    Password: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    user = db.query(User).filter(User.Email == email).first()
+    user = db.query(User).filter(User.email == Email).first()
     
     if not user:
         raise HTTPException(status_code=400, detail="Email không tồn tại")
 
-    if not bcrypt.checkpw(password.encode('utf-8'), user.Password.encode('utf-8')):
+    if not bcrypt.checkpw(Password.encode('utf-8'), user.password.encode('utf-8')):
         raise HTTPException(status_code=400, detail="Mật khẩu không chính xác")
 
     # Xử lý chuyển hướng dựa trên Role
-    if user.Role.lower() == "admin":
+    if user.role.lower() == "admin":
         response = RedirectResponse(url="/admin/1", status_code=302)
-    elif user.Role.lower() == "user":
+    elif user.role.lower() == "user":
         response = RedirectResponse(url="/home", status_code=302)
-    elif user.Role.lower() == "author":
+    elif user.role.lower() == "author":
         response = RedirectResponse(url="/home", status_code=302)
     else:
         raise HTTPException(status_code=403, detail="Bạn không có quyền truy cập")
 
     # Thiết lập cookie để lưu thông tin user
-    response.set_cookie(key="user_email", value=email, httponly=True, max_age=3600, path="/")
-    response.set_cookie(key="user_role", value=user.Role, httponly=True, max_age=3600, path="/")
+    response.set_cookie(key="user_email", value=Email, httponly=True, max_age=3600, path="/")
+    response.set_cookie(key="user_role", value=user.role, httponly=True, max_age=3600, path="/")
 
     return response
 
@@ -104,33 +71,33 @@ async def signup_page(request: Request):
 # Xử lý đăng ký người dùng - cập nhật để mã hóa password trước khi lưu
 @router.post("/register")
 def register_user(
-    first_name: str = Form(...),
-    last_name: str = Form(...),
-    email: str = Form(...),
-    phone: str = Form(None),
-    password: str = Form(...),
-    newsletter: bool = Form(False),
-    terms: bool = Form(...),
+    First_name: str = Form(...),
+    Last_name: str = Form(...),
+    Email: str = Form(...),
+    Phone: str = Form(None),
+    Password: str = Form(...),
+    Newsletter: bool = Form(False),
+    Terms: bool = Form(...),
     db: Session = Depends(get_db)
 ):
-    if not terms:
+    if not Terms:
         raise HTTPException(status_code=400, detail="Bạn phải đồng ý với điều khoản")
 
-    existing_user = db.query(User).filter(User.Email == email).first()
+    existing_user = db.query(User).filter(User.email == Email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email đã tồn tại")
 
     # Mã hóa mật khẩu sử dụng bcrypt
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    hashed_password = bcrypt.hashpw(Password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     new_user = User(
-        FirstName=first_name,
-        LastName=last_name,
-        Email=email,
-        Phone=phone,
-        Password=hashed_password,
-        Newsletter=newsletter,
-        TermsAccepted=terms
+        first_name=First_name,
+        last_name=Last_name,
+        email=Email,
+        phone=Phone,
+        password=hashed_password,
+        newsletter=Newsletter,
+        terms_accepted=Terms
     )
     
     db.add(new_user)
@@ -139,16 +106,6 @@ def register_user(
     
     # Sau khi đăng ký thành công, chuyển hướng sang trang đăng nhập
     return RedirectResponse(url="/login", status_code=302)
-
-import os
-import time
-import logging
-from fastapi import UploadFile, File, HTTPException, Depends
-from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
-from app.models import User
-from app.database import get_db
-from app.user import get_current_user
 
 @router.post("/request_author", response_class=JSONResponse)
 async def request_author(
@@ -165,8 +122,8 @@ async def request_author(
     os.makedirs(temp_dir, exist_ok=True)
     
     current_time = int(time.time())
-    front_path = os.path.join(temp_dir, f"{current_user.ID}_front_{current_time}.jpg")
-    back_path = os.path.join(temp_dir, f"{current_user.ID}_back_{current_time}.jpg")
+    front_path = os.path.join(temp_dir, f"{current_user.id}_front_{current_time}.jpg")
+    back_path = os.path.join(temp_dir, f"{current_user.id}_back_{current_time}.jpg")
     
     # Lưu file tạm
     with open(front_path, "wb") as f:
@@ -174,7 +131,7 @@ async def request_author(
     with open(back_path, "wb") as f:
         f.write(await back_card.read())
     
-    logging.info(f"User {current_user.Email} đã gửi yêu cầu đăng ký tác giả. File tạm: {front_path}, {back_path}")
+    logging.info(f"User {current_user.email} đã gửi yêu cầu đăng ký tác giả. File tạm: {front_path}, {back_path}")
     
     # Đánh dấu yêu cầu đăng ký tác giả trong cơ sở dữ liệu
     current_user.author_requested = True

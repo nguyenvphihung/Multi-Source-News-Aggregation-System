@@ -52,7 +52,7 @@ class Pagination:
 
 # Dependency kiểm tra phân quyền admin
 def require_admin(current_user: User = Depends(get_current_user)) -> User:
-    if not current_user or current_user.Role.lower() != "admin":
+    if not current_user or current_user.role.lower() != "admin":
         raise HTTPException(
             status_code=403,
             detail="Truy cập bị từ chối: chỉ admin mới được phép"
@@ -133,17 +133,17 @@ async def manage_users(
 ):
     users_query = db.query(User)
     if role:
-        users_query = users_query.filter(User.Role == role)
+        users_query = users_query.filter(User.role == role)
     if status:
         if status.lower() == "active":
-            users_query = users_query.filter(User.Status == "Active")
+            users_query = users_query.filter(User.status == "Active")
         elif status.lower() == "inactive":
-            users_query = users_query.filter(User.Status == "Inactive")
+            users_query = users_query.filter(User.status == "Inactive")
     if query:
         search_term = f"%{query}%"
-        users_query = users_query.filter(User.FirstName.ilike(search_term) | User.Email.ilike(search_term))
-    users = users_query.order_by(User.ID).all()
-    roles = db.query(User.Role).distinct().all()
+        users_query = users_query.filter(User.first_name.ilike(search_term) | User.email.ilike(search_term))
+    users = users_query.order_by(User.id).all()
+    roles = db.query(User.role).distinct().all()
     roles = [r[0] for r in roles]
     return templates.TemplateResponse(
         "QLNguoiDung.html", 
@@ -159,7 +159,7 @@ async def manage_users(
 # 5. Xóa người dùng
 @router.delete("/admin/delete_user/{user_id}")
 async def delete_user(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(require_admin)):
-    user_to_delete = db.query(User).filter(User.ID == user_id).first()
+    user_to_delete = db.query(User).filter(User.id == user_id).first()
     if not user_to_delete:
         raise HTTPException(status_code=404, detail="Người dùng không tồn tại")
     db.delete(user_to_delete)
@@ -174,15 +174,15 @@ async def toggle_user_status(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin)
 ):
-    user_to_update = db.query(User).filter(User.ID == user_id).first()
+    user_to_update = db.query(User).filter(User.id == user_id).first()
     if not user_to_update:
         raise HTTPException(status_code=404, detail="Người dùng không tồn tại")
-    if user_to_update.Status == "Active":
-        user_to_update.Status = "Inactive"
+    if user_to_update.status == "Active":
+        user_to_update.status = "Inactive"
     else:
-        user_to_update.Status = "Active"
+        user_to_update.status = "Active"
     db.commit()
-    return {"message": "Cập nhật trạng thái thành công", "new_status": user_to_update.Status}
+    return {"message": "Cập nhật trạng thái thành công", "new_status": user_to_update.status}
 
 
 # 7. Duyệt yêu cầu đăng ký tác giả của người dùng
@@ -192,12 +192,12 @@ async def approve_author_request(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin)
 ):
-    user_to_update = db.query(User).filter(User.ID == user_id).first()
+    user_to_update = db.query(User).filter(User.id == user_id).first()
     if not user_to_update:
         raise HTTPException(status_code=404, detail="Người dùng không tồn tại")
     if not user_to_update.author_requested:
         raise HTTPException(status_code=400, detail="Không có yêu cầu đăng ký tác giả nào")
-    user_to_update.Role = "author"
+    user_to_update.role = "author"
     user_to_update.author_requested = False
     db.commit()
     return {"message": "User role changed to author"}
@@ -210,7 +210,7 @@ async def clear_author_request(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin)
 ):
-    user_to_update = db.query(User).filter(User.ID == user_id).first()
+    user_to_update = db.query(User).filter(User.id == user_id).first()
     if not user_to_update:
         raise HTTPException(status_code=404, detail="Người dùng không tồn tại")
     if not user_to_update.author_requested:
@@ -299,11 +299,11 @@ async def statistics(
     ]
 
     user_stats = db.query(
-        func.year(User.RegistrationDate).label('year'),
-        func.month(User.RegistrationDate).label('month'),
-        func.count(User.ID).label('count')
-    ).group_by(func.year(User.RegistrationDate), func.month(User.RegistrationDate)) \
-     .order_by(func.year(User.RegistrationDate), func.month(User.RegistrationDate)) \
+        func.year(User.registration_date).label('year'),
+        func.month(User.registration_date).label('month'),
+        func.count(User.id).label('count')
+    ).group_by(func.year(User.registration_date), func.month(User.registration_date)) \
+     .order_by(func.year(User.registration_date), func.month(User.registration_date)) \
      .all()
 
     user_stats_json = [

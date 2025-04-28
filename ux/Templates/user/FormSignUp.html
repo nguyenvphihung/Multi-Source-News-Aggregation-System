@@ -5,136 +5,6 @@
 {% block title %}Đăng ký - NCKH DTU{% endblock %}
 
 {% block content %}
-<style>
-    .container-tk {
-        background-color: rgb(250, 249, 249);;
-    }
-
-    .auth-container {
-        max-width: 600px;
-        margin: auto;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-    
-    .auth-card {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        padding: 2rem;
-    }
-
-    .auth-title {
-        text-align: center;
-        color: #333;
-        font-size: 1.75rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-    }
-
-    .auth-subtitle {
-        text-align: center;
-        color: #666;
-        margin-bottom: 2rem;
-    }
-
-    .social-btn {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        background: white;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.3s;
-        font-size: 1rem;
-        color: #808080;
-    }
-
-    .social-btn:hover {
-        background: #f8f9fa;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .divider {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin: 25px 0;
-    }
-
-    .divider::before,
-    .divider::after {
-        content: '';
-        flex: 1;
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .divider span {
-        padding: 0 15px;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    .form-control:focus {
-        border-color: #808080;
-        box-shadow: 0 0 0 0.2rem rgba(128, 128, 128, 0.15);
-    }
-
-    .btn-auth {
-        background-color: #FF5722;
-        border: none;
-        color: white;
-        padding: 12px 20px;
-        width: 100%;
-        font-size: 1rem;
-        font-weight: 500;
-        margin-top: 1rem;
-    }
-
-    .btn-auth:hover {
-        background-color: #666666;
-    }
-
-    .auth-links {
-        text-align: center;
-        margin-top: 1.5rem;
-        color: #666;
-    }
-
-    .auth-links a {
-        color: #808080;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .auth-links a:hover {
-        text-decoration: underline;
-    }
-
-    .form-check-input:checked {
-        background-color: #808080;
-        border-color: #808080;
-    }
-
-    .terms-text {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    .terms-text a {
-        color: #808080;
-        text-decoration: none;
-    }
-
-    .terms-text a:hover {
-        text-decoration: underline;
-    }
-</style>
 
 <div class="auth-container">
     <div class="auth-card">
@@ -160,30 +30,30 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Họ" required>
+                        <input type="text" class="form-control" id="firstName" name="First_name" placeholder="Họ" required>
                         <label for="firstName">Họ</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Tên" required>
+                        <input type="text" class="form-control" id="lastName" name="Last_name" placeholder="Tên" required>
                         <label for="lastName">Tên</label>
                     </div>
                 </div>
             </div>
         
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                <input type="email" class="form-control" id="email" name="Email" placeholder="Email" required>
                 <label for="email">Email</label>
             </div>
         
             <div class="form-floating mb-3">
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
+                <input type="tel" class="form-control" id="phone" name="Phone" placeholder="Số điện thoại">
                 <label for="phone">Số điện thoại</label>
             </div>
         
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" required>
+                <input type="password" class="form-control" id="password" name="Password" placeholder="Mật khẩu" required>
                 <label for="password">Mật khẩu</label>
             </div>
         
@@ -194,7 +64,7 @@
         
             <div class="mb-4">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                    <input class="form-check-input" type="checkbox" id="newsletter" name="Newsletter">
                     <label class="form-check-label terms-text" for="newsletter">
                         Tôi muốn nhận thông tin cập nhật và tin tức mới nhất về nghiên cứu khoa học
                     </label>
@@ -203,7 +73,7 @@
         
             <div class="mb-4">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                    <input class="form-check-input" type="checkbox" id="terms" name="Terms" required>
                     <label class="form-check-label terms-text" for="terms">
                         Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a>
                     </label>
