@@ -20,18 +20,18 @@ class Article(Base):
 class User(Base):
     __tablename__ = "users"
 
-    ID = Column(Integer, primary_key=True, index=True)
-    FirstName = Column(String(255), nullable=False)
-    LastName = Column(String(255), nullable=False)
-    Email = Column(String(255), unique=True, nullable=False)
-    Phone = Column(String(20), unique=True, nullable=True)
-    Password = Column(String(255), nullable=False)
-    Newsletter = Column(Boolean, default=False)
-    TermsAccepted = Column(Boolean, default=False)
-    Role = Column(String(50), default="User")  # Mặc định là người dùng
-    Status = Column(String(50), default="Active")  # Trạng thái kích hoạt tài khoản
-    RegistrationDate = Column(DateTime, default=datetime.utcnow)
-    AvatarUrl = Column(String(255), nullable=True)
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String(255), nullable=False)
+    last_name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, nullable=False)
+    phone = Column(String(20), unique=True, nullable=True)
+    password = Column(String(255), nullable=False)
+    newsletter = Column(Boolean, default=False)
+    terms_accepted = Column(Boolean, default=False)
+    role = Column(String(50), default="User")  # Mặc định là người dùng
+    status = Column(String(50), default="Active")  # Trạng thái kích hoạt tài khoản
+    registration_date = Column(DateTime, default=datetime.utcnow)
+    avatar_url = Column(String(255), nullable=True)
     author_requested = Column(Boolean, default=False)
 
 

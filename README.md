@@ -1,94 +1,95 @@
-## Cấu trúc dự án
+# Multi-Source News Aggregation System
 
-- `main.py`: Tập tin chính chứa mã nguồn FastAPI với các endpoint để lấy dữ liệu và hiển thị giao diện.
-- `app/models.py`: Chứa các mô hình dữ liệu (models) cho SQLAlchemy.
-- `app/database.py`: Thiết lập kết nối cơ sở dữ liệu với SQLAlchemy.
-- `app/schhemas.py`: định nghĩa các lớp dữ liệu bằng cách sử dụng Pydantic, mô tả cấu trúc dữ liệu được gửi đến hoặc trả về từ API
-- `Templates/`: Chứa các template HTML cho trang chủ, trang danh mục, và trang chi tiết bài viết.
-- `static/`: Chứa các tài nguyên tĩnh : CSS,...
+Một hệ thống thu thập bài báo đa nguồn, cung cấp kho tin tức phong phú cho bạn đọc, tích hợp Machine Learning để phân loại nội dung dựa trên bộ dữ liệu hơn 5000 bài báo được gắn nhãn chuẩn, đồng thời hỗ trợ các chức năng dành riêng cho tác giả. Bộ dữ liệu được xây dựng bài bản bằng cách thu thập bài viết theo từng danh mục cụ thể, đảm bảo chất lượng huấn luyện.
 
-## Hướng dẫn Cài đặt
+---
 
-1. **Clone** dự án từ GitHub:
-   ```bash
-   git clone <URL_REPOSITORY>
-   cd <TÊN_THƯ_MỤC_DỰ_ÁN>
-   ```
+## 🔹 Cấu trúc Dự án
 
-2. **Cài đặt các thư viện phụ thuộc:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+- `main.py`: Tập tin FastAPI chốt chứa `app`.
+- `app/`: Xử lý Authentication, Database, Models, Schemas, Utils.
+- `data_scraping/`: Mô-đun scrape tin tức từ các báo lớn: VnExpress, Dantri, VietnamPlus...
+- `ux/`: Templates HTML và file tĩnh CSS/JS.
+- `requirements.txt`: Danh sách thư viện Python cần cài.
+- `NaiveBayes-NLP.py`: Mô hình phân loại tin tức.
+- `Dockerfile`: Đóng gói project thành container Docker để deploy dễ dàng.
 
-3. **Cấu hình cơ sở dữ liệu**:
-   - Thiết lập kết nối đến cơ sở dữ liệu trong `app/database.py` theo cấu hình riêng.
+---
 
-4. **Chạy ứng dụng**:
-   ```bash
-   uvicorn main:app --reload
-   ```
+## 🔹 Cài Đặt Local Phát Triển
 
-## Cấu trúc CSDL (Database)
-
-Bảng chính trong CSDL:
-
-- **Article**:
-  - `article_id`: Mã định danh duy nhất của bài báo.
-  - `title`: Tiêu đề bài báo.
-  - `description`: Mô tả ngắn gọn.
-  - `content`: Nội dung chi tiết của bài báo.
-  - `date_posted`: Ngày đăng.
-  - `author`: Tác giả bài báo.
-  - `source_url`: Đường dẫn gốc của bài báo.
-  - `status`: Trạng thái bài báo.
-  - `type`: Loại/danh mục bài báo.
-  - `image_urls`: Danh sách URL ảnh liên quan.
-  - `video_urls`: Danh sách URL video liên quan.
-
-## Hướng Dẫn Sử Dụng
-- Tạo database dataBaoViet và table Articles, Users, Settings trong SQLServer trước khi chạy file main.py
-- Cú pháp tạo table:
+1. **Clone**:
 ```bash
-use dataBao
-
--- Tạo bảng Articles
-CREATE TABLE Articles (
-    article_id VARCHAR(20) PRIMARY KEY,
-    title NVARCHAR(255) NOT NULL,
-    description NVARCHAR(MAX) NULL,
-    content NVARCHAR(MAX) NULL,
-    date_posted DATETIME NULL,
-    author NVARCHAR(100) NULL,
-    source_url NVARCHAR(255) NULL,
-    status NVARCHAR(50) NULL,
-    type NVARCHAR(50) NULL,
-    image_urls NVARCHAR(MAX) NULL,
-    video_urls NVARCHAR(MAX) NULL
-);
-
--- Tạo bảng Users
-CREATE TABLE Users (
-    ID INT IDENTITY(1,1) PRIMARY KEY,
-    FirstName NVARCHAR(255) NOT NULL,
-    LastName NVARCHAR(255) NOT NULL,
-    Email NVARCHAR(255) NOT NULL UNIQUE,
-    Phone NVARCHAR(20) NULL UNIQUE,
-    Password NVARCHAR(255) NOT NULL,
-    Newsletter BIT DEFAULT 0,
-    TermsAccepted BIT DEFAULT 0,
-    Role NVARCHAR(50) DEFAULT 'User',
-    Status NVARCHAR(50) DEFAULT 'Active',
-    RegistrationDate DATETIME DEFAULT GETDATE(),
-    AvatarUrl NVARCHAR(255) NULL,
-    author_requested BIT DEFAULT 0
-);
-
--- Tạo bảng settings
-CREATE TABLE settings (
-    setting_key NVARCHAR(255) PRIMARY KEY,
-    value NVARCHAR(MAX) NULL
-);
+git clone https://github.com/nguyenvphihung/Multi-Source-News-Aggregation-System.git
 ```
-- Truy cập trang chủ tại ngay khi chạy chương trình và có thể chuyển sang giao diện phía admin nếu tài khoản đăng nhập là admin,...
-- Chọn danh mục từ thanh bar để xem các bài viết theo từng danh mục.
-- Chọn một bài viết để xem chi tiết.
+
+2. **Tạo môi trường ảo (tuỳ chọn)**:
+```bash
+python -m venv venv
+source venv/bin/activate  # Hoặc venv\Scripts\activate (Windows)
+```
+
+3. **Cài thư viện**:
+```bash
+pip install -r requirements.txt
+```
+
+4. **Cấu hình biến môi trường**:
+- Tạo biến môi trường trực tiếp hoặc tạo file `.env` theo mẫu:
+```bash
+DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
+SECRET_KEY=your_secret_key_here
+DEBUG=True
+```
+
+5. **Chạy server local**:
+```bash
+uvicorn main:app --reload
+```
+
+Truy cập: `http://127.0.0.1:8000`
+
+---
+
+## 🔹 Deploy bằng Docker
+
+### Build Docker Image
+```bash
+docker build -t multi-source-news-aggregator .
+```
+
+### Run Docker Container
+```bash
+docker run -d -p 8000:10000 --env-file .env multi-source-news-aggregator
+```
+
+Truy cập: `http://localhost:8000`
+
+**Ghi chú:** Nếu deploy trên Render.com ➔ không cần `.env`, chỉ cần set Environment Variables trong dashboard.
+
+---
+
+## 🔹 Database
+
+- **Supabase** PostgreSQL Cloud
+- Các bảng chính:
+  - `Articles`
+  - `Users`
+  - `Settings`
+- ORM sử dụng: SQLAlchemy (`app/models.py`)
+
+---
+
+## 🔹 Ghi Chú
+
+- Backend render HTML trực tiếp (không phải SPA).
+- Machine Learning phân loại nội dung: `NaiveBayes-NLP.py`, `text_classifier.pkl`.
+- Quá trình scraping ghi log hoạt động.
+- Có Dockerfile hỗ trợ deploy nhanh chóng.
+
+---
+
+## 🔹 Liên Hệ
+
+Người phát triển: Nguyễn Văn Phi Hùng  
+Email: nguyenvanphihung24
