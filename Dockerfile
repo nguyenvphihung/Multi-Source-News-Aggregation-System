@@ -10,9 +10,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 4. Copy source code và file env
+# 4. Copy source code
 COPY . .
-COPY .env .env
 
 # 5. Expose the port Uvicorn will run on
 EXPOSE 10000

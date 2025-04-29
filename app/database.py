@@ -3,11 +3,20 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException
+import os
+from dotenv import load_dotenv
 
-# Cập nhật URL database với mật khẩu của bạn
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres.wteysnuvgzorqltfeqsg:hungjsgxsw6@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+# Load .env file
+load_dotenv()
 
-# Tạo engine với các tham số phù hợp cho Supabase
+# Lấy DATABASE_URL từ biến môi trường
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Kiểm tra nếu thiếu DATABASE_URL
+if not SQLALCHEMY_DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set.")
+
+# Tạo engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"connect_timeout": 5})
 
 # Tạo session
