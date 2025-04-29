@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-from firebase_admin import auth, credentials, initialize_app
 from functools import wraps
 from fastapi.templating import Jinja2Templates
 import logging
@@ -13,7 +12,7 @@ import os
 import time
 
 router = APIRouter()
-templates = Jinja2Templates(directory="ux/templates/user")
+templates = Jinja2Templates(directory="templates/")
 
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> Optional[User]:
@@ -25,7 +24,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> O
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("FormLogin.html", {"request": request})
+    return templates.TemplateResponse("user/FormLogin.html", {"request": request})
 
 # API trang đăng nhập - cập nhật để kiểm tra mật khẩu đã được mã hóa
 @router.post("/login")
@@ -66,7 +65,7 @@ def logout():
 
 @router.get("/signup", response_class=HTMLResponse)
 async def signup_page(request: Request):
-    return templates.TemplateResponse("FormSignUp.html", {"request": request})
+    return templates.TemplateResponse("user/FormSignUp.html", {"request": request})
 
 # Xử lý đăng ký người dùng - cập nhật để mã hóa password trước khi lưu
 @router.post("/register")
