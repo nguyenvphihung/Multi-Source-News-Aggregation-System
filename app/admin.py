@@ -7,11 +7,11 @@ from app.database import get_db
 from fastapi.templating import Jinja2Templates
 import math
 import logging
-from app.user import get_current_user  # hoặc từ auth nếu định nghĩa ở đó
-from typing import Optional
+from app.user import get_current_user
 
 router = APIRouter()
-templates = Jinja2Templates(directory="ux/templates/admin")
+# Khởi tạo templates với directory="templates/" để có thể dùng đường dẫn template dạng "admin/..."
+templates = Jinja2Templates(directory="templates/")
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -66,7 +66,7 @@ async def admin_home(
     request: Request,
     current_user: User = Depends(require_admin)
 ):
-    return templates.TemplateResponse("baseAdmin.html", {"request": request, "user": current_user})
+    return templates.TemplateResponse("admin/baseAdmin.html", {"request": request, "user": current_user})
 
 
 # 2. Quản lý bài viết (list có filter, phân trang)
@@ -96,7 +96,7 @@ async def manage_articles(
     pagination = Pagination(page, per_page, total_articles)
     categories = [cat[0] for cat in db.query(Article.type).distinct().all()]
     return templates.TemplateResponse(
-        "QLBaiViet.html",
+        "admin/QLBaiViet.html",
         {
             "request": request,
             "articles": articles,
@@ -146,7 +146,7 @@ async def manage_users(
     roles = db.query(User.role).distinct().all()
     roles = [r[0] for r in roles]
     return templates.TemplateResponse(
-        "QLNguoiDung.html", 
+        "admin/QLNguoiDung.html", 
         {
             "request": request,
             "users": users,
@@ -219,6 +219,7 @@ async def clear_author_request(
     db.commit()
     return {"message": "Author request removed"}
 
+
 # Endpoint 9: Lấy danh sách bài viết Pending (dành cho duyệt bài)
 @router.get("/admin/3", response_class=HTMLResponse)
 async def pending_articles(
@@ -226,13 +227,12 @@ async def pending_articles(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin)
 ):
-    # Lấy bài viết có trạng thái "Pending" (theo định nghĩa hệ thống của bạn)
     pending_articles = db.query(Article)\
                          .filter(Article.status == "Pending")\
                          .order_by(Article.date_posted.desc()).all()
     
     return templates.TemplateResponse(
-        "QLDuyetBaiViet.html",
+        "admin/QLDuyetBaiViet.html",
         {
             "request": request,
             "pending_articles": pending_articles,
@@ -279,7 +279,8 @@ async def reject_article(
     db.commit()
     return {"message": "Bài viết đã bị từ chối"}
 
-# 11. Thống kê báo cáo
+
+# Endpoint 11: Thống kê báo cáo
 @router.get("/admin/4", response_class=HTMLResponse)
 async def statistics(
     request: Request,
@@ -311,7 +312,7 @@ async def statistics(
     ]
 
     return templates.TemplateResponse(
-        "QLBaoCaoThongKe.html",
+        "admin/QLBaoCaoThongKe.html",
         {
             "request": request,
             "article_stats": article_stats_json,
@@ -321,7 +322,7 @@ async def statistics(
     )
 
 
-# 12. Trang cài đặt hệ thống (GET và POST)
+# Endpoint 12: Trang cài đặt hệ thống (GET và POST)
 @router.get("/admin/5", response_class=HTMLResponse)
 async def settings_page(
     request: Request,
@@ -333,7 +334,7 @@ async def settings_page(
     for setting in db_settings:
         settings[setting.setting_key] = setting.value
     return templates.TemplateResponse(
-        "QLHeThong.html",
+        "admin/QLHeThong.html",
         {
             "request": request,
             "settings": settings,

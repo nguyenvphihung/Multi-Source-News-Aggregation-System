@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="ux/static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Đăng ký các route cho Admin, User & Auth
 app.include_router(admin_router)

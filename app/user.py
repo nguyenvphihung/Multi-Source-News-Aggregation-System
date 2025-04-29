@@ -11,7 +11,7 @@ from typing import Optional
 from app.schemas import ArticleCreate
 
 router = APIRouter()
-templates = Jinja2Templates(directory="ux/templates/user")
+templates = Jinja2Templates(directory="templates/")
 
 # Lấy danh mục từ bài viết
 def get_base_categories(db: Session):
@@ -91,7 +91,7 @@ async def home(
     base_categories = get_base_categories(db)
     
     return templates.TemplateResponse(
-        "home.html",
+        "user/home.html",
         {
             "request": request,
             "featured_post": featured_post,
@@ -126,7 +126,7 @@ async def get_category(
     )
 
     return templates.TemplateResponse(
-        "category.html",
+        "user/category.html",
         {
             "request": request,
             "category_slug": category,  # Vẫn giữ slug nếu cần
@@ -150,7 +150,7 @@ async def news_detail(
         raise HTTPException(status_code=404, detail="Bài viết không tồn tại hoặc chưa được xuất bản")
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "news_detail.html",
+        "user/news_detail.html",
         {
             "request": request,
             "article": article,
@@ -176,7 +176,7 @@ async def all_posts(
               .all()
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "all_post.html",
+        "user/all_post.html",
         {
             "request": request,
             "all_posts": process_images(posts),
@@ -213,7 +213,7 @@ async def search_post(
                      .all()
         base_categories = get_base_categories(db)
         return templates.TemplateResponse(
-            "search_post.html",
+            "user/search_post.html",
             {
                 "request": request,
                 "query": query,
@@ -236,7 +236,7 @@ async def video_detail(
 ):
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "video_detail.html",
+        "user/video_detail.html",
         {
             "request": request,
             "user": current_user,
@@ -253,7 +253,7 @@ async def author_page(
 ):
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "author_page.html",
+        "user/author_page.html",
         {
             "request": request,
             "user": current_user,
@@ -270,7 +270,7 @@ async def upload_news_page(
 ):
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "upload_news.html",
+        "user/upload_news.html",
         {
             "request": request,
             "user": current_user,
@@ -324,7 +324,7 @@ async def signin_author(
         raise HTTPException(status_code=403, detail="Chỉ người dùng bình thường mới có thể đăng ký tác giả.")
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "signin_author.html",
+        "user/signin_author.html",
         {
             "request": request,
             "user": current_user,
