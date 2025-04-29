@@ -1,6 +1,6 @@
 import logging
 import numpy as np
-import psycopg2      # Đổi từ pyodbc -> psycopg2
+import psycopg2
 from contextlib import contextmanager
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -8,21 +8,26 @@ from dateutil.parser import parse
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import joblib
+import os
+from dotenv import load_dotenv
 
-# Cấu hình logging
+# Load environment variables
+load_dotenv()
+
+# Logging config
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# Cấu hình Chrome options
+# Chrome options config
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--enable-unsafe-swiftshader")  # Thêm dòng này
+chrome_options.add_argument("--enable-unsafe-swiftshader")
 chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-webgl")  # Thêm dòng này
+chrome_options.add_argument("--disable-webgl")
 
 @contextmanager
 def get_webdriver():
@@ -33,16 +38,20 @@ def get_webdriver():
         driver.quit()
 
 def get_db_connection():
-    # Sử dụng psycopg2 để kết nối đến PostgreSQL
-    return psycopg2.connect(
-        dbname="postgres",
-        user="postgres.wteysnuvgzorqltfeqsg",           # Thay bằng user của bạn
-        password="hungjsgxsw6",     # Thay bằng mật khẩu của bạn
-        host="aws-0-ap-southeast-1.pooler.supabase.com",             # Thay bằng host của bạn (ví dụ: aws-0-ap-southeast-1.pooler.supabase.com)
-        port="5432",
-        connect_timeout=5,
-        sslmode="require"
-    )
+    try:
+        conn = psycopg2.connect(
+            dbname=os.getenv("DB_NAME", "postgres"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT", "5432"),
+            connect_timeout=5,
+            sslmode="require"
+        )
+        return conn
+    except Exception as e:
+        logger.error(f"Error connecting to database: {e}", exc_info=True)
+        raise
 
 def load_model_and_features(model_path='text_classifier.pkl', features_path='features.pkl'):
     try:
