@@ -10,6 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import joblib
 import os
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 # Load environment variables
 load_dotenv()
@@ -39,12 +40,21 @@ def get_webdriver():
 
 def get_db_connection():
     try:
+        db_url = os.getenv("DATABASE_URL")
+        if not db_url:
+            raise ValueError("DATABASE_URL environment variable is not set.")
+        parsed_url = urlparse(db_url)
+        dbname = parsed_url.path.lstrip('/')
+        user = parsed_url.username
+        password = parsed_url.password
+        host = parsed_url.hostname
+        port = parsed_url.port or 5432
         conn = psycopg2.connect(
-            dbname=os.getenv("DB_NAME", "postgres"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT", "5432"),
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port,
             connect_timeout=5,
             sslmode="require"
         )

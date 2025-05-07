@@ -77,7 +77,6 @@ async def home(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user)
 ):
-    # Chỉ lấy bài viết published
     featured_post = db.query(Article).filter(Article.status=="published")\
                          .order_by(Article.date_posted.desc()).first()
     if featured_post:
@@ -86,8 +85,6 @@ async def home(
                         .order_by(Article.date_posted.desc()).limit(5).all()
     latest_posts = db.query(Article).filter(Article.status=="published")\
                        .order_by(Article.date_posted.desc()).limit(8).all()
-    videos = db.query(Article).filter(Article.type=="Video", Article.status=="published")\
-                   .limit(5).all()
     base_categories = get_base_categories(db)
     
     return templates.TemplateResponse(
@@ -97,7 +94,6 @@ async def home(
             "featured_post": featured_post,
             "popular_posts": process_images(popular_posts),
             "latest_posts": process_images(latest_posts),
-            "videos": process_images(videos),
             "user": current_user,
             **base_categories,
         }
@@ -111,7 +107,7 @@ async def get_category(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user)
 ):
-    category_posts = db.query(Article).filter(Article.type == category, Article.status == "published").all()
+    category_posts = db.query(Article).filter(Article.type == category, Article.status == "published").order_by(Article.date_posted.desc()).all()
     
     if not category_posts:
         raise HTTPException(status_code=404, detail="Không có bài viết nào trong danh mục này.")
