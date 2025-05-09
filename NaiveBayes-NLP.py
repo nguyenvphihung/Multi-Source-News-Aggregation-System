@@ -10,7 +10,7 @@ import pickle
 
 def fetch_data_from_db():
     conn_str = (
-        "DRIVER={SQL Server};"
+        "DRIVER={ODBC Driver 17 for SQL Server};"
         "SERVER=ADMIN-PC;"
         "DATABASE=dataBao;"
         "Trusted_Connection=yes;"
