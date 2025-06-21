@@ -53,32 +53,32 @@
 
 <!-- Latest Posts Section -->
 <div class="latest-posts mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fw-bold">Bài Viết Mới Nhất</h2>
-        <a href="/all_posts" class="btn view-all-btn">Xem Thêm</a>
-    </div>
-    <div class="row mt-4">
-        {% for post in latest_posts %}
-        {% if post and post.article_id %}
-        <div class="col-md-6 col-lg-3 col-sm-12">
-            <div class="post-card">
-                <!-- Image -->
-                <a href="/news_detail/{{ post.article_id }}">
-                    <img src="{{ post.image_urls }}" alt="{{ post.title }}">
-                </a>
-                <!-- Category -->
-                <div class="category">{{ post.type }}</div>
-                <!-- Title -->
-                <h6>
-                    <a href="/news_detail/{{ post.article_id }}">{{ post.title }}</a>
-                </h6>
-                <!-- Author and Date -->
-                <p>{{ post.author }} | {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-bold">Bài Viết Mới Nhất</h2>
+                <a href="/all_posts" class="btn view-all-btn">Xem Thêm</a>
+           </div>
+            <div class="row mt-4">
+                {% for post in latest_posts %}
+                {% if post and post.article_id %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="post-card">
+                        <!-- Image -->
+                        <a href="/news_detail/{{ post.article_id }}">
+                            <img src="{{ post.image_urls }}" alt="{{ post.title }}">
+                        </a>
+                        <!-- Category -->
+                        <div class="category">{{ post.type }}</div>
+                        <!-- Title -->
+                        <h6>
+                            <a href="/news_detail/{{ post.article_id }}">{{ post.title }}</a>
+                        </h6>
+                        <!-- Author and Date -->
+                        <p>{{ post.author }} | {{ post.date_posted.strftime('%d/%m/%Y') }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
             </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
 </div>
 
 {% endblock %}

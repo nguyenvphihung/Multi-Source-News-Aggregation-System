@@ -249,7 +249,7 @@ async def author_page(
 ):
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "user/author_page.html",
+        "author/Home/index.html",
         {
             "request": request,
             "user": current_user,
@@ -266,7 +266,7 @@ async def upload_news_page(
 ):
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
-        "user/upload_news.html",
+        "author/Upload_Article/index.html",
         {
             "request": request,
             "user": current_user,
