@@ -17,6 +17,281 @@
         <link rel="stylesheet" href="{{ url_for('static', path='/css/login.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', path='/css/signup.css') }}">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <style>
+            /* Demo content */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .main-content {
+                flex: 1;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                color: #333;
+            }
+    
+            /* Footer Styles - Tuổi Trẻ Style */
+            .footer {
+                background: #fff;
+                border-top: 1px solid #e0e0e0;
+                margin-top: auto;
+            }
+    
+            .footer__top {
+                background: #f8f9fa;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 20px 0;
+            }
+    
+            .footer__nav {
+                text-align: center;
+            }
+    
+            .menu-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                gap: 5px;
+            }
+    
+            .menu-nav li {
+                position: relative;
+            }
+    
+            .menu-nav li:not(:last-child)::after {
+                content: '|';
+                color: #ccc;
+                margin: 0 10px;
+                font-size: 12px;
+            }
+    
+            .nav-link {
+                color: #333;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                padding: 5px 0;
+                text-transform: uppercase;
+                transition: color 0.3s ease;
+            }
+    
+            .nav-link:hover {
+                color: #e74c3c;
+                text-decoration: none;
+            }
+    
+            .footer__middle {
+                padding: 40px 0;
+                background: #fff;
+            }
+    
+            .footer__middle-flex {
+                display: grid;
+                grid-template-columns: 200px 1fr 300px;
+                gap: 40px;
+                align-items: start;
+            }
+    
+            .footer__logo .logo {
+                display: block;
+                width: 150px;
+                height: 50px;
+                background: #e74c3c;
+                color: white;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 20px;
+                border-radius: 4px;
+            }
+    
+            .list-social {
+                display: flex;
+                gap: 10px;
+            }
+    
+            .list-social .icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: #f0f0f0;
+                color: #666;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+    
+            .list-social .icon:hover {
+                background: #e74c3c;
+                color: white;
+            }
+    
+            .list-social .icon svg {
+                width: 24px;
+                height: 24px;
+            }
+    
+            .list-social .icon:hover svg path {
+                fill: white;
+            }
+    
+            .list-social .icon:hover svg rect {
+                stroke: white;
+            }
+    
+            .footer__m-content {
+                display: flex;
+                gap: 40px;
+            }
+    
+            .footer__m-content .box {
+                flex: 1;
+            }
+    
+            .footer__m-content .text {
+                color: #666;
+                font-size: 13px;
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+    
+            .footer__m-content .list {
+                margin-top: 15px;
+            }
+    
+            .footer__m-content .list a {
+                color: #666;
+                text-decoration: none;
+                font-size: 13px;
+                margin-right: 5px;
+                transition: color 0.3s ease;
+            }
+    
+            .footer__m-content .list a:hover {
+                color: #e74c3c;
+            }
+    
+            .footer__m-right {
+                background: #f8f9fa;
+                padding: 25px;
+                border-radius: 8px;
+                border: 1px solid #e0e0e0;
+            }
+    
+            .footer__m-right .title {
+                font-weight: 600;
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+    
+            .footer__m-right .note {
+                color: #666;
+                font-size: 13px;
+                margin-bottom: 20px;
+                line-height: 1.5;
+            }
+    
+            .footer__m-right .submit {
+                display: inline-block;
+                background: #e74c3c;
+                color: white;
+                padding: 12px 25px;
+                text-decoration: none;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 500;
+                transition: background 0.3s ease;
+            }
+    
+            .footer__m-right .submit:hover {
+                background: #c0392b;
+                color: white;
+                text-decoration: none;
+            }
+    
+            .footer__coppy {
+                background: #f8f9fa;
+                border-top: 1px solid #e0e0e0;
+                padding: 20px 0;
+            }
+    
+            .footer__coppy .text {
+                color: #666;
+                font-size: 12px;
+                text-align: center;
+                margin: 0;
+                line-height: 1.5;
+            }
+    
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .footer__middle-flex {
+                    grid-template-columns: 1fr;
+                    gap: 30px;
+                }
+                
+                .footer__m-content {
+                    flex-direction: column;
+                    gap: 20px;
+                }
+            }
+    
+            @media (max-width: 768px) {
+                .menu-nav {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .menu-nav li:not(:last-child)::after {
+                    display: none;
+                }
+                
+                .footer__middle {
+                    padding: 30px 0;
+                }
+                
+                .footer__logo {
+                    text-align: center;
+                }
+                
+                .list-social {
+                    justify-content: center;
+                }
+            }
+    
+            @media (max-width: 480px) {
+                .nav-link {
+                    font-size: 12px;
+                }
+                
+                .footer__m-right {
+                    padding: 20px;
+                }
+                
+                .footer__coppy .text {
+                    font-size: 11px;
+                    padding: 0 15px;
+                }
+            }
+        </style>
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <!-- Thanh Trên -->
@@ -96,56 +371,121 @@
             {% endblock %}
         </main>
         <!-- Chân Trang -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="/static/logo.png" alt="Logo" height="30" class="logo mb-4">
-                        <p class="text-muted">
-                            Là nơi thu thập, tổng hợp các tin tức xác thực và mới nhất hiện nay.
-                            Liên hệ và tham gia cộng đồng của chúng tôi để không bỏ lỡ bất kỳ bài viết nào.
-                        </p>
-                    </div>
-                    <div class="col-md-3">
-                        <h5>Danh Mục</h5>
-                        <ul>
-                            {% for cat in footer_categories %}
+        
+
+        <div class="footer">
+            <div class="footer__top">
+                <div class="container">
+                    <div class="footer__nav">
+                        <ul class="menu-nav">
                             <li>
-                                <a href="/category/{{ cat.slug }}">{{ cat.name }}</a>
+                                <a href="/home" title="Trang chủ" class="nav-link">Trang chủ</a>
+                            </li>
+                            <!-- Sử dụng biến navbar_categories từ file gốc -->
+                            {% for cat in navbar_categories %}
+                            <li>
+                                <a href="/category/{{ cat.slug }}" title="{{ cat.name }}" class="nav-link">{{ cat.name }}</a>
                             </li>
                             {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <h5>Công Ty</h5>
-                        <ul>
-                            <li><a href="/about">Về Chúng Tôi</a></li>
-                            <li><a href="/career">Tuyển Dụng</a></li>
-                            <li><a href="/privacy-policy">Chính Sách Bảo Mật</a></li>
-                            <li><a href="/terms">Điều Khoản Dịch Vụ</a></li>
-                            <li><a href="/contact">Liên Hệ</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <h5>Mạng Xã Hội</h5>
-                        <ul>
-                            <li><a href="#">Youtube</a></li>
-                            <li><a href="#">Instagram</a></li>
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
+                            <li>
+                                <a href="/video" title="Video" class="nav-link">Video</a>
+                            </li>
+                            <li>
+                                <a href="/about" title="Giới thiệu" class="nav-link">Giới thiệu</a>
+                            </li>
+                            <li>
+                                <a href="/contact" title="Liên hệ" class="nav-link">Liên hệ</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
-                <div class="divider">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p class="mb-0">Bản quyền NhomNCKH</p>
-                        <div class="language-selector">
-                            <span>VI</span>
+            </div>
+    
+            <div class="footer__middle">
+                <div class="container">
+                    <div class="footer__middle-flex">
+                        <div class="footer__logo">
+                           
+                            <div class="list-social">
+                                <a href="https://www.youtube.com/channel/your-channel" title="Quan tâm trên Youtube" target="_blank" rel="nofollow" class="icon">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0.5" y="1.16699" width="23" height="23" rx="11.5" stroke="#666666"></rect>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75984 16.9011C6.52448 16.8314 6.30973 16.7076 6.13372 16.5399C5.9577 16.3722 5.82559 16.1657 5.74851 15.9377C5.3081 14.7594 5.1776 9.83915 6.02581 8.86784C6.30811 8.55186 6.70668 8.35732 7.13501 8.32645C9.41049 8.0876 16.4408 8.11945 17.2483 8.40606C17.4754 8.47799 17.6828 8.59915 17.8552 8.76047C18.0275 8.92178 18.1602 9.11908 18.2433 9.33757C18.7245 10.5557 18.7408 14.9823 18.178 16.1527C18.0287 16.4573 17.7788 16.7041 17.4685 16.8533C16.6203 17.2673 7.88534 17.2594 6.75984 16.9011ZM10.3729 14.5922L14.4508 12.5222L10.3729 10.4363V14.5922Z" fill="#666666"></path>
+                                    </svg>
+                                </a>
+                                
+                                <a href="https://www.facebook.com/your-page" title="Quan tâm trên Facebook" target="_blank" rel="nofollow" class="icon">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0.5" y="1.16699" width="23" height="23" rx="11.5" stroke="#666666"></rect>
+                                        <path d="M12.9966 12.8847H15.2299L15.5805 10.6021H12.9961V9.35462C12.9961 8.40641 13.3041 7.56559 14.1857 7.56559H15.6023V5.57366C15.3534 5.53985 14.827 5.46582 13.8323 5.46582C11.7553 5.46582 10.5375 6.5694 10.5375 9.08364V10.6021H8.40234V12.8847H10.5375V19.1584C10.9604 19.2224 11.3887 19.2658 11.8284 19.2658C12.2258 19.2658 12.6137 19.2293 12.9966 19.1772V12.8847Z" fill="#666666"></path>
+                                    </svg>
+                                </a>
+    
+                                <a href="https://twitter.com/your-account" title="Quan tâm trên Twitter" target="_blank" rel="nofollow" class="icon">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+    
+                                <a href="https://instagram.com/your-account" title="Quan tâm trên Instagram" target="_blank" rel="nofollow" class="icon">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+    
+                        <div class="footer__m-content">
+                            <div class="box">
+                                <p class="text">
+                                    Tổng biên tập: Nguyễn Văn A
+                                </p>
+                                <p class="text">
+                                    Giấy phép hoạt động báo điện tử tiếng Việt, tiếng Anh Số 123/GP-BTTTT, cấp ngày 01-01-2025.
+                                </p>
+                                <div class="list no-border">
+                                    <a href="/about" title="Thông tin tòa soạn">Thông tin tòa soạn - </a>
+                                    <a href="#" title="Công ty" rel="nofollow" target="_blank">Nhóm NCKH</a>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <p class="text">
+                                    Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
+                                </p>
+                                <p class="text">
+                                    Hotline: 0900.123.456 - Email: contact@newshub.vn
+                                </p>
+                                <p class="text">
+                                    Phòng Quảng Cáo: 028.12345678
+                                </p>
+                                <div class="list">
+                                    <a rel="nofollow" target="_blank" href="/advertising" title="Liên hệ Quảng cáo">Liên hệ Quảng cáo</a>
+                                    <a href="/privacy-policy" rel="nofollow" title="Điều khoản bảo mật">Điều khoản bảo mật</a>
+                                    <a href="/contact" rel="nofollow" title="Liên hệ góp ý">Liên hệ góp ý</a>
+                                    <a href="/rss" title="RSS">RSS</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="footer__m-right">
+                            <p class="title">Đăng ký email - Mở cổng thông tin</p>
+                            <p class="note">
+                                Luôn cập nhật tin tức, sự kiện mới nhất
+                            </p>
+                            <div class="form-note">
+                                <a href="/newsletter" rel="nofollow" title="đăng ký email" class="submit">Đăng ký tại đây</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
+    
+            <div class="footer__coppy">
+                <div class="container">
+                    <div class="footer__coppy-flex">
+                        <p class="text">
+                            © Copyright 2025 NewsHub, All rights reserved ® NewsHub giữ bản quyền nội dung trên website này
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Import JavaScript -->

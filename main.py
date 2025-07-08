@@ -4,7 +4,9 @@ from app.admin import router as admin_router  # Import module admin
 from app.user import router as user_router  # Import module user
 from app.auth import router as auth_router  # Import module auth
 import logging
+import mimetypes
 
+mimetypes.add_type("image/png", ".png")
 logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()

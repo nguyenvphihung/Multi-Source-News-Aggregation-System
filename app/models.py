@@ -40,3 +40,18 @@ class Settings(Base):
     
     setting_key = Column(String(255), primary_key=True)
     value = Column(String)
+
+
+# Thêm vào cuối file models.py
+class Comment(Base):
+    __tablename__ = "comments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    article_id = Column(String(20), nullable=False)
+    user_id = Column(Integer, nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    parent_id = Column(Integer, nullable=True)  # Cho phép phản hồi lồng nhau
+    likes = Column(Integer, default=0)
+    status = Column(String(20), default="active")  # active, deleted, hidden

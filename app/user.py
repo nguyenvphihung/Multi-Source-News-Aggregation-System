@@ -327,3 +327,154 @@ async def signin_author(
             **base_categories,
         }
     )
+
+# Thêm import
+from app.models import Comment
+from fastapi import Form, Cookie
+from typing import Optional
+
+# Thêm các API endpoints cho bình luận
+@router.post("/api/comments")
+async def create_comment(request: Request, article_id: str = Form(...), content: str = Form(...), 
+                        notify_replies: bool = Form(False), db: Session = Depends(get_db),
+                        user_email: Optional[str] = Cookie(None)):
+    # Kiểm tra người dùng đã đăng nhập chưa
+    if not user_email:
+        return {"success": False, "message": "Bạn cần đăng nhập để bình luận"}
+    
+    # Lấy thông tin người dùng
+    user = db.query(User).filter(User.email == user_email).first()
+    if not user:
+        return {"success": False, "message": "Người dùng không tồn tại"}
+    
+    # Kiểm tra bài viết tồn tại
+    article = db.query(Article).filter(Article.article_id == article_id).first()
+    if not article:
+        return {"success": False, "message": "Bài viết không tồn tại"}
+    
+    # Tạo bình luận mới
+    new_comment = Comment(
+        article_id=article_id,
+        user_id=user.id,
+        content=content
+    )
+    db.add(new_comment)
+    
+    # Cập nhật số lượng bình luận trong bài viết
+    article.comments_count = db.query(Comment).filter(Comment.article_id == article_id).count() + 1
+    
+    db.commit()
+    return {"success": True, "comment_id": new_comment.id}
+
+@router.post("/api/comments/reply")
+async def reply_comment(request: Request, article_id: str = Form(...), parent_id: int = Form(...), 
+                       content: str = Form(...), db: Session = Depends(get_db),
+                       user_email: Optional[str] = Cookie(None)):
+    # Kiểm tra người dùng đã đăng nhập chưa
+    if not user_email:
+        return {"success": False, "message": "Bạn cần đăng nhập để bình luận"}
+    
+    # Lấy thông tin người dùng
+    user = db.query(User).filter(User.email == user_email).first()
+    if not user:
+        return {"success": False, "message": "Người dùng không tồn tại"}
+    
+    # Kiểm tra bình luận gốc tồn tại
+    parent_comment = db.query(Comment).filter(Comment.id == parent_id).first()
+    if not parent_comment:
+        return {"success": False, "message": "Bình luận gốc không tồn tại"}
+    
+    # Tạo phản hồi mới
+    new_reply = Comment(
+        article_id=article_id,
+        user_id=user.id,
+        content=content,
+        parent_id=parent_id
+    )
+    db.add(new_reply)
+    
+    # Cập nhật số lượng bình luận trong bài viết
+    article = db.query(Article).filter(Article.article_id == article_id).first()
+    if article:
+        article.comments_count = db.query(Comment).filter(Comment.article_id == article_id).count() + 1
+    
+    db.commit()
+    return {"success": True, "comment_id": new_reply.id}
+
+@router.post("/api/comments/{comment_id}/like")
+async def like_comment(request: Request, comment_id: int, db: Session = Depends(get_db),
+                      user_email: Optional[str] = Cookie(None)):
+    # Kiểm tra người dùng đã đăng nhập chưa
+    if not user_email:
+        return {"success": False, "message": "Bạn cần đăng nhập để thích bình luận"}
+    
+    # Lấy thông tin bình luận
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+    if not comment:
+        return {"success": False, "message": "Bình luận không tồn tại"}
+    
+    # Tăng số lượt thích
+    comment.likes += 1
+    db.commit()
+    
+    return {"success": True, "likes": comment.likes}
+
+# Cập nhật route hiển thị chi tiết bài viết
+@router.get("/news/{article_id}", response_class=HTMLResponse)
+async def read_article(request: Request, article_id: str, comment_page: int = Query(1, ge=1), db: Session = Depends(get_db)):
+    article = db.query(Article).filter(Article.article_id == article_id).first()
+    
+    # Lấy danh sách bình luận với phân trang
+    comments_per_page = 10
+    comments_query = db.query(Comment).filter(
+        Comment.article_id == article_id,
+        Comment.parent_id == None,  # Chỉ lấy bình luận gốc, không lấy phản hồi
+        Comment.status == "active"
+    ).order_by(Comment.created_at.desc())
+    
+    total_comments = comments_query.count()
+    total_pages = math.ceil(total_comments / comments_per_page)
+    
+    comments = comments_query.offset((comment_page - 1) * comments_per_page).limit(comments_per_page).all()
+    
+    # Lấy thông tin người dùng và phản hồi cho mỗi bình luận
+    result_comments = []
+    for comment in comments:
+        user = db.query(User).filter(User.id == comment.user_id).first()
+        
+        # Lấy các phản hồi cho bình luận này
+        replies_query = db.query(Comment).filter(
+            Comment.parent_id == comment.id,
+            Comment.status == "active"
+        ).order_by(Comment.created_at.asc())
+        
+        replies = []
+        for reply in replies_query.all():
+            reply_user = db.query(User).filter(User.id == reply.user_id).first()
+            replies.append({
+                "id": reply.id,
+                "content": reply.content,
+                "user_name": f"{reply_user.first_name} {reply_user.last_name}" if reply_user else "Người dùng",
+                "user_avatar": reply_user.avatar_url if reply_user else None,
+                "created_at": reply.created_at,
+                "likes": reply.likes
+            })
+        
+        result_comments.append({
+            "id": comment.id,
+            "content": comment.content,
+            "user_name": f"{user.first_name} {user.last_name}" if user else "Người dùng",
+            "user_avatar": user.avatar_url if user else None,
+            "created_at": comment.created_at,
+            "likes": comment.likes,
+            "replies": replies
+        })
+    
+    return templates.TemplateResponse("user/news_detail.html", {
+        "request": request,
+        "article": article,
+        "comments": result_comments,
+        "current_page": comment_page,
+        "total_pages": total_pages,
+        **get_base_categories(db)
+    })

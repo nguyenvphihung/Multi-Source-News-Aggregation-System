@@ -36,9 +36,336 @@
     <div class="article-content">
         <strong>{{ article.description }}</strong>  <!-- Tô đậm -->
         {{ article.content|safe }}
-    </div>    
+    </div>
+    
+    <!-- Comment Section -->
+    <div class="row ms-5 mt-5">
+        <h3 class="mb-4">Bình luận ({{ article.comments_count|default(0) }})</h3>
+        
+        <!-- Comment Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form id="commentForm" method="post" action="/api/comments">
+                    <input type="hidden" name="article_id" value="{{ article.article_id }}">
+                    <div class="mb-3 position-relative">
+                        <textarea class="form-control" name="content" id="commentTextarea" rows="3" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <div class="position-absolute bottom-0 end-0 p-2 d-flex gap-2">
+                            <button type="button" class="btn btn-sm text-muted border-0 emoji-picker-btn" title="Thêm biểu tượng cảm xúc">
+                                <i class="far fa-smile"></i>
+                            </button>
+                            <div class="emoji-picker" style="display: none;">
+                                <div class="emoji-card">
+                                    <div class="emoji-grid">
+                                        <span class="emoji" data-emoji="🙂">🙂</span>
+                                        <span class="emoji" data-emoji="😁">😁</span>
+                                        <span class="emoji" data-emoji="😂">😂</span>
+                                        <span class="emoji" data-emoji="🤣">🤣</span>
+                                        <span class="emoji" data-emoji="😐">😐</span>
+                                        <span class="emoji" data-emoji="😊">😊</span>
+                                        
+                                        <span class="emoji" data-emoji="😋">😋</span>
+                                        <span class="emoji" data-emoji="😣">😣</span>
+                                        <span class="emoji" data-emoji="😉">😉</span>
+                                        <span class="emoji" data-emoji="😍">😍</span>
+                                        <span class="emoji" data-emoji="😃">😃</span>
+                                        <span class="emoji" data-emoji="😎">😎</span>
+                                        
+                                        <span class="emoji" data-emoji="😡">😡</span>
+                                        <span class="emoji" data-emoji="😒">😒</span>
+                                        <span class="emoji" data-emoji="😈">😈</span>
+                                        <span class="emoji" data-emoji="🙄">🙄</span>
+                                        <span class="emoji" data-emoji="😌">😌</span>
+                                        <span class="emoji" data-emoji="😏">😏</span>
+                                        
+                                        <span class="emoji" data-emoji="😄">😄</span>
+                                        <span class="emoji" data-emoji="😇">😇</span>
+                                        <span class="emoji" data-emoji="😆">😆</span>
+                                        <span class="emoji" data-emoji="🙁">🙁</span>
+                                        <span class="emoji" data-emoji="😑">😑</span>
+                                        <span class="emoji" data-emoji="😕">😕</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notifyReplies" name="notify_replies">
+                            <label class="form-check-label" for="notifyReplies">
+                                <i class="fas fa-bell me-1 text-muted"></i> Thông báo khi có phản hồi
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-1"></i> Gửi bình luận
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Comments List -->
+        <div class="comments-list">
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="comment-item card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex mb-2">
+                            <div class="comment-avatar me-3">
+                                {% if comment.user_avatar %}
+                                <img src="{{ comment.user_avatar }}" alt="{{ comment.user_name }}" class="rounded-circle" width="40" height="40">
+                                {% else %}
+                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    {{ comment.user_name[:1].upper() }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="comment-info">
+                                <h5 class="mb-0">{{ comment.user_name }}</h5>
+                                <small class="text-muted">{{ comment.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                            </div>
+                        </div>
+                        <p class="comment-content">{{ comment.content }}</p>
+                        <div class="comment-actions d-flex gap-3">
+                            <button class="btn btn-sm btn-link p-0 reply-btn" data-comment-id="{{ comment.id }}">Phản hồi</button>
+                            <button class="btn btn-sm btn-link p-0 like-btn" data-comment-id="{{ comment.id }}">
+                                <i class="fas fa-thumbs-up me-1"></i> {{ comment.likes|default(0) }}
+                            </button>
+                        </div>
+                        
+                        <!-- Reply Form (hidden by default) -->
+                        <div class="reply-form mt-3" id="replyForm-{{ comment.id }}" style="display: none;">
+                            <form method="post" action="/api/comments/reply">
+                                <input type="hidden" name="article_id" value="{{ article.article_id }}">
+                                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                <div class="mb-2 position-relative">
+                                    <textarea class="form-control reply-textarea" name="content" rows="2" placeholder="Viết phản hồi của bạn..." required></textarea>
+                                    <div class="position-absolute bottom-0 end-0 p-2 d-flex gap-2">
+                                        <button type="button" class="btn btn-sm text-muted border-0 emoji-picker-btn" title="Thêm biểu tượng cảm xúc">
+                                            <i class="far fa-smile"></i>
+                                        </button>
+                                        <div class="emoji-picker" style="display: none;">
+                                            <div class="emoji-card">
+                                                <div class="emoji-grid">
+                                                    <span class="emoji" data-emoji="🙂">🙂</span>
+                                                    <span class="emoji" data-emoji="😁">😁</span>
+                                                    <span class="emoji" data-emoji="😂">😂</span>
+                                                    <span class="emoji" data-emoji="🤣">🤣</span>
+                                                    <span class="emoji" data-emoji="😐">😐</span>
+                                                    <span class="emoji" data-emoji="😊">😊</span>
+                                                    
+                                                    <span class="emoji" data-emoji="😋">😋</span>
+                                                    <span class="emoji" data-emoji="😣">😣</span>
+                                                    <span class="emoji" data-emoji="😉">😉</span>
+                                                    <span class="emoji" data-emoji="😍">😍</span>
+                                                    <span class="emoji" data-emoji="😃">😃</span>
+                                                    <span class="emoji" data-emoji="😎">😎</span>
+                                                    
+                                                    <span class="emoji" data-emoji="😡">😡</span>
+                                                    <span class="emoji" data-emoji="😒">😒</span>
+                                                    <span class="emoji" data-emoji="😈">😈</span>
+                                                    <span class="emoji" data-emoji="🙄">🙄</span>
+                                                    <span class="emoji" data-emoji="😌">😌</span>
+                                                    <span class="emoji" data-emoji="😏">😏</span>
+                                                    
+                                                    <span class="emoji" data-emoji="😄">😄</span>
+                                                    <span class="emoji" data-emoji="😇">😇</span>
+                                                    <span class="emoji" data-emoji="😆">😆</span>
+                                                    <span class="emoji" data-emoji="🙁">🙁</span>
+                                                    <span class="emoji" data-emoji="😑">😑</span>
+                                                    <span class="emoji" data-emoji="😕">😕</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-paper-plane me-1"></i> Gửi phản hồi
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Replies -->
+                        {% if comment.replies %}
+                        <div class="replies-list mt-3 ms-4">
+                            {% for reply in comment.replies %}
+                            <div class="reply-item mb-3">
+                                <div class="d-flex mb-2">
+                                    <div class="reply-avatar me-2">
+                                        {% if reply.user_avatar %}
+                                        <img src="{{ reply.user_avatar }}" alt="{{ reply.user_name }}" class="rounded-circle" width="30" height="30">
+                                        {% else %}
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
+                                            {{ reply.user_name[:1].upper() }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="reply-info">
+                                        <h6 class="mb-0">{{ reply.user_name }}</h6>
+                                        <small class="text-muted">{{ reply.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                        <p class="reply-content mb-1">{{ reply.content }}</p>
+                                        <button class="btn btn-sm btn-link p-0 like-btn" data-comment-id="{{ reply.id }}">
+                                            <i class="fas fa-thumbs-up me-1"></i> {{ reply.likes|default(0) }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- Pagination -->
+                {% if total_pages > 1 %}
+                <nav aria-label="Comment pagination">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {{ 'disabled' if current_page == 1 else '' }}">
+                            <a class="page-link" href="?comment_page={{ current_page - 1 }}" tabindex="-1" {{ 'aria-disabled="true"' if current_page == 1 else '' }}>Trước</a>
+                        </li>
+                        {% for page in range(1, total_pages + 1) %}
+                        <li class="page-item {{ 'active' if page == current_page else '' }}">
+                            <a class="page-link" href="?comment_page={{ page }}">{{ page }}</a>
+                        </li>
+                        {% endfor %}
+                        <li class="page-item {{ 'disabled' if current_page == total_pages else '' }}">
+                            <a class="page-link" href="?comment_page={{ current_page + 1 }}">Tiếp</a>
+                        </li>
+                    </ul>
+                </nav>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-light text-center">
+                    <p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
     {% else %}
     <p class="text-danger">Bài viết không tồn tại hoặc đã bị xóa.</p>
     {% endif %}
 </div>
+
+<!-- JavaScript cho phần bình luận -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý hiển thị form phản hồi
+        const replyButtons = document.querySelectorAll('.reply-btn');
+        replyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-comment-id');
+                const replyForm = document.getElementById(`replyForm-${commentId}`);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+        
+        // Xử lý nút thích
+        const likeButtons = document.querySelectorAll('.like-btn');
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-comment-id');
+                // Gửi yêu cầu AJAX để tăng số lượt thích
+                fetch(`/api/comments/${commentId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Cập nhật số lượt thích trên giao diện
+                        const likeCount = this.querySelector('i').nextSibling;
+                        likeCount.textContent = ` ${data.likes}`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+        
+        // Xử lý gửi bình luận
+        const commentForm = document.getElementById('commentForm');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                fetch('/api/comments', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Làm mới trang để hiển thị bình luận mới
+                        window.location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra khi gửi bình luận. Vui lòng thử lại.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi gửi bình luận. Vui lòng thử lại.');
+                });
+            });
+        }
+        
+        // Xử lý emoji picker
+        const emojiPickerBtns = document.querySelectorAll('.emoji-picker-btn');
+        
+        // Đóng tất cả emoji picker khi click ra ngoài
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.emoji-picker-btn') && !e.target.closest('.emoji-picker')) {
+                document.querySelectorAll('.emoji-picker').forEach(picker => {
+                    picker.style.display = 'none';
+                });
+            }
+        });
+        
+        // Hiển thị/ẩn emoji picker khi click vào nút
+        emojiPickerBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Đóng tất cả emoji picker khác
+                document.querySelectorAll('.emoji-picker').forEach(picker => {
+                    if (picker !== this.nextElementSibling) {
+                        picker.style.display = 'none';
+                    }
+                });
+                
+                // Hiển thị/ẩn emoji picker hiện tại
+                const emojiPicker = this.nextElementSibling;
+                emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+        
+        // Xử lý khi chọn emoji
+        document.querySelectorAll('.emoji').forEach(emoji => {
+            emoji.addEventListener('click', function() {
+                // Tìm textarea gần nhất
+                const emojiPicker = this.closest('.emoji-picker');
+                const emojiBtn = emojiPicker.previousElementSibling;
+                const textareaContainer = emojiBtn.closest('.position-relative');
+                const textarea = textareaContainer.querySelector('textarea');
+                
+                // Chèn emoji vào vị trí con trỏ
+                const emojiChar = this.getAttribute('data-emoji');
+                const startPos = textarea.selectionStart;
+                const endPos = textarea.selectionEnd;
+                const text = textarea.value;
+                
+                textarea.value = text.substring(0, startPos) + emojiChar + text.substring(endPos);
+                
+                // Đặt vị trí con trỏ sau emoji
+                textarea.selectionStart = textarea.selectionEnd = startPos + emojiChar.length;
+                
+                // Focus vào textarea
+                textarea.focus();
+                
+                // Đóng emoji picker
+                emojiPicker.style.display = 'none';
+            });
+        });
+    });
+</script>
 {% endblock %}
