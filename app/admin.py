@@ -288,31 +288,39 @@ async def statistics(
     current_user: User = Depends(require_admin)
 ):
     article_stats = db.query(
-        func.year(Article.date_posted).label('year'),
-        func.month(Article.date_posted).label('month'),
+        extract('year', Article.date_posted).label('year'),
+        extract('month', Article.date_posted).label('month'),
         func.count(Article.article_id).label('count')
-    ).group_by(func.year(Article.date_posted), func.month(Article.date_posted)) \
-     .order_by(func.year(Article.date_posted), func.month(Article.date_posted)) \
-     .all()
+    ).group_by(
+        extract('year', Article.date_posted),
+        extract('month', Article.date_posted)
+    ).order_by(
+        extract('year', Article.date_posted),
+        extract('month', Article.date_posted)
+    ).all()
 
     article_stats_json = [
-        {"month": f"{row.year}-{row.month:02d}", "count": row.count} for row in article_stats
+        {"month": f"{int(row.year)}-{int(row.month):02d}", "count": row.count} for row in article_stats
     ]
 
     user_stats = db.query(
-        func.year(User.registration_date).label('year'),
-        func.month(User.registration_date).label('month'),
+        extract('year', User.registration_date).label('year'),
+        extract('month', User.registration_date).label('month'),
         func.count(User.id).label('count')
-    ).group_by(func.year(User.registration_date), func.month(User.registration_date)) \
-     .order_by(func.year(User.registration_date), func.month(User.registration_date)) \
-     .all()
+    ).group_by(
+        extract('year', User.registration_date),
+        extract('month', User.registration_date)
+    ).order_by(
+        extract('year', User.registration_date),
+        extract('month', User.registration_date)
+    ).all()
 
     user_stats_json = [
-        {"month": f"{row.year}-{row.month:02d}", "count": row.count} for row in user_stats
+        {"month": f"{int(row.year)}-{int(row.month):02d}", "count": row.count} for row in user_stats
     ]
 
     return templates.TemplateResponse(
-        "admin/QLBaoCaoThongKe/index.html",
+        "admin/QLBaoCaoThongKe.html",
         {
             "request": request,
             "article_stats": article_stats_json,
