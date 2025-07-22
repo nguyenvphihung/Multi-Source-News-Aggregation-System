@@ -388,7 +388,7 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
                 new_comment = Comment(
                     article_id=article_id,
                     user_id=user_id,
-                    content=content,
+        content=content,
                     likes=0,
                     status="active",
                     sentiment="positive" if label == 0 else "negative",
@@ -431,8 +431,8 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
         print("⚠️ PhoBERT không available, lưu trực tiếp vào database")
         
         new_comment = Comment(
-            article_id=article_id,
-            user_id=user_id,
+        article_id=article_id,
+        user_id=user_id,
             content=content,
             likes=0,
             status="active",
@@ -444,9 +444,9 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
         article.comments_count = db.query(Comment).filter(Comment.article_id == article_id).count() + 1
         db.commit()
         db.refresh(new_comment)
-        
-        return {
-            "success": True,
+    
+    return {
+        "success": True, 
             "comment_id": new_comment.id,
             "message": "Bình luận đã được đăng (PhoBERT không khả dụng)",
             "status": "approved",
@@ -459,7 +459,7 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
             "success": False,
             "message": f"Có lỗi xảy ra: {str(e)}",
             "status": "error"
-        }
+    }
 
 @router.post("/api/comments/reply")
 async def reply_comment(request: Request, article_id: str = Form(...), parent_id: int = Form(...), 
@@ -515,7 +515,7 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
                 new_reply = Comment(
                     article_id=article_id,
                     user_id=user_id,
-                    content=content,
+        content=content,
                     parent_id=parent_id,
                     likes=0,
                     status="active",
@@ -555,8 +555,8 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
         print("⚠️ PhoBERT không available, lưu reply trực tiếp vào database")
         
         new_reply = Comment(
-            article_id=article_id,
-            user_id=user_id,
+        article_id=article_id,
+        user_id=user_id,
             content=content,
             parent_id=parent_id,
             likes=0,
@@ -567,9 +567,9 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
         db.add(new_reply)
         db.commit()
         db.refresh(new_reply)
-        
-        return {
-            "success": True,
+    
+    return {
+        "success": True, 
             "comment_id": new_reply.id,
             "message": "Phản hồi đã được đăng (PhoBERT không khả dụng)",
             "status": "approved",
@@ -582,7 +582,7 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
             "success": False,
             "message": f"Có lỗi xảy ra: {str(e)}",
             "status": "error"
-        }
+    }
 
 @router.post("/api/comments/{comment_id}/like")
 async def like_comment(request: Request, comment_id: int, db: Session = Depends(get_db),
