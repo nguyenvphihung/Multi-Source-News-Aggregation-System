@@ -3,6 +3,119 @@
 {% block title %}{{ article.title if article else "Bài viết không tồn tại" }}{% endblock %}
 
 {% block content %}
+<style>
+/* PhoBERT Notification Styles */
+.phobert-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 400px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-left: 4px solid;
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.phobert-notification.show {
+    transform: translateX(0);
+}
+
+.notification-success { border-left-color: #28a745; }
+.notification-error { border-left-color: #dc3545; }
+.notification-info { border-left-color: #17a2b8; }
+
+.notification-content {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 12px;
+}
+
+.notification-icon {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.notification-success .notification-icon { color: #28a745; }
+.notification-error .notification-icon { color: #dc3545; }
+.notification-info .notification-icon { color: #17a2b8; }
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+    white-space: pre-line;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-close:hover {
+    color: #666;
+}
+
+/* Status Indicator */
+.moderation-status {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+/* Loading Button Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Comment Warning */
+.comment-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment-warning i {
+    color: #f39c12;
+}
+</style>
 <!-- Article Header -->
 <div class="container">
     {% if article %}
@@ -40,7 +153,12 @@
     
     <!-- Comment Section -->
     <div class="row ms-5 mt-5">
-        <h3 class="mb-4">Bình luận ({{ article.comments_count|default(0) }})</h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">Bình luận ({{ article.comments_count|default(0) }})</h3>
+            <div id="moderation-status" class="moderation-status">
+                <i class="fas fa-circle-notch fa-spin"></i> Đang kiểm tra hệ thống...
+            </div>
+        </div>
         
         <!-- Comment Form -->
         <div class="card mb-4">
@@ -49,6 +167,11 @@
                     <input type="hidden" name="article_id" value="{{ article.article_id }}">
                     <div class="mb-3 position-relative">
                         <textarea class="form-control" name="content" id="commentTextarea" rows="3" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <!-- TEMPORARY: Hidden warning for PhoBERT testing -->
+                        <div id="comment-preview-warning" class="comment-warning" style="display: none !important;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Nội dung này có thể bị từ chối. Vui lòng kiểm tra lại!</span>
+                        </div>
                         <div class="position-absolute bottom-0 end-0 p-2 d-flex gap-2">
                             <button type="button" class="btn btn-sm text-muted border-0 emoji-picker-btn" title="Thêm biểu tượng cảm xúc">
                                 <i class="far fa-smile"></i>
@@ -94,6 +217,9 @@
                             <label class="form-check-label" for="notifyReplies">
                                 <i class="fas fa-bell me-1 text-muted"></i> Thông báo khi có phản hồi
                             </label>
+                        </div>
+                        <div id="phobert-stats" class="small text-muted" style="display: none;">
+                            <i class="fas fa-chart-line"></i> <span id="stats-content"></span>
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-paper-plane me-1"></i> Gửi bình luận
@@ -283,12 +409,18 @@
             });
         });
         
-        // Xử lý gửi bình luận
+        // Xử lý gửi bình luận với PhoBERT integration
         const commentForm = document.getElementById('commentForm');
         if (commentForm) {
             commentForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const commentTextarea = document.getElementById('commentTextarea');
+                
+                // Hiển thị loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Đang xử lý...';
                 
                 fetch('/api/comments', {
                     method: 'POST',
@@ -296,19 +428,305 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi bình luận';
+                    
+                    console.log('🔄 PhoBERT Response:', data);
+                    
                     if (data.success) {
-                        // Làm mới trang để hiển thị bình luận mới
-                        window.location.reload();
+                        if (data.status === 'approved') {
+                            // Label 0/1 → PhoBERT APPROVED → Lưu DB + Hiển thị ngay
+                            showSuccessMessage(data.message || '🎉 Bình luận đã được phê duyệt!');
+                            commentTextarea.value = '';
+                            
+                            // Log PhoBERT info
+                            if (data.phobert_info) {
+                                console.log('🤖 PhoBERT Approved:', data.phobert_info);
+                            }
+                            
+                            // Reload để hiển thị comment mới
+                            setTimeout(() => window.location.reload(), 1500);
+                            
+                        } else if (data.status === 'pending_moderation') {
+                            // Colab workflow fallback
+                            showInfoMessage('⏳ ' + (data.message || 'Bình luận đang chờ kiểm duyệt'));
+                            commentTextarea.value = '';
+                            
+                        } else {
+                            // Trường hợp khác
+                            showSuccessMessage(data.message || '✅ Bình luận đã được gửi');
+                            commentTextarea.value = '';
+                        }
                     } else {
-                        alert('Có lỗi xảy ra khi gửi bình luận. Vui lòng thử lại.');
+                        // Comment bị từ chối hoặc có lỗi
+                        if (data.status === 'rejected') {
+                            // Label 2 → PhoBERT REJECTED → Thông báo đỏ, không lưu DB
+                            showErrorMessage(data.message || '🚫 Bình luận bị từ chối');
+                            
+                            // Log PhoBERT info
+                            if (data.phobert_info) {
+                                console.log('🤖 PhoBERT Rejected:', data.phobert_info);
+                            }
+                            
+                            // KHÔNG clear form để user có thể edit
+                            
+                        } else if (data.status === 'db_error') {
+                            showErrorMessage('🗄️ ' + (data.message || 'Lỗi database'));
+                            
+                        } else {
+                            showErrorMessage('❌ ' + (data.message || 'Có lỗi xảy ra khi gửi bình luận'));
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Có lỗi xảy ra khi gửi bình luận. Vui lòng thử lại.');
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi bình luận';
+                    showErrorMessage('❌ Lỗi kết nối', 'Không thể gửi bình luận. Vui lòng kiểm tra kết nối và thử lại.');
                 });
             });
         }
+        
+        // Xử lý gửi phản hồi với PhoBERT integration
+        document.querySelectorAll('form[action="/api/comments/reply"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const replyTextarea = this.querySelector('.reply-textarea');
+                
+                // Hiển thị loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Đang xử lý...';
+                
+                fetch('/api/comments/reply', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi phản hồi';
+                    
+                    console.log('🔄 PhoBERT Reply Response:', data);
+                    
+                    if (data.success) {
+                        if (data.status === 'approved') {
+                            // Label 0/1 → PhoBERT APPROVED → Lưu DB + Hiển thị ngay
+                            showSuccessMessage(data.message || '🎉 Phản hồi đã được phê duyệt!');
+                            replyTextarea.value = '';
+                            this.closest('.reply-form').style.display = 'none';
+                            
+                            // Log PhoBERT info
+                            if (data.phobert_info) {
+                                console.log('🤖 PhoBERT Reply Approved:', data.phobert_info);
+                            }
+                            
+                            // Reload để hiển thị reply mới
+                            setTimeout(() => window.location.reload(), 1500);
+                            
+                        } else if (data.status === 'pending_moderation') {
+                            // Colab workflow fallback
+                            showInfoMessage('⏳ ' + (data.message || 'Phản hồi đang chờ kiểm duyệt'));
+                            replyTextarea.value = '';
+                            this.closest('.reply-form').style.display = 'none';
+                            
+                        } else {
+                            // Trường hợp khác
+                            showSuccessMessage(data.message || '✅ Phản hồi đã được gửi');
+                            replyTextarea.value = '';
+                            this.closest('.reply-form').style.display = 'none';
+                        }
+                    } else {
+                        // Reply bị từ chối hoặc có lỗi
+                        if (data.status === 'rejected') {
+                            // Label 2 → PhoBERT REJECTED → Thông báo đỏ, không lưu DB
+                            showErrorMessage(data.message || '🚫 Phản hồi bị từ chối');
+                            
+                            // Log PhoBERT info
+                            if (data.phobert_info) {
+                                console.log('🤖 PhoBERT Reply Rejected:', data.phobert_info);
+                            }
+                            
+                            // KHÔNG clear form và ẩn để user có thể edit
+                            
+                        } else if (data.status === 'db_error') {
+                            showErrorMessage('🗄️ ' + (data.message || 'Lỗi database'));
+                            
+                        } else {
+                            showErrorMessage('❌ ' + (data.message || 'Có lỗi xảy ra khi gửi phản hồi'));
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi phản hồi';
+                    showErrorMessage('❌ Lỗi kết nối', 'Không thể gửi phản hồi. Vui lòng kiểm tra kết nối và thử lại.');
+                });
+            });
+        });
+        
+        // === UTILITY FUNCTIONS FOR NOTIFICATIONS ===
+        
+        function createNotification(type, title, message) {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.phobert-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `phobert-notification notification-${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+            
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${icon} notification-icon"></i>
+                    <div class="notification-text">
+                        <div class="notification-title">${title}</div>
+                        ${message ? `<div class="notification-message">${message}</div>` : ''}
+                    </div>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Show with animation
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
+        }
+        
+        function showSuccessMessage(title, message = '') {
+            createNotification('success', title, message);
+        }
+        
+        function showErrorMessage(title, message = '') {
+            createNotification('error', title, message);
+        }
+        
+        function showInfoMessage(title, message = '') {
+            createNotification('info', title, message);
+        }
+        
+        // Hiển thị trạng thái moderation khi trang load
+        fetch('/api/moderation-status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const moderationInfo = data.data;
+                    const statusIndicator = document.getElementById('moderation-status');
+                    if (statusIndicator) {
+                        const isLocalModel = moderationInfo.use_local_model;
+                        const isModelLoaded = moderationInfo.phobert_model_loaded;
+                        
+                        if (isLocalModel && isModelLoaded) {
+                            statusIndicator.innerHTML = '<i class="fas fa-robot text-success"></i> AI PhoBERT đang hoạt động';
+                            statusIndicator.className = 'small text-success';
+                            
+                            // Hiển thị stats nếu có
+                            const phobertStats = document.getElementById('phobert-stats');
+                            const statsContent = document.getElementById('stats-content');
+                            if (phobertStats && statsContent) {
+                                const device = moderationInfo.phobert_device || 'CPU';
+                                statsContent.textContent = `Model: PhoBERT | Device: ${device} | Labels: 3 classes`;
+                                phobertStats.style.display = 'block';
+                            }
+                        } else {
+                            statusIndicator.innerHTML = '<i class="fas fa-cloud text-warning"></i> Chế độ Colab';
+                            statusIndicator.className = 'small text-warning';
+                        }
+                    }
+                }
+            })
+            .catch(error => console.log('Could not fetch moderation status'));
+        
+        // === REAL-TIME COMMENT PREVIEW ===
+        
+        const toxicKeywords = [
+            'dm', 'đm', 'fuck', 'shit', 'ngu', 'khốn', 'súc vật', 'thằng lol', 'con chó', 'mẹ kiếp',
+            'spam', 'click here', 'win money', 'free money', 'virus', 'hack'
+        ];
+        
+        function checkCommentContent(text) {
+            if (!text || text.length < 3) return false;
+            
+            const lowerText = text.toLowerCase().trim();
+            const found = toxicKeywords.some(keyword => lowerText.includes(keyword.toLowerCase()));
+            
+            // Debug log để kiểm tra
+            if (found) {
+                console.log('🚨 Toxic content detected:', text);
+                console.log('🔍 Matched keywords:', toxicKeywords.filter(k => lowerText.includes(k.toLowerCase())));
+            } else {
+                console.log('✅ Clean content:', text);
+            }
+            
+            return found;
+        }
+        
+        // Real-time check cho comment chính
+        const commentTextarea = document.getElementById('commentTextarea');
+        const commentWarning = document.getElementById('comment-preview-warning');
+        
+        if (commentTextarea && commentWarning) {
+            let checkTimeout;
+            commentTextarea.addEventListener('input', function() {
+                clearTimeout(checkTimeout);
+                                 checkTimeout = setTimeout(() => {
+                     const content = this.value.trim();
+                     // TEMPORARY: Disable warning for testing PhoBERT
+                     commentWarning.style.display = 'none';
+                     
+                     // Uncomment below to re-enable warning
+                     // if (checkCommentContent(content)) {
+                     //     commentWarning.style.display = 'flex';
+                     // } else {
+                     //     commentWarning.style.display = 'none';
+                     // }
+                 }, 500); // Debounce 500ms
+            });
+        }
+        
+        // Real-time check cho reply textareas
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('reply-textarea')) {
+                let warningElement = e.target.parentElement.querySelector('.reply-warning');
+                
+                // Tạo warning element nếu chưa có
+                if (!warningElement) {
+                    warningElement = document.createElement('div');
+                    warningElement.className = 'comment-warning reply-warning';
+                    warningElement.style.display = 'none';
+                    warningElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Nội dung này có thể bị từ chối. Vui lòng kiểm tra lại!</span>';
+                    e.target.parentElement.appendChild(warningElement);
+                }
+                
+                                 const content = e.target.value.trim();
+                 // TEMPORARY: Disable warning for testing PhoBERT
+                 warningElement.style.display = 'none';
+                 
+                 // Uncomment below to re-enable warning
+                 // if (checkCommentContent(content)) {
+                 //     warningElement.style.display = 'flex';
+                 // } else {
+                 //     warningElement.style.display = 'none';
+                 // }
+            }
+        });
         
         // Xử lý emoji picker
         const emojiPickerBtns = document.querySelectorAll('.emoji-picker-btn');

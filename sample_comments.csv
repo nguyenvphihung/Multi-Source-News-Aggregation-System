@@ -1,0 +1,101 @@
+id,content,cleaned_content,user_id,article_id,article_title,article_type,sentiment,is_reply,parent_id,created_at,timestamp
+1,Cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,20,ART_008,Bài viết số 7,Thể thao,positive,False,,2025-06-27 16:00:33.188838,1750582833
+2,Không phù hợp với tiêu đề,không phù hợp với tiêu đề,18,ART_007,Bài viết số 18,Kinh tế,negative,True,,2025-07-14 16:00:33.188838,1750928433
+3,Cảm ơn vì đã chia sẻ kiến thức,cảm ơn vì đã chia sẻ kiến thức,35,ART_009,Bài viết số 12,Công nghệ,positive,False,1.0,2025-07-07 16:00:33.188838,1751014833
+4,Nội dung quá ngắn và sơ sài,nội dung quá ngắn và sơ sài,7,ART_016,Bài viết số 9,Tin tức,negative,True,,2025-07-03 16:00:33.188838,1752051633
+5,Cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,5,ART_015,Bài viết số 4,Thể thao,positive,False,2.0,2025-07-13 16:00:33.188838,1751619633
+6,Nội dung quá ngắn và sơ sài,nội dung quá ngắn và sơ sài,16,ART_006,Bài viết số 7,Thể thao,negative,False,,2025-06-22 16:00:33.188838,1752656433
+7,Quan điểm có vẻ thiên lệch,quan điểm có vẻ thiên lệch,29,ART_020,Bài viết số 9,Thể thao,negative,True,,2025-06-19 16:00:33.188838,1751360433
+8,Nội dung lặp lại nhiều,nội dung lặp lại nhiều,18,ART_005,Bài viết số 19,Tin tức,negative,True,,2025-07-14 16:00:33.188838,1750410033
+9,Viết không rõ ràng,viết không rõ ràng,13,ART_015,Bài viết số 6,Kinh tế,negative,False,,2025-07-16 16:00:33.188838,1752483633
+10,Đây là một góc nhìn,đây là một góc nhìn,44,ART_012,Bài viết số 16,Kinh tế,neutral,False,7.0,2025-07-04 16:00:33.188838,1752138033
+11,Vấn đề này khá phức tạp,vấn đề này khá phức tạp,26,ART_005,Bài viết số 7,Thể thao,neutral,False,,2025-07-05 16:00:33.188838,1751792433
+12,Không phù hợp với tiêu đề,không phù hợp với tiêu đề,38,ART_004,Bài viết số 2,Tin tức,negative,True,9.0,2025-06-24 16:00:33.188838,1750928433
+13,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,47,ART_020,Bài viết số 14,Thể thao,neutral,False,6.0,2025-06-27 16:00:33.188838,1752224433
+14,Rất hữu ích cho công việc của tôi,rất hữu ích cho công việc của tôi,17,ART_002,Bài viết số 7,Công nghệ,positive,False,12.0,2025-07-09 16:00:33.188838,1750582833
+15,Quan điểm có vẻ thiên lệch,quan điểm có vẻ thiên lệch,6,ART_016,Bài viết số 7,Công nghệ,negative,False,,2025-07-13 16:00:33.188838,1750323633
+16,Nội dung lặp lại nhiều,nội dung lặp lại nhiều,16,ART_017,Bài viết số 12,Tin tức,negative,False,,2025-06-18 16:00:33.188838,1751360433
+17,Thông tin không chính xác,thông tin không chính xác,15,ART_002,Bài viết số 1,Tin tức,negative,True,,2025-07-12 16:00:33.188838,1750928433
+18,Thiếu tính thuyết phục,thiếu tính thuyết phục,6,ART_001,Bài viết số 13,Giải trí,negative,False,,2025-07-10 16:00:33.188838,1750928433
+19,Vấn đề này khá phức tạp,vấn đề này khá phức tạp,30,ART_012,Bài viết số 13,Công nghệ,neutral,False,,2025-06-24 16:00:33.188838,1752397233
+20,Viết không rõ ràng,viết không rõ ràng,11,ART_007,Bài viết số 3,Kinh tế,negative,True,,2025-06-19 16:00:33.188838,1752138033
+21,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,49,ART_001,Bài viết số 8,Công nghệ,neutral,False,14.0,2025-07-08 16:00:33.188838,1750150833
+22,Cần cập nhật thông tin mới hơn,cần cập nhật thông tin mới hơn,46,ART_018,Bài viết số 12,Thể thao,negative,True,10.0,2025-07-16 16:00:33.188838,1752224433
+23,Thiếu tính thuyết phục,thiếu tính thuyết phục,9,ART_011,Bài viết số 2,Giải trí,negative,True,22.0,2025-06-27 16:00:33.188838,1752138033
+24,Tôi rất thích cách viết của tác giả,tôi rất thích cách viết của tác giả,3,ART_004,Bài viết số 4,Tin tức,positive,False,,2025-06-18 16:00:33.188838,1750582833
+25,Bài viết rất hay và bổ ích!,bài viết rất hay và bổ ích!,23,ART_006,Bài viết số 15,Thể thao,positive,True,,2025-07-04 16:00:33.188838,1751101233
+26,Thông tin rất chính xác và cập nhật,thông tin rất chính xác và cập nhật,30,ART_007,Bài viết số 1,Kinh tế,positive,False,,2025-07-07 16:00:33.188838,1752224433
+27,Thông tin không chính xác,thông tin không chính xác,31,ART_001,Bài viết số 5,Công nghệ,negative,False,,2025-06-21 16:00:33.188838,1751878833
+28,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,27,ART_006,Bài viết số 19,Giải trí,neutral,True,,2025-06-19 16:00:33.188838,1752051633
+29,Cần xem xét nhiều khía cạnh,cần xem xét nhiều khía cạnh,19,ART_019,Bài viết số 16,Kinh tế,neutral,False,,2025-06-29 16:00:33.188838,1752051633
+30,Bài viết được trình bày rõ ràng và dễ hiểu,bài viết được trình bày rõ ràng và dễ hiểu,41,ART_014,Bài viết số 13,Công nghệ,positive,False,,2025-07-15 16:00:33.188838,1750323633
+31,Có thể tham khảo thêm từ nguồn khác,có thể tham khảo thêm từ nguồn khác,39,ART_013,Bài viết số 17,Kinh tế,neutral,False,,2025-07-15 16:00:33.188838,1751706033
+32,Bài viết được trình bày rõ ràng và dễ hiểu,bài viết được trình bày rõ ràng và dễ hiểu,5,ART_006,Bài viết số 7,Công nghệ,positive,False,25.0,2025-06-20 16:00:33.188838,1750928433
+33,Chất lượng nội dung rất cao,chất lượng nội dung rất cao,3,ART_007,Bài viết số 13,Giải trí,positive,True,4.0,2025-06-30 16:00:33.188838,1750410033
+34,Đây là một góc nhìn,đây là một góc nhìn,34,ART_013,Bài viết số 11,Giải trí,neutral,False,,2025-07-06 16:00:33.188838,1752483633
+35,Thông tin cơ bản,thông tin cơ bản,48,ART_004,Bài viết số 8,Giải trí,neutral,False,28.0,2025-07-05 16:00:33.188838,1752138033
+36,Quan điểm có vẻ thiên lệch,quan điểm có vẻ thiên lệch,2,ART_014,Bài viết số 5,Công nghệ,negative,True,,2025-07-12 16:00:33.188838,1750150833
+37,Cần cập nhật thông tin mới hơn,cần cập nhật thông tin mới hơn,40,ART_017,Bài viết số 10,Công nghệ,negative,False,11.0,2025-06-20 16:00:33.188838,1750842033
+38,Đã đọc bài viết,đã đọc bài viết,46,ART_014,Bài viết số 7,Công nghệ,neutral,False,,2025-07-13 16:00:33.188838,1750410033
+39,Có thể tham khảo thêm từ nguồn khác,có thể tham khảo thêm từ nguồn khác,18,ART_010,Bài viết số 7,Công nghệ,neutral,False,,2025-06-27 16:00:33.188838,1750755633
+40,Bài viết được trình bày rõ ràng và dễ hiểu,bài viết được trình bày rõ ràng và dễ hiểu,6,ART_012,Bài viết số 19,Công nghệ,positive,True,39.0,2025-06-20 16:00:33.188838,1751101233
+41,Đã đọc bài viết,đã đọc bài viết,13,ART_010,Bài viết số 4,Giải trí,neutral,True,15.0,2025-07-11 16:00:33.188838,1751706033
+42,Đây là nguồn thông tin đáng tin cậy,đây là nguồn thông tin đáng tin cậy,27,ART_013,Bài viết số 10,Thể thao,positive,False,19.0,2025-06-24 16:00:33.188838,1752310833
+43,Tôi rất thích cách viết của tác giả,tôi rất thích cách viết của tác giả,28,ART_011,Bài viết số 2,Thể thao,positive,False,36.0,2025-06-26 16:00:33.188838,1750669233
+44,Cần thời gian để suy nghĩ,cần thời gian để suy nghĩ,15,ART_004,Bài viết số 16,Tin tức,neutral,False,41.0,2025-07-11 16:00:33.188838,1751878833
+45,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,12,ART_008,Bài viết số 6,Công nghệ,neutral,False,,2025-06-19 16:00:33.188838,1750496433
+46,Bài viết giúp tôi hiểu rõ hơn về vấn đề này,bài viết giúp tôi hiểu rõ hơn về vấn đề này,2,ART_002,Bài viết số 17,Giải trí,positive,True,44.0,2025-07-05 16:00:33.188838,1750064433
+47,Vấn đề này khá phức tạp,vấn đề này khá phức tạp,35,ART_012,Bài viết số 7,Thể thao,neutral,True,,2025-06-29 16:00:33.188838,1752656433
+48,Cần xem xét nhiều khía cạnh,cần xem xét nhiều khía cạnh,48,ART_007,Bài viết số 13,Thể thao,neutral,False,,2025-06-27 16:00:33.188838,1751101233
+49,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,34,ART_017,Bài viết số 17,Tin tức,neutral,False,,2025-06-21 16:00:33.188838,1750496433
+50,Thông tin cơ bản,thông tin cơ bản,41,ART_013,Bài viết số 9,Kinh tế,neutral,True,,2025-07-10 16:00:33.188838,1751792433
+51,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,43,ART_004,Bài viết số 10,Tin tức,neutral,False,,2025-06-28 16:00:33.188838,1751619633
+52,Bài viết giúp tôi hiểu rõ hơn về vấn đề này,bài viết giúp tôi hiểu rõ hơn về vấn đề này,46,ART_006,Bài viết số 3,Kinh tế,positive,False,45.0,2025-06-20 16:00:33.188838,1751101233
+53,Có thể tham khảo thêm từ nguồn khác,có thể tham khảo thêm từ nguồn khác,16,ART_019,Bài viết số 2,Công nghệ,neutral,True,,2025-07-02 16:00:33.188838,1750582833
+54,Rất hữu ích cho công việc của tôi,rất hữu ích cho công việc của tôi,43,ART_006,Bài viết số 11,Giải trí,positive,False,,2025-07-02 16:00:33.188838,1750323633
+55,Đây là một góc nhìn,đây là một góc nhìn,38,ART_007,Bài viết số 15,Công nghệ,neutral,False,33.0,2025-07-05 16:00:33.188838,1750496433
+56,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,18,ART_005,Bài viết số 15,Thể thao,neutral,True,52.0,2025-06-30 16:00:33.188838,1752310833
+57,Tôi rất thích cách viết của tác giả,tôi rất thích cách viết của tác giả,34,ART_010,Bài viết số 8,Thể thao,positive,True,,2025-06-22 16:00:33.188838,1752397233
+58,Thông tin không chính xác,thông tin không chính xác,25,ART_005,Bài viết số 15,Tin tức,negative,True,,2025-06-24 16:00:33.188838,1750150833
+59,Cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,44,ART_003,Bài viết số 2,Công nghệ,positive,True,,2025-06-20 16:00:33.188838,1752397233
+60,Thông tin cơ bản,thông tin cơ bản,20,ART_014,Bài viết số 3,Giải trí,neutral,False,36.0,2025-07-05 16:00:33.188838,1750842033
+61,Đã đọc bài viết,đã đọc bài viết,14,ART_006,Bài viết số 16,Thể thao,neutral,True,25.0,2025-07-01 16:00:33.188838,1751014833
+62,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,8,ART_002,Bài viết số 10,Thể thao,neutral,False,,2025-06-17 16:00:33.188838,1751446833
+63,Quan điểm có vẻ thiên lệch,quan điểm có vẻ thiên lệch,1,ART_012,Bài viết số 4,Giải trí,negative,False,,2025-06-21 16:00:33.188838,1752397233
+64,Tôi rất thích cách viết của tác giả,tôi rất thích cách viết của tác giả,44,ART_014,Bài viết số 11,Giải trí,positive,False,,2025-06-27 16:00:33.188838,1750323633
+65,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,23,ART_008,Bài viết số 16,Thể thao,neutral,False,,2025-06-18 16:00:33.188838,1752483633
+66,Bài viết giúp tôi hiểu rõ hơn về vấn đề này,bài viết giúp tôi hiểu rõ hơn về vấn đề này,23,ART_019,Bài viết số 3,Tin tức,positive,True,,2025-06-23 16:00:33.188838,1750323633
+67,Cảm ơn vì đã chia sẻ kiến thức,cảm ơn vì đã chia sẻ kiến thức,21,ART_005,Bài viết số 19,Tin tức,positive,False,,2025-07-06 16:00:33.188838,1751619633
+68,Nội dung lặp lại nhiều,nội dung lặp lại nhiều,2,ART_012,Bài viết số 16,Tin tức,negative,False,,2025-06-27 16:00:33.188838,1752051633
+69,Nội dung quá ngắn và sơ sài,nội dung quá ngắn và sơ sài,20,ART_005,Bài viết số 8,Công nghệ,negative,False,64.0,2025-06-25 16:00:33.188838,1752224433
+70,Bài viết được trình bày rõ ràng và dễ hiểu,bài viết được trình bày rõ ràng và dễ hiểu,6,ART_003,Bài viết số 20,Kinh tế,positive,True,26.0,2025-06-24 16:00:33.188838,1752656433
+71,Cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,cảm ơn tác giả đã chia sẻ thông tin tuyệt vời,13,ART_005,Bài viết số 2,Thể thao,positive,True,54.0,2025-07-02 16:00:33.188838,1751446833
+72,Không phù hợp với tiêu đề,không phù hợp với tiêu đề,8,ART_017,Bài viết số 16,Tin tức,negative,True,,2025-07-06 16:00:33.188838,1752310833
+73,Cần tìm hiểu thêm về vấn đề này,cần tìm hiểu thêm về vấn đề này,20,ART_008,Bài viết số 20,Kinh tế,neutral,False,,2025-06-22 16:00:33.188838,1751706033
+74,Thiếu tính thuyết phục,thiếu tính thuyết phục,44,ART_020,Bài viết số 15,Thể thao,negative,True,,2025-07-09 16:00:33.188838,1750928433
+75,Cảm ơn vì đã chia sẻ kiến thức,cảm ơn vì đã chia sẻ kiến thức,45,ART_020,Bài viết số 1,Tin tức,positive,False,,2025-07-06 16:00:33.188838,1750669233
+76,Nội dung lặp lại nhiều,nội dung lặp lại nhiều,8,ART_004,Bài viết số 20,Kinh tế,negative,False,,2025-06-19 16:00:33.188838,1751360433
+77,Cần tìm hiểu thêm về vấn đề này,cần tìm hiểu thêm về vấn đề này,23,ART_008,Bài viết số 13,Kinh tế,neutral,True,34.0,2025-06-28 16:00:33.188838,1752397233
+78,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,11,ART_002,Bài viết số 20,Tin tức,neutral,False,59.0,2025-06-23 16:00:33.188838,1752224433
+79,Thông tin không chính xác,thông tin không chính xác,25,ART_016,Bài viết số 3,Công nghệ,negative,False,10.0,2025-06-29 16:00:33.188838,1750496433
+80,Đã đọc bài viết,đã đọc bài viết,16,ART_012,Bài viết số 14,Giải trí,neutral,False,27.0,2025-07-12 16:00:33.188838,1752397233
+81,Cần thời gian để suy nghĩ,cần thời gian để suy nghĩ,8,ART_011,Bài viết số 17,Kinh tế,neutral,True,8.0,2025-07-03 16:00:33.188838,1750323633
+82,Đây là một góc nhìn,đây là một góc nhìn,32,ART_005,Bài viết số 11,Kinh tế,neutral,True,,2025-06-21 16:00:33.188838,1751619633
+83,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,11,ART_001,Bài viết số 14,Kinh tế,neutral,True,,2025-07-10 16:00:33.188838,1750323633
+84,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,36,ART_005,Bài viết số 1,Công nghệ,neutral,True,,2025-06-28 16:00:33.188838,1750064433
+85,Đây là nguồn thông tin đáng tin cậy,đây là nguồn thông tin đáng tin cậy,27,ART_017,Bài viết số 18,Kinh tế,positive,True,,2025-07-09 16:00:33.188838,1750150833
+86,Đúng là một chủ đề thú vị,đúng là một chủ đề thú vị,18,ART_017,Bài viết số 10,Giải trí,neutral,True,,2025-06-28 16:00:33.188838,1750150833
+87,Cần xem xét nhiều khía cạnh,cần xem xét nhiều khía cạnh,24,ART_018,Bài viết số 17,Công nghệ,neutral,True,,2025-06-19 16:00:33.188838,1750755633
+88,Vấn đề này khá phức tạp,vấn đề này khá phức tạp,6,ART_002,Bài viết số 9,Thể thao,neutral,False,,2025-07-07 16:00:33.188838,1750582833
+89,Mỗi người có quan điểm khác nhau,mỗi người có quan điểm khác nhau,38,ART_015,Bài viết số 19,Công nghệ,neutral,True,60.0,2025-07-03 16:00:33.188838,1752051633
+90,Đây là nguồn thông tin đáng tin cậy,đây là nguồn thông tin đáng tin cậy,33,ART_016,Bài viết số 9,Thể thao,positive,False,,2025-07-13 16:00:33.188838,1751274033
+91,Chất lượng nội dung rất cao,chất lượng nội dung rất cao,18,ART_011,Bài viết số 13,Tin tức,positive,False,,2025-06-22 16:00:33.188838,1751014833
+92,Không phù hợp với tiêu đề,không phù hợp với tiêu đề,8,ART_015,Bài viết số 19,Công nghệ,negative,True,,2025-06-26 16:00:33.188838,1752570033
+93,Bài viết rất hay và bổ ích!,bài viết rất hay và bổ ích!,32,ART_005,Bài viết số 3,Thể thao,positive,False,52.0,2025-07-11 16:00:33.188838,1750496433
+94,Thông tin rất chính xác và cập nhật,thông tin rất chính xác và cập nhật,41,ART_006,Bài viết số 3,Thể thao,positive,False,,2025-06-30 16:00:33.188838,1752656433
+95,Cần tìm hiểu thêm về vấn đề này,cần tìm hiểu thêm về vấn đề này,4,ART_003,Bài viết số 5,Thể thao,neutral,False,24.0,2025-07-02 16:00:33.188838,1751792433
+96,Đã đọc bài viết,đã đọc bài viết,38,ART_014,Bài viết số 15,Thể thao,neutral,False,,2025-07-15 16:00:33.188838,1750928433
+97,Thông tin rất chính xác và cập nhật,thông tin rất chính xác và cập nhật,42,ART_020,Bài viết số 11,Thể thao,positive,True,,2025-06-21 16:00:33.188838,1751274033
+98,Vấn đề này khá phức tạp,vấn đề này khá phức tạp,45,ART_004,Bài viết số 20,Thể thao,neutral,True,,2025-06-27 16:00:33.188838,1751274033
+99,Bài viết giúp tôi hiểu rõ hơn về vấn đề này,bài viết giúp tôi hiểu rõ hơn về vấn đề này,2,ART_018,Bài viết số 18,Công nghệ,positive,False,45.0,2025-06-18 16:00:33.188838,1751014833
+100,Tôi rất thích cách viết của tác giả,tôi rất thích cách viết của tác giả,17,ART_002,Bài viết số 3,Giải trí,positive,False,17.0,2025-07-12 16:00:33.188838,1750582833

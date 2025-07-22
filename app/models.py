@@ -55,3 +55,5 @@ class Comment(Base):
     parent_id = Column(Integer, nullable=True)  # Cho phép phản hồi lồng nhau
     likes = Column(Integer, default=0)
     status = Column(String(20), default="active")  # active, deleted, hidden
+    sentiment = Column(String(20), default="neutral")  # positive, negative, neutral
+    sentiment_confidence = Column(String(10), default="0.0")  # PhoBERT confidence score

@@ -47,7 +47,7 @@ DEBUG=True
 
 5. **Chạy server local**:
 ```bash
-uvicorn main:app --reload
+python -m uvicorn main:app --reload --timeout-graceful-shutdown 1
 ```
 Truy cập: `http://127.0.0.1:8000`
 
