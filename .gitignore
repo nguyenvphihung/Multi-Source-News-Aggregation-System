@@ -12,6 +12,8 @@ env/
 .env
 .env.*
 
+phobert_toxic_comment_model/
+
 # Python egg
 *.egg
 *.egg-info/
