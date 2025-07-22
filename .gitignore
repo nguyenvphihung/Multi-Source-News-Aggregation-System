@@ -12,7 +12,11 @@ env/
 .env
 .env.*
 
+# PhoBERT Model (too large for Git)
 phobert_toxic_comment_model/
+*.safetensors
+*.bin
+*.safetensors
 
 # Python egg
 *.egg

@@ -34,6 +34,25 @@ source venv/bin/activate    # Hoặc venv\Scripts\activate (Windows)
 3. **Cài đặt thư viện**:
 ```bash
 pip install -r requirements.txt
+
+## 🤖 Setup PhoBERT Model
+
+The PhoBERT toxic comment model is not included in Git due to file size (515MB).
+
+**Option 1: Use your existing model**
+```bash
+# Copy your model to project directory
+cp -r /path/to/your/phobert_toxic_comment_model ./
+```
+
+**Option 2: Download from external source**
+```bash
+# Update download_model.py with actual URLs
+python download_model.py
+```
+
+**Option 3: Skip AI moderation (fallback to Colab)**
+The system will automatically fallback to Colab-based moderation if PhoBERT model is not found.
 ```
 
 4. **Thiết lập biến môi trường**:
