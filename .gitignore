@@ -54,3 +54,29 @@ Procfile
 
 # Git
 *.orig
+
+# Test and debug files
+test_*.py
+debug_*.py
+quick_*.py
+*_test.py
+*_debug.py
+manual_*.py
+manual_*.sql
+*_fix.py
+*_fix.sql
+
+# Temporary files
+*.tmp
+*.temp
+debug_*.html
+test_*.html
+
+# Development documentation
+*_GUIDE.md
+*_guide.md
+*_explanation.md
+
+# Database backups
+*.backup
+comments_backup_*.sql
