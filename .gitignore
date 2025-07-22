@@ -12,11 +12,23 @@ env/
 .env
 .env.*
 
-# PhoBERT Model (too large for Git)
+# PhoBERT Model (too large for Git - 515MB+)
 phobert_toxic_comment_model/
+phobert_toxic_comment_model/model.safetensors
+phobert_toxic_comment_model/vocab.txt
+phobert_toxic_comment_model/bpe.codes
+phobert_toxic_comment_model/config.json
+phobert_toxic_comment_model/tokenizer_config.json
+phobert_toxic_comment_model/special_tokens_map.json
+phobert_toxic_comment_model/added_tokens.json
+phobert_toxic_comment_model/training_args.bin
+
+# AI Model files globally
 *.safetensors
 *.bin
-*.safetensors
+*.ckpt
+*.pth
+*.pt
 
 # Python egg
 *.egg
