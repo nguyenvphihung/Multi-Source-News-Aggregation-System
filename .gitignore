@@ -12,6 +12,13 @@ env/
 .env
 .env.*
 
+tmp_*
+*.tmp
+*.cache
+*.pth
+*.bin
+*.safetensors
+
 # PhoBERT Model (too large for Git - 515MB+)
 phobert_toxic_comment_model/
 phobert_toxic_comment_model/model.safetensors
