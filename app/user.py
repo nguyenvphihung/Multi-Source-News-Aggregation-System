@@ -430,36 +430,38 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
         # PhoBERT không available → Fallback to direct save
         print("⚠️ PhoBERT không available, lưu trực tiếp vào database")
         
-        new_comment = Comment(
-        article_id=article_id,
-        user_id=user_id,
-            content=content,
-            likes=0,
-            status="active",
-            sentiment="neutral",
-            sentiment_confidence=0.0
-        )
-        db.add(new_comment)
+        try:
+            new_comment = Comment(
+                article_id=article_id,
+                user_id=user_id,
+                content=content,
+                likes=0,
+                status="active",
+                sentiment="neutral",
+                sentiment_confidence=0.0
+            )
+            db.add(new_comment)
+            
+            article.comments_count = db.query(Comment).filter(Comment.article_id == article_id).count() + 1
+            db.commit()
+            db.refresh(new_comment)
+            
+            return {
+                "success": True, 
+                "comment_id": new_comment.id,
+                "message": "Bình luận đã được đăng (PhoBERT không khả dụng)",
+                "status": "approved",
+                "reload_required": True
+            }
         
-        article.comments_count = db.query(Comment).filter(Comment.article_id == article_id).count() + 1
-        db.commit()
-        db.refresh(new_comment)
-    
-    return {
-        "success": True, 
-            "comment_id": new_comment.id,
-            "message": "Bình luận đã được đăng (PhoBERT không khả dụng)",
-            "status": "approved",
-            "reload_required": True
-        }
-    
-    except Exception as e:
-        print(f"❌ Lỗi không xác định: {e}")
-        return {
-            "success": False,
-            "message": f"Có lỗi xảy ra: {str(e)}",
-            "status": "error"
-    }
+        except Exception as e:
+            db.rollback()
+            print(f"❌ Lỗi không xác định: {e}")
+            return {
+                "success": False,
+                "message": f"Có lỗi xảy ra: {str(e)}",
+                "status": "error"
+            }
 
 @router.post("/api/comments/reply")
 async def reply_comment(request: Request, article_id: str = Form(...), parent_id: int = Form(...), 
@@ -551,12 +553,13 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
                 }
         
     except ImportError:
-        # PhoBERT không available → Fallback to direct save
-        print("⚠️ PhoBERT không available, lưu reply trực tiếp vào database")
-        
+    # PhoBERT không available → Fallback to direct save
+      print("⚠️ PhoBERT không available, lưu reply trực tiếp vào database")
+    
+    try:
         new_reply = Comment(
-        article_id=article_id,
-        user_id=user_id,
+            article_id=article_id,
+            user_id=user_id,
             content=content,
             parent_id=parent_id,
             likes=0,
@@ -567,22 +570,23 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
         db.add(new_reply)
         db.commit()
         db.refresh(new_reply)
-    
-    return {
-        "success": True, 
+
+        return {
+            "success": True, 
             "comment_id": new_reply.id,
             "message": "Phản hồi đã được đăng (PhoBERT không khả dụng)",
             "status": "approved",
             "reload_required": True
         }
-    
+
     except Exception as e:
         print(f"❌ Lỗi không xác định khi reply: {e}")
         return {
             "success": False,
             "message": f"Có lỗi xảy ra: {str(e)}",
             "status": "error"
-    }
+        }
+
 
 @router.post("/api/comments/{comment_id}/like")
 async def like_comment(request: Request, comment_id: int, db: Session = Depends(get_db),
