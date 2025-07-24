@@ -115,6 +115,363 @@
 .comment-warning i {
     color: #f39c12;
 }
+
+/* ========== COMMENT SECTION STYLES ========== */
+
+/* Comment List Container */
+.comments-list {
+    max-width: 100%;
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: #fafafa;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+/* Custom Scrollbar for Comments */
+.comments-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Comments Container Header */
+.comments-container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.comments-scroll-hint {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: normal;
+}
+
+/* Empty Comments State */
+.empty-comments {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+}
+
+.empty-comments i {
+    font-size: 48px;
+    color: #dee2e6;
+    margin-bottom: 12px;
+}
+
+.empty-comments h5 {
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+/* Comments Pagination Inside Scroll Container */
+.comments-pagination {
+    background: #f8f9fa;
+    margin: 0 -16px -16px -16px;
+    padding: 12px 16px;
+    border-radius: 0 0 8px 8px;
+}
+
+.comments-pagination .pagination-sm .page-link {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Auto-scroll to new comments */
+.scroll-to-new {
+    animation: scroll-highlight 2s ease-out;
+}
+
+@keyframes scroll-highlight {
+    0% {
+        background: #fff3cd;
+        border-color: #ffc107;
+    }
+    100% {
+        background: #fff;
+        border-color: #e9ecef;
+    }
+}
+
+/* Individual Comment Item */
+.comment-item {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.comment-item:hover {
+    border-color: #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.comment-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Comment Header */
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-avatar {
+    flex-shrink: 0;
+}
+
+.comment-avatar img,
+.comment-avatar .avatar-placeholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-avatar .avatar-placeholder {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.comment-info {
+    margin-left: 10px;
+    flex: 1;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Comment Content */
+.comment-content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0 0 10px 0;
+    word-wrap: break-word;
+}
+
+/* Comment Actions */
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.comment-actions .btn {
+    font-size: 12px;
+    color: #6c757d;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+}
+
+.comment-actions .btn:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.comment-actions .btn i {
+    font-size: 11px;
+}
+
+/* Replies Section */
+.replies-list {
+    margin-top: 16px;
+    margin-left: 42px;
+    border-left: 2px solid #f1f3f4;
+    padding-left: 16px;
+}
+
+.reply-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.reply-item:last-child {
+    border-bottom: none;
+}
+
+.reply-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.reply-avatar img,
+.reply-avatar .avatar-placeholder {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reply-avatar .avatar-placeholder {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.reply-info {
+    margin-left: 8px;
+    flex: 1;
+}
+
+.reply-author {
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.reply-time {
+    font-size: 11px;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.reply-content {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #333;
+    margin: 4px 0 6px 0;
+    word-wrap: break-word;
+}
+
+/* Reply Form */
+.reply-form {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.reply-form .form-control {
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    resize: vertical;
+    min-height: 60px;
+}
+
+.reply-form .btn {
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+/* Comment Form */
+.comment-form-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.comment-form-card .card-body {
+    padding: 16px;
+}
+
+.comment-form-card .form-control {
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 12px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* New Comment Highlight */
+.new-comment,
+.new-reply {
+    animation: highlight-fade 3s ease-out;
+}
+
+@keyframes highlight-fade {
+    0% {
+        background: linear-gradient(90deg, #e3f2fd, #ffffff);
+        border-color: #2196f3;
+    }
+    100% {
+        background: #ffffff;
+        border-color: #e9ecef;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .comment-item {
+        padding: 10px 12px;
+        margin-bottom: 10px;
+    }
+    
+    .replies-list {
+        margin-left: 20px;
+        padding-left: 12px;
+    }
+    
+    .comment-actions {
+        gap: 12px;
+    }
+    
+    .comment-actions .btn {
+        font-size: 11px;
+    }
+}
 </style>
 <!-- Article Header -->
 <div class="container">
@@ -161,12 +518,12 @@
         </div>
         
         <!-- Comment Form -->
-        <div class="card mb-4">
+        <div class="comment-form-card card mb-4">
             <div class="card-body">
                 <form id="commentForm" method="post" action="/api/comments">
                     <input type="hidden" name="article_id" value="{{ article.article_id }}">
                     <div class="mb-3 position-relative">
-                        <textarea class="form-control" name="content" id="commentTextarea" rows="3" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <textarea class="form-control" name="content" id="commentTextarea" rows="3" placeholder="Chia sẻ ý kiến của bạn về bài viết..." required></textarea>
                         <!-- TEMPORARY: Hidden warning for PhoBERT testing -->
                         <div id="comment-preview-warning" class="comment-warning" style="display: none !important;">
                             <i class="fas fa-exclamation-triangle"></i>
@@ -229,32 +586,47 @@
             </div>
         </div>
         
-        <!-- Comments List -->
-        <div class="comments-list">
-            {% if comments %}
-                {% for comment in comments %}
-                <div class="comment-item card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex mb-2">
-                            <div class="comment-avatar me-3">
+        <!-- Comments Container -->
+        <div class="comments-container">
+            <!-- Comments Header -->
+            <div class="comments-container-header">
+                <span>
+                    <i class="fas fa-comments me-2"></i>
+                    Bình luận ({{ article.comments_count|default(0) }})
+                </span>
+                <span class="comments-scroll-hint">
+                    <i class="fas fa-mouse-pointer me-1"></i>
+                    Cuộn để xem thêm
+                </span>
+            </div>
+            
+            <!-- Scrollable Comments List -->
+            <div class="comments-list">
+                {% if comments %}
+                    {% for comment in comments %}
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-avatar">
                                 {% if comment.user_avatar %}
-                                <img src="{{ comment.user_avatar }}" alt="{{ comment.user_name }}" class="rounded-circle" width="40" height="40">
+                                <img src="{{ comment.user_avatar }}" alt="{{ comment.user_name }}">
                                 {% else %}
-                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="avatar-placeholder">
                                     {{ comment.user_name[:1].upper() }}
                                 </div>
                                 {% endif %}
                             </div>
                             <div class="comment-info">
-                                <h5 class="mb-0">{{ comment.user_name }}</h5>
-                                <small class="text-muted">{{ comment.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                <h6 class="comment-author">{{ comment.user_name }}</h6>
+                                <p class="comment-time">{{ comment.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
                             </div>
                         </div>
                         <p class="comment-content">{{ comment.content }}</p>
-                        <div class="comment-actions d-flex gap-3">
-                            <button class="btn btn-sm btn-link p-0 reply-btn" data-comment-id="{{ comment.id }}">Phản hồi</button>
-                            <button class="btn btn-sm btn-link p-0 like-btn" data-comment-id="{{ comment.id }}">
-                                <i class="fas fa-thumbs-up me-1"></i> {{ comment.likes|default(0) }}
+                        <div class="comment-actions">
+                            <button class="btn reply-btn" data-comment-id="{{ comment.id }}">
+                                <i class="fas fa-reply"></i> Phản hồi
+                            </button>
+                            <button class="btn like-btn" data-comment-id="{{ comment.id }}">
+                                <i class="fas fa-thumbs-up"></i> {{ comment.likes|default(0) }}
                             </button>
                         </div>
                         
@@ -312,59 +684,65 @@
                         
                         <!-- Replies -->
                         {% if comment.replies %}
-                        <div class="replies-list mt-3 ms-4">
+                        <div class="replies-list">
                             {% for reply in comment.replies %}
-                            <div class="reply-item mb-3">
-                                <div class="d-flex mb-2">
-                                    <div class="reply-avatar me-2">
+                            <div class="reply-item">
+                                <div class="reply-header">
+                                    <div class="reply-avatar">
                                         {% if reply.user_avatar %}
-                                        <img src="{{ reply.user_avatar }}" alt="{{ reply.user_name }}" class="rounded-circle" width="30" height="30">
+                                        <img src="{{ reply.user_avatar }}" alt="{{ reply.user_name }}">
                                         {% else %}
-                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
+                                        <div class="avatar-placeholder">
                                             {{ reply.user_name[:1].upper() }}
                                         </div>
                                         {% endif %}
                                     </div>
                                     <div class="reply-info">
-                                        <h6 class="mb-0">{{ reply.user_name }}</h6>
-                                        <small class="text-muted">{{ reply.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
-                                        <p class="reply-content mb-1">{{ reply.content }}</p>
-                                        <button class="btn btn-sm btn-link p-0 like-btn" data-comment-id="{{ reply.id }}">
-                                            <i class="fas fa-thumbs-up me-1"></i> {{ reply.likes|default(0) }}
-                                        </button>
+                                        <h6 class="reply-author">{{ reply.user_name }}</h6>
+                                        <p class="reply-time">{{ reply.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
                                     </div>
+                                </div>
+                                <p class="reply-content">{{ reply.content }}</p>
+                                <div class="comment-actions">
+                                    <button class="btn like-btn" data-comment-id="{{ reply.id }}">
+                                        <i class="fas fa-thumbs-up"></i> {{ reply.likes|default(0) }}
+                                    </button>
                                 </div>
                             </div>
                             {% endfor %}
                         </div>
                         {% endif %}
                     </div>
-                </div>
-                {% endfor %}
-                
-                <!-- Pagination -->
-                {% if total_pages > 1 %}
-                <nav aria-label="Comment pagination">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item {{ 'disabled' if current_page == 1 else '' }}">
-                            <a class="page-link" href="?comment_page={{ current_page - 1 }}" tabindex="-1" {{ 'aria-disabled="true"' if current_page == 1 else '' }}>Trước</a>
-                        </li>
-                        {% for page in range(1, total_pages + 1) %}
-                        <li class="page-item {{ 'active' if page == current_page else '' }}">
-                            <a class="page-link" href="?comment_page={{ page }}">{{ page }}</a>
-                        </li>
-                        {% endfor %}
-                        <li class="page-item {{ 'disabled' if current_page == total_pages else '' }}">
-                            <a class="page-link" href="?comment_page={{ current_page + 1 }}">Tiếp</a>
-                        </li>
-                    </ul>
-                </nav>
+                    {% endfor %}
+                    
+                    <!-- Pagination trong scroll container -->
+                    {% if total_pages > 1 %}
+                    <div class="comments-pagination mt-3 pt-3 border-top">
+                        <nav aria-label="Comment pagination">
+                            <ul class="pagination pagination-sm justify-content-center mb-0">
+                                <li class="page-item {{ 'disabled' if current_page == 1 else '' }}">
+                                    <a class="page-link" href="?comment_page={{ current_page - 1 }}" tabindex="-1" {{ 'aria-disabled="true"' if current_page == 1 else '' }}>‹</a>
+                                </li>
+                                {% for page in range(1, total_pages + 1) %}
+                                <li class="page-item {{ 'active' if page == current_page else '' }}">
+                                    <a class="page-link" href="?comment_page={{ page }}">{{ page }}</a>
+                                </li>
+                                {% endfor %}
+                                <li class="page-item {{ 'disabled' if current_page == total_pages else '' }}">
+                                    <a class="page-link" href="?comment_page={{ current_page + 1 }}">›</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="empty-comments">
+                        <i class="fas fa-comments"></i>
+                        <h5>Chưa có bình luận nào</h5>
+                        <p>Hãy là người đầu tiên chia sẻ ý kiến về bài viết này!</p>
+                    </div>
                 {% endif %}
-            {% else %}
-                <div class="alert alert-light text-center">
-                    <p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
-                </div>
-            {% endif %}
+            </div>
         </div>
     </div>
     {% else %}
@@ -445,8 +823,11 @@
                                 console.log('🤖 PhoBERT Approved:', data.phobert_info);
                             }
                             
-                            // Reload để hiển thị comment mới
-                            setTimeout(() => window.location.reload(), 1500);
+                            // Thêm comment mới vào danh sách ngay lập tức thay vì reload
+                            if (data.comment) {
+                                addCommentToList(data.comment);
+                                updateCommentCount(1);
+                            }
                             
                         } else if (data.status === 'pending_moderation') {
                             // Colab workflow fallback
@@ -525,8 +906,10 @@
                                 console.log('🤖 PhoBERT Reply Approved:', data.phobert_info);
                             }
                             
-                            // Reload để hiển thị reply mới
-                            setTimeout(() => window.location.reload(), 1500);
+                            // Thêm reply mới vào danh sách ngay lập tức thay vì reload
+                            if (data.comment) {
+                                addReplyToComment(data.comment);
+                            }
                             
                         } else if (data.status === 'pending_moderation') {
                             // Colab workflow fallback
@@ -784,6 +1167,330 @@
                 emojiPicker.style.display = 'none';
             });
         });
+        
+        // === FUNCTIONS TO ADD NEW COMMENTS/REPLIES ===
+        
+        function addCommentToList(comment) {
+            const commentsList = document.querySelector('.comments-list');
+            const noCommentsAlert = commentsList.querySelector('.alert');
+            
+            // Nếu có thông báo "chưa có bình luận", xóa nó
+            if (noCommentsAlert) {
+                noCommentsAlert.remove();
+            }
+            
+            // Tạo HTML cho comment mới
+            const commentHtml = createCommentHTML(comment);
+            
+            // Thêm vào đầu danh sách
+            if (commentsList.children.length > 0) {
+                commentsList.insertAdjacentHTML('afterbegin', commentHtml);
+            } else {
+                commentsList.innerHTML = commentHtml;
+            }
+            
+            // Thêm event listeners cho comment mới
+            setupCommentEvents(comment.id);
+            
+            // Highlight và scroll đến comment mới
+            highlightNewComment(comment.id);
+            scrollToNewComment(comment.id);
+        }
+        
+        function addReplyToComment(reply) {
+            const parentComment = document.querySelector(`[data-comment-id="${reply.parent_id}"]`).closest('.comment-item');
+            let repliesList = parentComment.querySelector('.replies-list');
+            
+            // Nếu chưa có replies-list, tạo mới
+            if (!repliesList) {
+                const replyForm = parentComment.querySelector('.reply-form');
+                replyForm.insertAdjacentHTML('afterend', '<div class="replies-list mt-3 ms-4"></div>');
+                repliesList = parentComment.querySelector('.replies-list');
+            }
+            
+            // Tạo HTML cho reply mới
+            const replyHtml = createReplyHTML(reply);
+            
+            // Thêm vào cuối danh sách replies
+            repliesList.insertAdjacentHTML('beforeend', replyHtml);
+            
+            // Highlight và scroll đến reply mới
+            highlightNewReply(reply.id);
+            scrollToNewReply(reply.id);
+        }
+        
+        function createCommentHTML(comment) {
+            const avatarHtml = comment.user_avatar ? 
+                `<img src="${comment.user_avatar}" alt="${comment.user_name}">` :
+                `<div class="avatar-placeholder">${comment.user_name.charAt(0).toUpperCase()}</div>`;
+            
+            return `
+                <div class="comment-item new-comment" id="comment-${comment.id}">
+                    <div class="comment-header">
+                        <div class="comment-avatar">
+                            ${avatarHtml}
+                        </div>
+                        <div class="comment-info">
+                            <h6 class="comment-author">${comment.user_name}</h6>
+                            <p class="comment-time">Vừa xong</p>
+                        </div>
+                    </div>
+                    <p class="comment-content">${comment.content}</p>
+                    <div class="comment-actions">
+                        <button class="btn reply-btn" data-comment-id="${comment.id}">
+                            <i class="fas fa-reply"></i> Phản hồi
+                        </button>
+                        <button class="btn like-btn" data-comment-id="${comment.id}">
+                            <i class="fas fa-thumbs-up"></i> 0
+                        </button>
+                    </div>
+                    
+                    <!-- Reply Form (hidden by default) -->
+                    <div class="reply-form" id="replyForm-${comment.id}" style="display: none;">
+                        <form method="post" action="/api/comments/reply">
+                                <input type="hidden" name="article_id" value="{{ article.article_id }}">
+                                <input type="hidden" name="parent_id" value="${comment.id}">
+                                <div class="mb-2 position-relative">
+                                    <textarea class="form-control reply-textarea" name="content" rows="2" placeholder="Viết phản hồi của bạn..." required></textarea>
+                                    <div class="position-absolute bottom-0 end-0 p-2 d-flex gap-2">
+                                        <button type="button" class="btn btn-sm text-muted border-0 emoji-picker-btn" title="Thêm biểu tượng cảm xúc">
+                                            <i class="far fa-smile"></i>
+                                        </button>
+                                        <div class="emoji-picker" style="display: none;">
+                                            <div class="emoji-card">
+                                                <div class="emoji-grid">
+                                                    <span class="emoji" data-emoji="🙂">🙂</span>
+                                                    <span class="emoji" data-emoji="😁">😁</span>
+                                                    <span class="emoji" data-emoji="😂">😂</span>
+                                                    <span class="emoji" data-emoji="🤣">🤣</span>
+                                                    <span class="emoji" data-emoji="😐">😐</span>
+                                                    <span class="emoji" data-emoji="😊">😊</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-paper-plane me-1"></i> Gửi phản hồi
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createReplyHTML(reply) {
+            const avatarHtml = reply.user_avatar ? 
+                `<img src="${reply.user_avatar}" alt="${reply.user_name}">` :
+                `<div class="avatar-placeholder">${reply.user_name.charAt(0).toUpperCase()}</div>`;
+            
+            return `
+                <div class="reply-item new-reply" id="reply-${reply.id}">
+                    <div class="reply-header">
+                        <div class="reply-avatar">
+                            ${avatarHtml}
+                        </div>
+                        <div class="reply-info">
+                            <h6 class="reply-author">${reply.user_name}</h6>
+                            <p class="reply-time">Vừa xong</p>
+                        </div>
+                    </div>
+                    <p class="reply-content">${reply.content}</p>
+                    <div class="comment-actions">
+                        <button class="btn like-btn" data-comment-id="${reply.id}">
+                            <i class="fas fa-thumbs-up"></i> 0
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function setupCommentEvents(commentId) {
+            // Setup reply button
+            const replyBtn = document.querySelector(`[data-comment-id="${commentId}"].reply-btn`);
+            if (replyBtn) {
+                replyBtn.addEventListener('click', function() {
+                    const replyForm = document.getElementById(`replyForm-${commentId}`);
+                    replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+            
+            // Setup like button
+            const likeBtn = document.querySelector(`[data-comment-id="${commentId}"].like-btn`);
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    // Like functionality
+                    fetch(`/api/comments/${commentId}/like`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const likeCount = this.querySelector('i').nextSibling;
+                            likeCount.textContent = ` ${data.likes}`;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            }
+            
+            // Setup emoji picker for reply form
+            const emojiBtn = document.querySelector(`#replyForm-${commentId} .emoji-picker-btn`);
+            if (emojiBtn) {
+                emojiBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const emojiPicker = this.nextElementSibling;
+                    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+            
+            // Setup reply form submission
+            const replyForm = document.querySelector(`#replyForm-${commentId} form`);
+            if (replyForm) {
+                replyForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const replyTextarea = this.querySelector('.reply-textarea');
+                    
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Đang xử lý...';
+                    
+                    fetch('/api/comments/reply', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi phản hồi';
+                        
+                        if (data.success && data.status === 'approved') {
+                            showSuccessMessage(data.message || '🎉 Phản hồi đã được phê duyệt!');
+                            replyTextarea.value = '';
+                            this.closest('.reply-form').style.display = 'none';
+                            
+                            if (data.comment) {
+                                addReplyToComment(data.comment);
+                            }
+                        } else if (data.status === 'rejected') {
+                            showErrorMessage(data.message || '🚫 Phản hồi bị từ chối');
+                        } else {
+                            showErrorMessage('❌ Có lỗi xảy ra khi gửi phản hồi');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Gửi phản hồi';
+                        showErrorMessage('❌ Lỗi kết nối');
+                    });
+                });
+            }
+        }
+        
+        function highlightNewComment(commentId) {
+            const comment = document.getElementById(`comment-${commentId}`);
+            if (comment) {
+                comment.style.background = 'linear-gradient(90deg, #e3f2fd, #ffffff)';
+                comment.style.border = '2px solid #2196f3';
+                comment.style.borderRadius = '8px';
+                
+                setTimeout(() => {
+                    comment.style.background = '';
+                    comment.style.border = '';
+                    comment.classList.remove('new-comment');
+                }, 3000);
+            }
+        }
+        
+        function highlightNewReply(replyId) {
+            const reply = document.getElementById(`reply-${replyId}`);
+            if (reply) {
+                reply.style.background = 'linear-gradient(90deg, #f3e5f5, #ffffff)';
+                reply.style.border = '2px solid #9c27b0';
+                reply.style.borderRadius = '8px';
+                
+                setTimeout(() => {
+                    reply.style.background = '';
+                    reply.style.border = '';
+                    reply.classList.remove('new-reply');
+                }, 3000);
+            }
+        }
+        
+        function scrollToNewComment(commentId) {
+            const comment = document.getElementById(`comment-${commentId}`);
+            const commentsContainer = document.querySelector('.comments-list');
+            
+            if (comment && commentsContainer) {
+                // Scroll to top of comments container để thấy comment mới
+                commentsContainer.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Add visual indicator
+                comment.classList.add('scroll-to-new');
+                setTimeout(() => {
+                    comment.classList.remove('scroll-to-new');
+                }, 2000);
+            }
+        }
+        
+        function scrollToNewReply(replyId) {
+            const reply = document.getElementById(`reply-${replyId}`);
+            const commentsContainer = document.querySelector('.comments-list');
+            
+            if (reply && commentsContainer) {
+                // Scroll để reply vào view
+                const replyTop = reply.offsetTop;
+                const containerTop = commentsContainer.scrollTop;
+                const containerHeight = commentsContainer.clientHeight;
+                
+                if (replyTop > containerTop + containerHeight - 100) {
+                    commentsContainer.scrollTo({
+                        top: replyTop - containerHeight + 200,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                // Add visual indicator
+                reply.classList.add('scroll-to-new');
+                setTimeout(() => {
+                    reply.classList.remove('scroll-to-new');
+                }, 2000);
+            }
+        }
+        
+        function updateCommentCount(increment) {
+            // Update main heading
+            const commentCountElement = document.querySelector('h3.mb-0');
+            if (commentCountElement) {
+                const currentText = commentCountElement.textContent;
+                const match = currentText.match(/\((\d+)\)/);
+                if (match) {
+                    const currentCount = parseInt(match[1]);
+                    const newCount = currentCount + increment;
+                    commentCountElement.textContent = `Bình luận (${newCount})`;
+                }
+            }
+            
+            // Update comments container header
+            const containerHeader = document.querySelector('.comments-container-header span:first-child');
+            if (containerHeader) {
+                const currentText = containerHeader.textContent;
+                const match = currentText.match(/\((\d+)\)/);
+                if (match) {
+                    const currentCount = parseInt(match[1]);
+                    const newCount = currentCount + increment;
+                    containerHeader.innerHTML = `<i class="fas fa-comments me-2"></i>Bình luận (${newCount})`;
+                }
+            }
+        }
+        
     });
 </script>
 {% endblock %}

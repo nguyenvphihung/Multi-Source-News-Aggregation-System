@@ -138,12 +138,66 @@ async def get_category(
 async def news_detail(
     request: Request, 
     article_id: str, 
+    comment_page: int = Query(1, ge=1),
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user)
 ):
     article = db.query(Article).filter(Article.article_id==article_id, Article.status=="published").first()
     if not article:
         raise HTTPException(status_code=404, detail="Bài viết không tồn tại hoặc chưa được xuất bản")
+    
+    # Lấy danh sách bình luận với phân trang
+    comments_per_page = 10
+    comments_query = db.query(Comment).filter(
+        Comment.article_id == article_id,
+        Comment.parent_id == None,  # Chỉ lấy bình luận gốc, không lấy phản hồi
+        Comment.status == "active"
+    ).order_by(Comment.created_at.desc())
+    
+    total_comments = comments_query.count()
+    total_pages = math.ceil(total_comments / comments_per_page)
+    
+    comments = comments_query.offset((comment_page - 1) * comments_per_page).limit(comments_per_page).all()
+    
+    # Lấy thông tin người dùng và phản hồi cho mỗi bình luận
+    result_comments = []
+    for comment in comments:
+        user = db.query(User).filter(User.id == comment.user_id).first()
+        
+        # Lấy các phản hồi cho bình luận này
+        replies_query = db.query(Comment).filter(
+            Comment.parent_id == comment.id,
+            Comment.status == "active"
+        ).order_by(Comment.created_at.asc())
+        
+        replies = []
+        for reply in replies_query.all():
+            reply_user = db.query(User).filter(User.id == reply.user_id).first()
+            replies.append({
+                "id": reply.id,
+                "content": reply.content,
+                "user_name": f"{reply_user.first_name} {reply_user.last_name}" if reply_user else "Người dùng",
+                "user_avatar": reply_user.avatar_url if reply_user else None,
+                "created_at": reply.created_at,
+                "likes": reply.likes or 0
+            })
+        
+        result_comments.append({
+            "id": comment.id,
+            "content": comment.content,
+            "user_name": f"{user.first_name} {user.last_name}" if user else "Người dùng",
+            "user_avatar": user.avatar_url if user else None,
+            "created_at": comment.created_at,
+            "likes": comment.likes or 0,
+            "replies": replies
+        })
+    
+    # Cập nhật comments_count cho article
+    article.comments_count = db.query(Comment).filter(
+        Comment.article_id == article_id,
+        Comment.status == "active"
+    ).count()
+    
     base_categories = get_base_categories(db)
     return templates.TemplateResponse(
         "user/news_detail.html",
@@ -151,6 +205,9 @@ async def news_detail(
             "request": request,
             "article": article,
             "user": current_user,
+            "comments": result_comments,
+            "current_page": comment_page,
+            "total_pages": total_pages,
             **base_categories,
         }
     )
@@ -404,12 +461,25 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
                 
                 print(f"✅ Comment {new_comment.id} đã được lưu vào database")
                 
+                # Lấy thông tin user để trả về cho frontend
+                user = db.query(User).filter(User.id == user_id).first()
+                user_name = f"{user.first_name} {user.last_name}" if user else "Người dùng"
+                user_avatar = user.avatar_url if user else None
+                
                 return {
                     "success": True,
                     "comment_id": new_comment.id,
                     "message": f"🎉 {reason}",
                     "status": "approved",
-                    "reload_required": True,
+                    "comment": {
+                        "id": str(new_comment.id),
+                        "content": new_comment.content,
+                        "user_name": user_name,
+                        "user_avatar": user_avatar,
+                        "created_at": new_comment.created_at.isoformat(),
+                        "likes": new_comment.likes or 0,
+                        "replies": []
+                    },
                     "phobert_info": {
                         "label": label,
                         "confidence": confidence,
@@ -446,12 +516,25 @@ async def create_comment(request: Request, article_id: str = Form(...), content:
             db.commit()
             db.refresh(new_comment)
             
+            # Lấy thông tin user để trả về cho frontend
+            user = db.query(User).filter(User.id == user_id).first()
+            user_name = f"{user.first_name} {user.last_name}" if user else "Người dùng"
+            user_avatar = user.avatar_url if user else None
+            
             return {
                 "success": True, 
                 "comment_id": new_comment.id,
                 "message": "Bình luận đã được đăng (PhoBERT không khả dụng)",
                 "status": "approved",
-                "reload_required": True
+                "comment": {
+                    "id": str(new_comment.id),
+                    "content": new_comment.content,
+                    "user_name": user_name,
+                    "user_avatar": user_avatar,
+                    "created_at": new_comment.created_at.isoformat(),
+                    "likes": new_comment.likes or 0,
+                    "replies": []
+                }
             }
         
         except Exception as e:
@@ -530,12 +613,25 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
                 
                 print(f"✅ Reply {new_reply.id} đã được lưu vào database")
                 
+                # Lấy thông tin user để trả về cho frontend
+                user = db.query(User).filter(User.id == user_id).first()
+                user_name = f"{user.first_name} {user.last_name}" if user else "Người dùng"
+                user_avatar = user.avatar_url if user else None
+                
                 return {
                     "success": True,
                     "comment_id": new_reply.id,
                     "message": f"🎉 {reason}",
                     "status": "approved",
-                    "reload_required": True,
+                    "comment": {
+                        "id": str(new_reply.id),
+                        "content": new_reply.content,
+                        "user_name": user_name,
+                        "user_avatar": user_avatar,
+                        "created_at": new_reply.created_at.isoformat(),
+                        "likes": new_reply.likes or 0,
+                        "parent_id": str(parent_id)
+                    },
                     "phobert_info": {
                         "label": label,
                         "confidence": confidence,
@@ -571,12 +667,25 @@ async def reply_comment(request: Request, article_id: str = Form(...), parent_id
         db.commit()
         db.refresh(new_reply)
 
+        # Lấy thông tin user để trả về cho frontend
+        user = db.query(User).filter(User.id == user_id).first()
+        user_name = f"{user.first_name} {user.last_name}" if user else "Người dùng"
+        user_avatar = user.avatar_url if user else None
+
         return {
             "success": True, 
             "comment_id": new_reply.id,
             "message": "Phản hồi đã được đăng (PhoBERT không khả dụng)",
             "status": "approved",
-            "reload_required": True
+            "comment": {
+                "id": str(new_reply.id),
+                "content": new_reply.content,
+                "user_name": user_name,
+                "user_avatar": user_avatar,
+                "created_at": new_reply.created_at.isoformat(),
+                "likes": new_reply.likes or 0,
+                "parent_id": str(parent_id)
+            }
         }
 
     except Exception as e:
@@ -606,62 +715,16 @@ async def like_comment(request: Request, comment_id: int, db: Session = Depends(
     
     return {"success": True, "likes": comment.likes}
 
-# Cập nhật route hiển thị chi tiết bài viết
-@router.get("/news/{article_id}", response_class=HTMLResponse)
-async def read_article(request: Request, article_id: str, comment_page: int = Query(1, ge=1), db: Session = Depends(get_db)):
-    article = db.query(Article).filter(Article.article_id == article_id).first()
-    
-    # Lấy danh sách bình luận với phân trang
-    comments_per_page = 10
-    comments_query = db.query(Comment).filter(
-        Comment.article_id == article_id,
-        Comment.parent_id == None,  # Chỉ lấy bình luận gốc, không lấy phản hồi
-        Comment.status == "active"
-    ).order_by(Comment.created_at.desc())
-    
-    total_comments = comments_query.count()
-    total_pages = math.ceil(total_comments / comments_per_page)
-    
-    comments = comments_query.offset((comment_page - 1) * comments_per_page).limit(comments_per_page).all()
-    
-    # Lấy thông tin người dùng và phản hồi cho mỗi bình luận
-    result_comments = []
-    for comment in comments:
-        user = db.query(User).filter(User.id == comment.user_id).first()
-        
-        # Lấy các phản hồi cho bình luận này
-        replies_query = db.query(Comment).filter(
-            Comment.parent_id == comment.id,
-            Comment.status == "active"
-        ).order_by(Comment.created_at.asc())
-        
-        replies = []
-        for reply in replies_query.all():
-            reply_user = db.query(User).filter(User.id == reply.user_id).first()
-            replies.append({
-                "id": reply.id,
-                "content": reply.content,
-                "user_name": f"{reply_user.first_name} {reply_user.last_name}" if reply_user else "Người dùng",
-                "user_avatar": reply_user.avatar_url if reply_user else None,
-                "created_at": reply.created_at,
-                "likes": reply.likes
-            })
-        
-        result_comments.append({
-            "id": comment.id,
-            "content": comment.content,
-            "user_name": f"{user.first_name} {user.last_name}" if user else "Người dùng",
-            "user_avatar": user.avatar_url if user else None,
-            "created_at": comment.created_at,
-            "likes": comment.likes,
-            "replies": replies
-        })
-    
-    return templates.TemplateResponse("user/news_detail.html", {
-        "request": request,
-        "article": article,
-        "comments": result_comments,
-        "current_page": comment_page,
-        "total_pages": total_pages,
-        **get_base_categories(db)
-    })
+@router.get("/api/moderation-status")
+async def get_moderation_status():
+    """Check if AI moderation is enabled"""
+    try:
+        from app.phobert_service import get_phobert_service
+        service = get_phobert_service()
+        return {
+            "enabled": service.is_model_loaded(), 
+            "model": "PhoBERT",
+            "status": "active" if service.is_model_loaded() else "inactive"
+        }
+    except Exception as e:
+        return {"enabled": False, "model": "PhoBERT", "status": "error", "error": str(e)}

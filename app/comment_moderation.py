@@ -74,8 +74,8 @@ class CommentModerationService:
         else:
             # Workflow cũ: Gửi lên Colab
             self._save_comment_mapping(comment_id, comment_data)
-        self._add_to_csv(comment_id, content)
-            return comment_id
+            self._add_to_csv(comment_id, content)
+        return comment_id
     
     def _process_comment_with_phobert(self, comment_id: str, comment_data: Dict[str, Any]) -> str:
         """
