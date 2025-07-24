@@ -191,7 +191,8 @@ class PhoBERTService:
             # Check for common Vietnamese toxic words first
             text_lower = processed_text.lower()
             toxic_keywords = ['đm', 'dm', 'đmm', 'dmm', 'vãi', 'shit', 'fuck', 
-                             'con chó', 'thằng lol', 'mẹ kiếp', 'đồ ngu', 'óc chó']
+                             'con chó', 'thằng lol', 'mẹ kiếp', 'đồ ngu', 'óc chó',
+                             'nam kỳ', 'bắc kỳ', 'nam kì', 'bắc kì', 'rác']
             
             has_toxic_keyword = any(keyword in text_lower for keyword in toxic_keywords)
             
